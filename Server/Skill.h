@@ -2,19 +2,19 @@
 #define SKILL_H
 #include <string>
 
-
 class Skill
 {
   private:
   std::map<std::string,int> modifiers;
   std::string name;
+
   public:
-	Skill(std::string);
-	std::map<std::string,int> get_modifiers() const; 
+  Skill(std::string);
+  std::map<std::string,int> get_modifiers() const;
   void set_modifier(std::string, int);
-    void remove_modifier(std::string);
-	std::string get_name() const;
-	void set_name(std::string);
+  void remove_modifier(std::string);
+  std::string get_name() const;
+  void set_name(std::string);
 
 };
 #endif

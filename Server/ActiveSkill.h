@@ -1,6 +1,7 @@
 #ifndef ACTIVESKILL_H
 #define ACTIVESKILL_H
 #include "Skill.h"
+#include "Scenario.h"
 #include <string>
 
 class ActiveSkill : public Skill

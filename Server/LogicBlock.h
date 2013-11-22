@@ -1,6 +1,5 @@
 #ifndef LOGICBLOCK_H
 #define LOGICBLOCK_H
-#include "Character.h"
 
 class LogicBlock
 {
