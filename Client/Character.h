@@ -2,10 +2,12 @@
 #define CHARACTER_H
 
 #include <string>
+#include <list>
 
 #include "Skill.h"
 #include "Item.h"
-#include "ClientConnection.h"
+#include "ServerConnection.h"
+#include "ClientInventory.h"
 
 class Character {
 public:
@@ -27,9 +29,11 @@ public:
   
 private:
   std::string name;
-  ClientConnection* client;
+  ServerConnection* server;
   std::map<std::string, int> attributes;
   std::list<Skill*> skills;
-  Inventory inventory;
+  ClientInventory inventory;
   
-}
+};
+
+#endif
