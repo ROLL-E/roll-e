@@ -5,7 +5,7 @@
 #include "ValueBlock.h"
 #include <list>
 #include <string>
-#inculde <map>
+#include <map>
 
 class ValueBlock : public LogicBlock
 {

@@ -18,7 +18,7 @@ public:
   void set_rhs(ValueBlock*);
   ValueBlock* get_lhs() const;
   ValueBlock* get_rhs() const;
-  void set_alternate(LogicBlock*),
+  void set_alternate(LogicBlock*);
   LogicBlock* get_alternate() const;
 };
 

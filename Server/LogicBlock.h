@@ -10,7 +10,7 @@ private:
 public:
   LogicBlock() = default;
   LogicBlock(LogicBlock&);
-  LogicBlock* execute() const = 0;
+  LogicBlock* execute() const;
   void set_next(LogicBlock*);
   LogicBlock* get_next();
   void set_last(bool);
