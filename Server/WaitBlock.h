@@ -9,8 +9,8 @@ private:
   int wait_counter;
 public:
   WaitBlock() = default;
-  WaitBlock(WaitBlock&);
-  LogicBlock* execute() const;
+  WaitBlock(WaitBlock&) = default;
+  LogicBlock* execute() override;
   void set_wait_turns(int);
   int get_wait_turns() const;
 };
