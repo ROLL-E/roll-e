@@ -5,10 +5,11 @@ class LogicBlock
 {
 private:
   LogicBlock* next;
-  LogicBlock* last_block;
+  bool last_block;
 public:
   LogicBlock() = default;
   LogicBlock(LogicBlock&);
+
   LogicBlock* execute() const;
   void set_next(LogicBlock*);
   LogicBlock* get_next();

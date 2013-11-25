@@ -2,7 +2,8 @@
 #define CLIENTCONNECTION_H
 #include <string>
 #include <vector>
-//#include "Story.h"
+
+class Story; //Forward declartion, remember to include in .cc file.
 
 struct Message {
     std::string sender;
@@ -24,7 +25,7 @@ private:
 public:
     void send_message(Message) const;
     Message* get_message_from_buffer();
-    //void push_data(Story*);
+    void push_data(Story*);
     Request* get_request_from_buffer();
 
 };
