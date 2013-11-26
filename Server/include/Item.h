@@ -10,23 +10,28 @@ private:
   std::map<std::string, int> modifiers;
   int ID;
   std::map<std::string, int> attributes;
-
-public:
-  Item(std::string);
-  Item(Item&);
+  int weight;
 
   static int next_ID; // ID that the next item should be assigned
 
+public:
+  Item(const std::string&);
+  Item(const Item&);
+
   std::string get_name() const;
-  void set_name(std::string);
   std::map<std::string,int> get_modifiers() const;
-  void set_modifier(std::string,int);
-  void remove_modifier(std::string);
   int get_id() const;
-  void set_id(int);
   std::map<std::string,int> get_attributes() const;
-  void set_attribute(std::string, int);
-  void remove_attrubute(std::string);
+  int get_weight() const;
+
+  void set_name(const std::string&);
+  void set_modifier(const std::string&,int);
+  void set_id(int); //shouldn't really be allowed to change
+  void set_attribute(const std::string&, int);
+  void set_weight(int);
+
+  void remove_modifier(const std::string&);
+  void remove_attribute(const std::string&);
 };
 
 #endif

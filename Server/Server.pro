@@ -17,7 +17,9 @@ SOURCES += main.cc\
         serverwindow.cc \
     src/placeholder.cc \
     src/Character.cc \
-    src/Story.cc
+    src/Story.cc \
+    src/Item.cc \
+    src/Inventory.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
