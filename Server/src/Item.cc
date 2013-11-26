@@ -1,4 +1,5 @@
 #include "Item.h"
+#include <stdexcept>
 
 using namespace std;
 
@@ -54,11 +55,13 @@ void Item::set_weight(int new_weight) {
 }
 
 void Item::remove_attribute(const string& attr_to_remove) {
-  attributes.erase(attr_to_remove);
+  if (attributes.erase(attr_to_remove) == 0)
+    throw invalid_argument("Attribute does not exist");
 }
 
 void Item::remove_modifier(const string& mod_to_remove) {
-  modifiers.erase(mod_to_remove);
+  if (modifiers.erase(mod_to_remove) == 0)
+    throw invalid_argument("Modifier does not exist");
 }
 
 
