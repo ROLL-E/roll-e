@@ -11,3 +11,6 @@
 *.lai
 *.la
 *.a
+
+# Qt user-specific project files
+*.pro.user
