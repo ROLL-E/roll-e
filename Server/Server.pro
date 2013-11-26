@@ -16,7 +16,8 @@ CONFIG += c++11
 SOURCES += main.cc\
         serverwindow.cc \
     src/placeholder.cc \
-    src/Character.cc
+    src/Character.cc \
+    src/Story.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \

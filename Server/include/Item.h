@@ -14,6 +14,9 @@ private:
 public:
   Item(std::string);
   Item(Item&);
+
+  static int next_ID; // ID that the next item should be assigned
+
   std::string get_name() const;
   void set_name(std::string);
   std::map<std::string,int> get_modifiers() const;
