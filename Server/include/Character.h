@@ -4,22 +4,24 @@
 #include <map>
 #include <list>
 #include "Skill.h"
+#include "ClientConnection.h"
+#include "Inventory.h"
 
 class Character {
 private:
     std::string name;
-    //ClientConnection* client;
+    ClientConnection* client;
     std::map<std::string, int> attributes;
     std::list<Skill*> skills;
-    //Inventory inventory;
+    Inventory inventory;
 public:
     Character(std::map<std::string, int>);
-    Character(Character&);
+    Character(const Character&);
     std::string get_name() const;
-    void set_name(std::string);
-    int get_attribute(std::string) const;
-    void set_attribute(std::string, int);
-    void take_damage(std::string, int);
+    void set_name(const std::string&);
+    int get_attribute(const std::string&) const;
+    void set_attribute(const std::string&, int);
+    void take_damage(const std::string&, int);
     std::list<Skill*> get_skills() const;
     void add_skill(Skill*);
     void remove_skill(Skill*);
