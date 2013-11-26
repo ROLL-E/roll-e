@@ -13,13 +13,14 @@ private:
     ClientConnection* client;
     std::map<std::string, int> attributes;
     std::list<Skill*> skills;
-    Inventory inventory;
+
 public:
-    Character(std::map<std::string, int>);
+    Inventory inventory;
+    Character(std::map<std::string, int>, int);
     Character(const Character&);
     std::string get_name() const;
     void set_name(const std::string&);
-    int get_attribute(const std::string&) const;
+    int get_attribute(std::string) const;
     void set_attribute(const std::string&, int);
     void take_damage(const std::string&, int);
     std::list<Skill*> get_skills() const;

@@ -11,7 +11,7 @@ private:
 
 public:
     Inventory(int);
-    Inventory(Inventory&);
+    Inventory(const Inventory&);
 
     int get_weight() const;
     int get_max_weight() const;

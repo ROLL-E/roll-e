@@ -2,15 +2,16 @@
 
 using namespace std;
 
-Character::Character(std::map<std::string, int> new_attributes)
-  : attributes{new_attributes} {
-
+Character::Character(std::map<std::string, int> new_attributes, int start_max_weight)
+  : attributes{new_attributes},
+    inventory{start_max_weight} {
 }
 
 Character::Character(const Character& other)
   : name{other.name},
     attributes{other.attributes},
-    skills{other.skills} {
+    skills{other.skills},
+    inventory(other.inventory) {
 }
 
 string Character::get_name() const {
@@ -21,8 +22,8 @@ void Character::set_name(const string& new_name) {
   name = new_name;
 }
 
-int Character::get_attribute(const string& attr_name) {
-  return attributes[attr_name];
+int Character::get_attribute(string attr_name) const {
+  return attributes.at(attr_name); // operator[] is not const-safe
 }
 
 void Character::set_attribute(const string& attr_name, int value) {
@@ -44,7 +45,7 @@ void Character::take_damage(const string& type, int amount) {
   }
 }
 
-std::list<Skill*> Character::get_skills() {
+std::list<Skill*> Character::get_skills() const {
   return skills;
 }
 

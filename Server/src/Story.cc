@@ -1,9 +1,10 @@
 #include "Story.h"
+#include "Item.h"
 
 using namespace std;
 
 Story::Story(Ruleset& new_ruleset)
-  : ruleset{new_ruleset} {
+  : ruleset(new_ruleset) {
 }
 
 void Story::add_character(Character* new_character) {
@@ -47,7 +48,7 @@ void Story::remove_character(Character* char_to_remove) {
 }
 
 void Story::remove_scenario(Scenario* scenario_to_remove) {
-  current_scenarios.remove();
+  current_scenarios.remove(scenario_to_remove);
 }
 
 void Story::remove_item(int id_to_remove) {

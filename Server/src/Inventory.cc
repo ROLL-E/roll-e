@@ -7,7 +7,7 @@ Inventory::Inventory(int new_max_weight)
   : max_weight{new_max_weight} {
 }
 
-Inventory::Inventory(Inventory& other)
+Inventory::Inventory(const Inventory& other)
   : items{other.items},
     max_weight{other.max_weight},
     current_weight{other.current_weight},

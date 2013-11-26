@@ -1,12 +1,13 @@
 #ifndef STORY_H
-#define STROY_H
-#include "Character.h"
+#define STORY_H
 #include "ClientConnection.h"
-#include "Fight.h"
 #include "Ruleset.h"
-#include "Scenario.h"
-#include "Item.h"
 #include <list>
+
+class Item;
+class Fight;
+class Scenario;
+class Character;
 
 class Story {
 

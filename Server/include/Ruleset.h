@@ -14,10 +14,13 @@ private:
 
 public:
     Ruleset(std::list<std::string>);
+    Ruleset(const Ruleset&);
     std::list<Scenario*> get_scenarios() const;
+
     void add_scenario(Scenario*);
-    void remove_scenario(Scenario*);
     void add_skill(Skill*);
+
+    void remove_scenario(Scenario*);
     void remove_skill(Skill*);
 };
 

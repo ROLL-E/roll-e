@@ -2,6 +2,8 @@
 
 using namespace std;
 
+int Item::next_ID;
+
 Item::Item(const Item& other)
   : name{other.name},
     modifiers{other.modifiers},
