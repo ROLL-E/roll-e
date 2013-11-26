@@ -11,10 +11,13 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Server
 TEMPLATE = app
 
+CONFIG += c++11
 
 SOURCES += main.cc\
         serverwindow.cc \
-    src/placeholder.cc
+    src/placeholder.cc \
+    src/WaitBlock.cc \
+    src/LogicBlock.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
@@ -36,6 +39,7 @@ HEADERS  += serverwindow.h \
     include/ActiveSkill.h \
     include/ActiveItem.h
 
+INCLUDEPATH += include
 FORMS    += serverwindow.ui
 
 OTHER_FILES += \
