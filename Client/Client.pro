@@ -14,10 +14,18 @@ TEMPLATE = app
 
 SOURCES += main.cc\
         clientwindow.cc \
-        src/*
+    src/placeholder.cc
+
+
 
 
 HEADERS  += clientwindow.h \
-         include/*
+    include/Skill.h \
+    include/ServerConnection.h \
+    include/Item.h \
+    include/GUI.h \
+    include/ClientInventory.h \
+    include/Character.h
+
 
 FORMS    += clientwindow.ui
