@@ -4,7 +4,7 @@
 class LogicBlock
 {
 private:
-  LogicBlock* next;
+  LogicBlock* next = nullptr;
   bool last_block;
 public:
   LogicBlock() = default;
@@ -15,6 +15,7 @@ public:
   LogicBlock* get_next();
   void set_last(bool);
   bool get_last() const;
+  LogicBlock* get_self();
 };
 
 #endif

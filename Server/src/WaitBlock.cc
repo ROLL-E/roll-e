@@ -10,7 +10,7 @@ int WaitBlock::get_wait_turns() const {
 
 LogicBlock* WaitBlock::execute() {
 
-    if (wait_counter == wait_turns)
+    if (wait_counter == wait_turns - 1)
         return this->get_next();
     else
         wait_counter++;

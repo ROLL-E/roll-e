@@ -5,8 +5,8 @@
 class WaitBlock : public LogicBlock
 {
 private:
-  int wait_turns;
-  int wait_counter;
+  int wait_turns = 0;
+  int wait_counter = 0;
 public:
   WaitBlock() = default;
   WaitBlock(WaitBlock&) = default;

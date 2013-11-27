@@ -21,3 +21,7 @@ bool LogicBlock::get_last() const {
     return last_block;
 }
 
+LogicBlock* LogicBlock::get_self() {
+    return this;
+}
+
