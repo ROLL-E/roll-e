@@ -19,6 +19,7 @@ public:
     void set_name(std::string);
     int get_attribute(std::string) const;
     void set_attribute(std::string, int);
+    void add_to_attributes(std::string, int) {};
     void take_damage(std::string, int);
     std::list<Skill*> get_skills() const;
     void add_skill(Skill*);

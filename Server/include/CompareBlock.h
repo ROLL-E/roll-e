@@ -13,7 +13,7 @@ private:
 public:
   CompareBlock() = default;
   CompareBlock(CompareBlock&);
-  LogicBlock* execute() const;
+  LogicBlock* execute() override;
   void set_lhs(ValueBlock*);
   void set_rhs(ValueBlock*);
   ValueBlock* get_lhs() const;

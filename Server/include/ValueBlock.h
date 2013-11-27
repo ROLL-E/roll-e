@@ -30,7 +30,7 @@ public:
   ValueBlock() = default;
   ValueBlock(ValueBlock&);
 
-  LogicBlock* execute() const;
+  LogicBlock* execute() override;
   void set_intention(char);
   void set_value(int);
   void set_sides(int);

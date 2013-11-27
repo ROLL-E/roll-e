@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
 
   WaitBlock* block1(new WaitBlock);
 
+  ModifierBlock* block2(new ModifierBlock);
+
   LogicBlock* next_block;
 
   block1->set_wait_turns(2);
