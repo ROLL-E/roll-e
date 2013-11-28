@@ -18,7 +18,8 @@ SOURCES += main.cc\
     src/placeholder.cc \
     src/WaitBlock.cc \
     src/LogicBlock.cc \
-    src/ModifierBlock.cc
+    src/ModifierBlock.cc \
+    src/ValueBlock.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \

@@ -25,7 +25,10 @@ void ModifierBlock::set_modifier(string name, int value) {
 }
 
 void ModifierBlock::remove_modifier(string name) {
-    modifiers.erase(name);
+    if (modifiers.find(name) != modifiers.end())
+        modifiers.erase(name);
+    else
+        throw logicblock_error("Can't erase modifier, it dosent exist");
 }
 
 LogicBlock* ModifierBlock::execute() { //Needs further testing with functional Character class.

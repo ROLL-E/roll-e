@@ -6,6 +6,7 @@
 #include <list>
 #include <string>
 #include <map>
+#include <algorithm>
 
 class ValueBlock : public LogicBlock
 {
@@ -47,10 +48,12 @@ public:
   Character* get_target() const;
   std::map<std::string, int> get_flags() const;
   
+  void add_to_attributes(std::string);
   void add_to_applicable_skills(std::string);
   void add_to_applicable_items(std::string);
   void add_to_flags(std::string);
   
+  void remove_attribute(std::string);
   void remove_applicable_skill(std::string);
   void remove_applicable_item(std::string);
   void remove_flag(std::string);
