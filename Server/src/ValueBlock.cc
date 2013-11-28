@@ -61,9 +61,70 @@ void ValueBlock::remove_attribute(string attribute) {
     if (it != attributes.end())
         attributes.erase(it);
     else
-        throw logicblock_error("Can't remove attriubte, it dosen't exist in the list");
+        throw logicblock_error("Can't remove attriubte, it doesn't exist in the list");
+}
+
+list<string> ValueBlock::get_applicable_skills() const {
+    return applicable_skills;
+}
+
+void ValueBlock::add_to_applicable_skills(string name) {
+    list<string>::iterator it;
+    it = find(applicable_skills.begin(), applicable_skills.end(), name);
+    if ( it == applicable_skills.end())
+        applicable_skills.push_back(name);
+    else
+        throw logicblock_error("Skill already exsists");
+}
+
+void ValueBlock::remove_applicable_skill(string name) {
+    list<string>::iterator it;
+    it = find(applicable_skills.begin(), applicable_skills.end(), name);
+    if (it != applicable_skills.end())
+        applicable_skills.erase(it);
+    else
+        throw logicblock_error("Can't remove skill, it doesn't exist in list");
+}
+
+list<int> ValueBlock::get_applicable_items() const {
+    return applicable_items;
+}
+
+void ValueBlock::add_to_applicable_items(int id) {
+    list<int>::iterator it;
+    it = find(applicable_items.begin(), applicable_items.end(), id);
+    if (it == applicable_items.end())
+        applicable_items.push_back(id);
+    else
+        throw logicblock_error("Item alredy exists");
+}
+
+void ValueBlock::remove_applicable_item(int id) {
+    list<int>::iterator it;
+    it = find(applicable_items.begin(), applicable_items.end(), id);
+    if (it != applicable_items.end())
+        applicable_items.erase(it);
+    else
+        throw logicblock_error("Can't remove item, it doesn't exist in list");
+}
+
+map<string, bool> ValueBlock::get_flags() const {
+    return flags;
+}
+
+void ValueBlock::set_flag(string name, bool value) {
+    flags[name] = value;
+}
+
+void ValueBlock::remove_flag(string name) {
+    map<string,bool>::iterator it;
+    it = flags.find(name);
+    if (it != flags.end())
+        flags.erase(it);
+    else
+        throw logicblock_error("Can't remove flag, it doesn't exist");
 }
 
 LogicBlock* ValueBlock::execute() {
-    return this->get_next();
+    return this->get_next(); //Not yet implemented
 }

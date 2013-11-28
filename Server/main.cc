@@ -39,23 +39,40 @@ try {
       cout << e.what() << endl;
   }
 
-  list<string> new_list = block3->get_attributes();
+  try {
+        block3->add_to_applicable_skills("first");
+        block3->add_to_applicable_skills("second");
+        block3->add_to_applicable_skills("first");
+    }
+    catch (const exception& e) {
+        cout << e.what() << endl;
+    }
+  try {
+        block3->add_to_applicable_items(1);
+        block3->add_to_applicable_items(2);
+        block3->add_to_applicable_items(1);
+    }
+    catch (const exception& e) {
+        cout << e.what() << endl;
+    }
 
-  for (list<string>::iterator it = new_list.begin(); it != new_list.end(); ++it)
+  list<int> new_list = block3->get_applicable_items();
+
+  for (list<int>::iterator it = new_list.begin(); it != new_list.end(); ++it)
       cout << *it << endl;
 
-  block3->remove_attribute("second");
+  block3->remove_applicable_item(2);
 
   try {
-      block3->remove_attribute("second");
+      block3->remove_applicable_item(2);
   }
   catch (const exception& e) {
       cout << e.what() << endl;
   }
 
-  list<string> new_list2 = block3->get_attributes();
+  list<int> new_list2 = block3->get_applicable_items();
 
-  for (list<string>::iterator it = new_list2.begin(); it != new_list2.end(); ++it)
+  for (list<int>::iterator it = new_list2.begin(); it != new_list2.end(); ++it)
       cout << *it << endl;
 
   w.show();
