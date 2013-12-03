@@ -16,6 +16,11 @@ void ClientConnection::readyRead(){
     qDebug() << clientSocket->readAll();
 }
 
+
+void ClientConnection::connected(){
+  qDebug() << "Connection!\n";
+}
+
 bool ClientConnection::isConnected(){
   return clientSocket->isValid();
 }

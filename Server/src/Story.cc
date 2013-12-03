@@ -5,6 +5,7 @@ using namespace std;
 
 Story::Story(Ruleset& new_ruleset)
   : ruleset(new_ruleset) {
+  myServer = new Server{};
 }
 
 void Story::add_character(Character* new_character) {
