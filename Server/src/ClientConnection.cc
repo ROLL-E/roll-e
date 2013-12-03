@@ -1,4 +1,20 @@
 #include <ClientConnection.h>
+class Story;
+
+ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QObject(parent) {
+    clientSocket = connection;
+    connect(clientSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(clientSocket, SIGNAL(connected()), this, SLOT(connected()));
+    connect(clientSocket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+}
+
+void ClientConnection::disconnected(){
+    clientSocket->close();
+}
+
+void ClientConnection::readyRead(){
+    qDebug() << clientSocket->readAll();
+}
 
 bool ClientConnection::isConnected(){
   return clientSocket->isValid();

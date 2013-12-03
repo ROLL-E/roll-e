@@ -4,8 +4,8 @@
 #include "ClientConnection.h"
 #include <QObject>
 #include <QtNetwork/QTcpServer>
+#include <QAbstractSocket>
 #include <QObject>
-
 
 class Server : public QObject
 {
@@ -17,7 +17,6 @@ private:
 
 public:
   explicit Server(QObject* parent = 0);
-  void start();
   
 signals:
 

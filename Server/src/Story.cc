@@ -55,6 +55,3 @@ void Story::remove_item(int id_to_remove) {
   items.erase(id_to_remove);
 }
 
-void Story::start_server(){
-  myServer->start();
-}

@@ -27,11 +27,7 @@ int main(int argc, char *argv[])
   std::cout << "bob's health" << bob->get_attribute("health") << std::endl;
   bob->take_damage("blunt", 3);
   std::cout << "bob's health after hit" << bob->get_attribute("health") << std::endl;
-  try{
-  main_story.start_server();
-  }catch(std::exception e){
-    qDebug() << e.what();
-  }
+
   try {
     main_story.add_item(new Item("Hammer of doom"));
     bob->add_item(0);
