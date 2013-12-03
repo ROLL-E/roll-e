@@ -2,6 +2,10 @@
 #define CLIENTCONNECTION_H
 #include <string>
 #include <vector>
+#include <QtNetwork/QTcpSocket>
+#include <QtNetwork/QAbstractSocket>
+#include <QtNetwork/QHostAddress>
+
 
 class Story; //Forward declartion, remember to include in .cc file.
 
@@ -19,10 +23,12 @@ struct Request {
 class ClientConnection {
 
 private:
-    //socket
+    QTcpSocket* clientSocket;
     std::vector<std::string> message_buffer;
     std::vector<std::string> request_buffer;
 public:
+    ClientConnection(QTcpSocket* connection){clientSocket = connection;}//uncertain about this constructor...
+    bool isConnected();
     void send_message(Message) const;
     Message* get_message_from_buffer();
     void push_data(Story*);

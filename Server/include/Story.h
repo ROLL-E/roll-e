@@ -2,8 +2,8 @@
 #define STORY_H
 #include "ClientConnection.h"
 #include "Ruleset.h"
+#include "Server.h"
 #include <list>
-
 class Item;
 class Fight;
 class Scenario;
@@ -17,7 +17,7 @@ private:
     std::list<Scenario*> current_scenarios;
     Ruleset& ruleset;
     std::map<int, Item*> items;
-    std::list<ClientConnection*> clients;
+    Server* myServer;
 
 public:
     Story(Ruleset&);
@@ -40,6 +40,7 @@ public:
     void remove_scenario(Scenario*);
     void remove_item(int);
     void remove_clientconnection(ClientConnection*);
+    void start_server();
 
 };
 

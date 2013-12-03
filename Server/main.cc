@@ -27,15 +27,19 @@ int main(int argc, char *argv[])
   std::cout << "bob's health" << bob->get_attribute("health") << std::endl;
   bob->take_damage("blunt", 3);
   std::cout << "bob's health after hit" << bob->get_attribute("health") << std::endl;
-
-try {
-  main_story.add_item(new Item("Hammer of doom"));
-  bob->add_item(0);
-  main_story.add_item(new Item("nicer hammah"));
-  bob->add_item(1);
-  std::cout << std::boolalpha << bob->has_item(1) << " " << bob->has_item(2) << std::endl;
-  std::cout << main_story.get_items().at(0)->get_name() << std::endl;
-  std::cout << main_story.get_items().at(1)->get_name() << std::endl;
+  try{
+  main_story.start_server();
+  }catch(std::exception e){
+    qDebug() << e.what();
+  }
+  try {
+    main_story.add_item(new Item("Hammer of doom"));
+    bob->add_item(0);
+    main_story.add_item(new Item("nicer hammah"));
+    bob->add_item(1);
+    std::cout << std::boolalpha << bob->has_item(1) << " " << bob->has_item(2) << std::endl;
+    std::cout << main_story.get_items().at(0)->get_name() << std::endl;
+    std::cout << main_story.get_items().at(1)->get_name() << std::endl;
 
   }
   catch (const std::out_of_range& e) {
