@@ -14,6 +14,7 @@ private:
     std::map<std::string, int> attributes;
     std::list<Skill*> skills;
 
+
 public:
     Inventory inventory;
     Character(std::map<std::string, int>, int);

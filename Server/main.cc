@@ -2,7 +2,10 @@
 #include <QApplication>
 #include <stdexcept>
 #include <iostream>
+#include <QDebug>
+#include <QString>
 #include "Story.h"
+#include "GameSave.h"
 #include "Character.h"
 #include "Item.h"
 
@@ -34,14 +37,25 @@ try {
   main_story.add_item(new Item("nicer hammah"));
   bob->add_item(1);
   std::cout << std::boolalpha << bob->has_item(1) << " " << bob->has_item(2) << std::endl;
-  std::cout << main_story.get_items().at(0)->get_name() << std::endl;
-  std::cout << main_story.get_items().at(1)->get_name() << std::endl;
+  std::cout << main_story.get_items().value(0)->get_name().toStdString() << std::endl;
+  std::cout << main_story.get_items().value(1)->get_name().toStdString() << std::endl;
 
   }
   catch (const std::out_of_range& e) {
     std::cerr << "out_of_range exception: " << e.what() << std::endl;
   }
 
+  GameSave::save(&main_story, "F:\\Projekt\\save.dat");
+  main_story.remove_item(0);
+
+  GameSave::load("F:\\Projekt\\save.dat", &main_story);
+
+  for (auto item : main_story.get_items())  {
+    qDebug() << item->get_id();
+    qDebug() << item->get_name();
+    qDebug() << "End_Item";
+  }
+  //std::cout << main_story.get_items().value(0)->get_name().toStdString() <<std::endl;
   w.show();
 
   return a.exec();

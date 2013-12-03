@@ -3,6 +3,7 @@
 #include "ClientConnection.h"
 #include "Ruleset.h"
 #include <list>
+#include <QMap>
 
 class Item;
 class Fight;
@@ -16,7 +17,7 @@ private:
     Fight* current_fight;
     std::list<Scenario*> current_scenarios;
     Ruleset& ruleset;
-    std::map<int, Item*> items;
+    QMap<int, Item*> items;
     std::list<ClientConnection*> clients;
 
 public:
@@ -31,10 +32,11 @@ public:
     Fight* get_fight() const;
     std::list<Scenario*> get_scenarios() const;
     Ruleset& get_ruleset() const;
-    std::map<int, Item*> get_items() const;
+    QMap<int, Item*> get_items() const;
     std::list<ClientConnection*> get_clientconnections() const;
 
     void set_fight(Fight*);
+    void set_items(QMap<int, Item*>);
 
     void remove_character(Character*);
     void remove_scenario(Scenario*);
