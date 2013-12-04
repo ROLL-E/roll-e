@@ -15,11 +15,11 @@ struct Request {
     quint16 id;
 };
 
-QDataStream& operator<<(QDataStream&, Message);
-QDataStream& operator<<(QDataStream&, Request);
+QDataStream& operator<<(QDataStream&, Message&);
+QDataStream& operator<<(QDataStream&, Request&);
 
-QDataStream& operator>>(QDataStream&, Message);
-QDataStream& operator>>(QDataStream&, Request);
+QDataStream& operator>>(QDataStream&, Message&);
+QDataStream& operator>>(QDataStream&, Request&);
 
 class ServerConnection : public QObject{
 

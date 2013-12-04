@@ -6,12 +6,13 @@
 #include <QtNetwork/QtNetwork>
 #include <QObject>
 
-class Story; //Forward declartion, remember to include in .cc file.
+class Story;
 
 struct Message {
     QString sender;
     QString recevier;
     QString message;
+
 };
 
 struct Request {
@@ -19,11 +20,11 @@ struct Request {
     quint16 id;
 };
 
-QDataStream& operator<<(QDataStream&, Message);
-QDataStream& operator<<(QDataStream&, Request);
+QDataStream& operator<<(QDataStream&, Message&);
+QDataStream& operator<<(QDataStream&, Request&);
 
-QDataStream& operator>>(QDataStream&, Message);
-QDataStream& operator>>(QDataStream&, Request);
+QDataStream& operator>>(QDataStream&, Message&);
+QDataStream& operator>>(QDataStream&, Request&);
 
 
 
@@ -35,6 +36,7 @@ private:
 
     std::vector<Message*> message_buffer;
     std::vector<Request*> request_buffer;
+
 public:
     QTcpSocket* clientSocket; // private?
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);//uncertain about this constructor...

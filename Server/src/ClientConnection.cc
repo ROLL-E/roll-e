@@ -40,7 +40,7 @@ bool ClientConnection::isConnected(){
 
 void ClientConnection::send_message(Message msg) const{
   QDataStream out_stream(clientSocket);
-  out_stream << msg;
+  out_stream << QChar('m') << msg;
 }
 
 void ClientConnection::push_data(Story*){
@@ -55,17 +55,19 @@ Request* ClientConnection::get_request_from_buffer(){
   return request_buffer.front();
 }
 
-QDataStream& operator<<(QDataStream& out, Message msg) {
+QDataStream& operator<<(QDataStream& out, Message& msg) {
+  qDebug() << "sent to client:" << msg.sender << msg.recevier << msg.message;
   out << msg.sender << msg.recevier << msg.message;
   return out;
 }
 
-QDataStream& operator>>(QDataStream& in, Message msg) {
+QDataStream& operator>>(QDataStream& in, Message& msg) {
   in >> msg.sender >> msg.recevier >> msg.message;
+  qDebug() << "got from client:" << msg.sender << msg.recevier << msg.message;
   return in;
 }
 
-QDataStream& operator>>(QDataStream& in, Request req) {
+QDataStream& operator>>(QDataStream& in, Request& req) {
   in >> req.type >> req.id;
   return in;
 }

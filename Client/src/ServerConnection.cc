@@ -12,6 +12,7 @@ ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
 void ServerConnection::send_message(Message msg) const {
   QDataStream out_stream(clientSocket);
   out_stream << QChar('m') << msg;
+
 }
 
 void ServerConnection::send_request(Request req) const {
@@ -32,9 +33,11 @@ void ServerConnection::connected(){
 
 void ServerConnection::disconnected(){
   qDebug() << "Server disconnected!";
+  clientSocket->close();
 }
 
 void ServerConnection::readyRead(){
+  qDebug("readyRead called!");
   QChar token;
   QDataStream in_stream(clientSocket);
   in_stream >> token;
@@ -48,25 +51,28 @@ void ServerConnection::readyRead(){
       in_stream >> req;
       qDebug() << req.type;
     }
+  else
+    qDebug() << "Fuck all";
 }
 
-QDataStream& operator<<(QDataStream& out, Message msg) {
+QDataStream& operator<<(QDataStream& out, Message& msg) {
+  qDebug() << "sent to server:" << msg.sender << msg.recevier << msg.message;
   out << msg.sender << msg.recevier << msg.message;
-  qDebug() << msg.message;
   return out;
 }
 
-QDataStream& operator<<(QDataStream& out, Request req) {
+QDataStream& operator<<(QDataStream& out, Request& req) {
   out << req.type << req.id;
   return out;
 }
 
-QDataStream& operator>>(QDataStream& in, Message msg) {
+QDataStream& operator>>(QDataStream& in, Message& msg) {
   in >> msg.sender >> msg.recevier >> msg.message;
+  qDebug() << "got from server:" << msg.sender << msg.recevier << msg.message;
   return in;
 }
 
-QDataStream& operator>>(QDataStream& in, Request req) {
+QDataStream& operator>>(QDataStream& in, Request& req) {
   in >> req.type >> req.id;
   return in;
 }
