@@ -17,9 +17,11 @@ private:
     std::list<Scenario*> current_scenarios;
     Ruleset& ruleset;
     std::map<int, Item*> items;
-    Server* myServer;
+
 
 public:
+
+    Server* myServer; // private?
     Story(Ruleset&);
 
     void add_character(Character*);

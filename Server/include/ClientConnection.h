@@ -3,40 +3,46 @@
 #include <string>
 #include <vector>
 #include <QDebug>
-#include <QtNetwork/QTcpSocket>
-#include <QtNetwork/QAbstractSocket>
-#include <QtNetwork/QHostAddress>
+#include <QtNetwork/QtNetwork>
 #include <QObject>
 
 class Story; //Forward declartion, remember to include in .cc file.
 
 struct Message {
-    std::string sender;
-    std::string recevier;
-    std::string message;
+    QString sender;
+    QString recevier;
+    QString message;
 };
 
 struct Request {
-    std::string type;
-    std::string id;
+    QString type;
+    quint16 id;
 };
+
+QDataStream& operator<<(QDataStream&, Message);
+QDataStream& operator<<(QDataStream&, Request);
+
+QDataStream& operator>>(QDataStream&, Message);
+QDataStream& operator>>(QDataStream&, Request);
+
+
 
 class ClientConnection : public QObject {
 
     Q_OBJECT
 
 private:
-    QTcpSocket* clientSocket;
-    std::vector<std::string> message_buffer;
-    std::vector<std::string> request_buffer;
+
+    std::vector<Message*> message_buffer;
+    std::vector<Request*> request_buffer;
 public:
+    QTcpSocket* clientSocket; // private?
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);//uncertain about this constructor...
     bool isConnected();
     void send_message(Message) const;
     Message* get_message_from_buffer();
     void push_data(Story*);
     Request* get_request_from_buffer();
-    void connectToHost(QHostAddress);
 
 public slots:
     void connected();
