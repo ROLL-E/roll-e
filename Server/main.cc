@@ -6,6 +6,7 @@
 #include "WaitBlock.h"
 #include "ValueBlock.h"
 #include "DamageBlock.h"
+#include "CompareBlock.h"
 
 using namespace std;
 
@@ -89,6 +90,32 @@ try {
   catch (const exception& e) {
       cout << e.what() << endl;
   }
+
+  cout << "CompareBlock test" << endl;
+
+  CompareBlock* block5(new CompareBlock);
+  ValueBlock* block6(new ValueBlock);
+  ValueBlock* block7(new ValueBlock);
+
+  block6->set_value(5);
+  block7->set_value(4);
+  block5->set_lhs(block6);
+  block5->set_rhs(block7);
+
+  block5->set_alternate(block4);
+
+  block5->set_next(block1);
+
+  ModifierBlock* block8(new ModifierBlock);
+
+  block8->set_next(block5->execute());
+
+  if (dynamic_cast<DamageBlock*>(block8->get_next()) == nullptr)
+      cout << "Inte ett DamageBlock" << endl;
+
+  if (dynamic_cast<WaitBlock*>(block8->get_next()) == nullptr)
+      cout << "Inte ett WaitBlock" << endl;
+
 
   w.show();
   return a.exec();
