@@ -20,7 +20,8 @@ SOURCES += main.cc\
     src/LogicBlock.cc \
     src/ModifierBlock.cc \
     src/ValueBlock.cc \
-    src/DamageBlock.cc
+    src/DamageBlock.cc \
+    src/CompareBlock.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
