@@ -5,6 +5,7 @@
 #include "ModifierBlock.h"
 #include "WaitBlock.h"
 #include "ValueBlock.h"
+#include "DamageBlock.h"
 
 using namespace std;
 
@@ -74,6 +75,20 @@ try {
 
   for (list<int>::iterator it = new_list2.begin(); it != new_list2.end(); ++it)
       cout << *it << endl;
+
+  DamageBlock* block4(new DamageBlock);
+
+  cout << "DamageBlock test" << endl;
+
+  block4->set_valueblock(block3);
+
+  try {
+    block4->execute();
+  }
+
+  catch (const exception& e) {
+      cout << e.what() << endl;
+  }
 
   w.show();
   return a.exec();

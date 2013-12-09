@@ -2,7 +2,6 @@
 #define VALUEBLOCK_H
 #include "LogicBlock.h"
 #include "Character.h"
-#include "ValueBlock.h"
 #include <list>
 #include <string>
 #include <map>
