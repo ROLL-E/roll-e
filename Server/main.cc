@@ -41,19 +41,21 @@ try {
   std::cout << main_story.get_items().value(1)->get_name().toStdString() << std::endl;
 
   }
+
+
   catch (const std::out_of_range& e) {
     std::cerr << "out_of_range exception: " << e.what() << std::endl;
   }
-
+  qDebug() << "saving and loading! ";
   GameSave::save(&main_story, "F:\\Projekt\\save.dat");
   main_story.remove_item(0);
-
+  main_story.remove_item(1);
+  qDebug() << "saved";
   GameSave::load("F:\\Projekt\\save.dat", &main_story);
-
+  qDebug() << "loaded";
   for (auto item : main_story.get_items())  {
     qDebug() << item->get_id();
     qDebug() << item->get_name();
-    qDebug() << "End_Item";
   }
   //std::cout << main_story.get_items().value(0)->get_name().toStdString() <<std::endl;
   w.show();

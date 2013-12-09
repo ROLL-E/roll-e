@@ -1,25 +1,27 @@
 #include "Item.h"
 #include <stdexcept>
+#include <iostream>
+#include <QDebug>
 
 using namespace std;
 
-int Item::next_ID;
+quint16 Item::next_ID{0};
 
-void Item::set_next_ID(int new_ID){
-  Item::next_ID = new_ID;
+void Item::set_next_ID(quint16 new_ID){
+  next_ID = new_ID;
 }
 
 Item::Item(const Item& other)
   : name{other.name},
     modifiers{other.modifiers},
-    ID{Item::next_ID},
+    ID{next_ID},
     attributes{other.attributes} {
 
-  ++Item::next_ID;
+  ++next_ID;
 }
 
 Item::Item(const QString& new_name) : name{new_name} {
-  ID = Item::next_ID++;
+  ID = next_ID++;
 }
 
 Item::Item(const quint16& new_id) : ID{new_id} {
@@ -34,7 +36,7 @@ QMap<QString, int> Item::get_modifiers() const {
   return modifiers;
 }
 
-int Item::get_id() const {
+quint16 Item::get_id() const {
   return ID;
 }
 
@@ -72,7 +74,7 @@ void Item::remove_modifier(const QString& mod_to_remove) {
     throw invalid_argument("Modifier does not exist");
 }
 
-QDataStream& Item::read(QDataStream& ds) {
+QDataStream& Item::read_from_stream(QDataStream& ds) {
   ds >> name;
   //ds >> modifiers;
   //ds >> attributes;
@@ -81,7 +83,7 @@ QDataStream& Item::read(QDataStream& ds) {
   return ds;
 }
 
-QDataStream& Item::write(QDataStream& ds) const{
+QDataStream& Item::write_to_stream(QDataStream& ds) const{
 
   ds << name;
   //ds << QMap<QString, int>(modifiers);
@@ -91,12 +93,12 @@ QDataStream& Item::write(QDataStream& ds) const{
   return ds;
 }
 
-QDataStream& operator<<(QDataStream& ds, const Item*& item) {
-  return item->write(ds);
-
+QDataStream& operator<<(QDataStream& ds, Item*& item) {
+  return item->write_to_stream(ds);
 }
 
 QDataStream& operator>>(QDataStream& ds, Item*& item) {
-  return item->read(ds);
+  return item->read_from_stream(ds);
 }
+
 

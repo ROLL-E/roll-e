@@ -3,8 +3,9 @@
 #include <QDataStream>
 #include <QMap>
 #include <iostream>
-#include "Item.h"
+#include <QDebug>
 #include "Story.h"
+#include "Item.h"
 
 
 void GameSave::load(QString filename, Story* story) {
@@ -21,11 +22,16 @@ void GameSave::load(QString filename, Story* story) {
   if (tag == QString("Start")) {
 
     while (tag != QString("End")) {
-      quint16 id;
-      in_stream >> id;
-      current_item = new Item(id);
-      in_stream >> current_item;
-      story->add_item(current_item);
+      qDebug() << tag;
+      if (tag == QString("Item")) {
+        quint16 id;
+        in_stream >> id;
+        current_item = new Item(id);
+        in_stream >> current_item;
+        story->add_item(current_item);
+      } else if (tag == QString("Char")) {
+
+      }
       in_stream >> tag;
 
     }
@@ -41,10 +47,12 @@ void GameSave::save(Story* story, QString filename) {
 
   out_stream << QString("Start");
   for (Item* item : story->get_items())  {
+    out_stream << QString("Item");
     out_stream << item->get_id();
     out_stream << item;
-    out_stream << QString("End_Item");
   }
+
   out_stream << QString("End");
   output_file.close();
 }
+

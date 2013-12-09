@@ -9,14 +9,14 @@ class Item
 private:
   QString name;
   QMap<QString, int> modifiers;
-  int ID;
+  quint16 ID;
   QMap<QString, int> attributes;
   int weight;
 
-  static int next_ID; // ID that the next item should be assigned
+  static quint16 next_ID; // ID that the next item should be assigned
 
 public:
-  static void set_next_ID(int);
+  static void set_next_ID(quint16);
 
   Item(const QString&);
   Item(const Item&);
@@ -24,7 +24,7 @@ public:
 
   QString get_name() const;
   QMap<QString,int> get_modifiers() const;
-  int get_id() const;
+  quint16 get_id() const;
   QMap<QString,int> get_attributes() const;
   int get_weight() const;
 
@@ -37,11 +37,11 @@ public:
   void remove_modifier(const QString&);
   void remove_attribute(const QString&);
 
-  QDataStream& read(QDataStream&);
-  QDataStream& write(QDataStream&) const;
+  QDataStream& read_from_stream(QDataStream&);
+  QDataStream& write_to_stream(QDataStream&) const;
 };
 
-QDataStream& operator<<(QDataStream&, const Item*&);
+QDataStream& operator<<(QDataStream&, Item*&);
 QDataStream& operator>>(QDataStream&, Item*&);
 
 #endif
