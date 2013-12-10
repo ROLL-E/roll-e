@@ -8,10 +8,9 @@ class Item
 {
 private:
   QString name;
-  QMap<QString, int> modifiers;
+  QMap<QString, qint8> modifiers;
   quint16 ID;
-  QMap<QString, int> attributes;
-  int weight;
+  QMap<QString, qint16> attributes;
 
   static quint16 next_ID; // ID that the next item should be assigned
 
@@ -23,16 +22,14 @@ public:
   Item(const quint16&);
 
   QString get_name() const;
-  QMap<QString,int> get_modifiers() const;
+  QMap<QString,qint8> get_modifiers() const;
   quint16 get_id() const;
-  QMap<QString,int> get_attributes() const;
-  int get_weight() const;
+  QMap<QString,qint16> get_attributes() const;
 
   void set_name(const QString&);
-  void set_modifier(const QString&,int);
+  void set_modifier(const QString&,qint8);
   void set_id(int); //shouldn't really be allowed to change
-  void set_attribute(const QString&, int);
-  void set_weight(int);
+  void set_attribute(const QString&, qint16);
 
   void remove_modifier(const QString&);
   void remove_attribute(const QString&);

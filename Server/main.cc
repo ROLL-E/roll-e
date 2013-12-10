@@ -4,6 +4,9 @@
 #include <iostream>
 #include <QDebug>
 #include <QString>
+#include <QMap>
+#include <QFile>
+
 #include "Story.h"
 #include "GameSave.h"
 #include "Character.h"
@@ -46,18 +49,30 @@ try {
   catch (const std::out_of_range& e) {
     std::cerr << "out_of_range exception: " << e.what() << std::endl;
   }
+
+  main_story.get_items().value(0)->set_modifier("Strength", -7);
+  main_story.get_items().value(1)->set_modifier("Intelligence", -42);
+  main_story.get_items().value(0)->set_attribute("Damage", 1000);
+
   qDebug() << "saving and loading! ";
   GameSave::save(&main_story, "F:\\Projekt\\save.dat");
   main_story.remove_item(0);
   main_story.remove_item(1);
+
   qDebug() << "saved";
   GameSave::load("F:\\Projekt\\save.dat", &main_story);
   qDebug() << "loaded";
   for (auto item : main_story.get_items())  {
-    qDebug() << item->get_id();
+    qDebug() << "id: " << item->get_id();
     qDebug() << item->get_name();
+    for (auto key : item->get_modifiers().keys()) {
+      qDebug() << key << ": " << item->get_modifiers().value(key);
+    }
+    for (auto key : item->get_attributes().keys()) {
+      qDebug() << key << ": " << item->get_attributes().value(key);
+    }
   }
-  //std::cout << main_story.get_items().value(0)->get_name().toStdString() <<std::endl;
+
   w.show();
 
   return a.exec();

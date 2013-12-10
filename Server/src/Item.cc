@@ -20,7 +20,8 @@ Item::Item(const Item& other)
   ++next_ID;
 }
 
-Item::Item(const QString& new_name) : name{new_name} {
+Item::Item(const QString& new_name)
+  : name{new_name} {
   ID = next_ID++;
 }
 
@@ -32,7 +33,7 @@ QString Item::get_name() const {
   return name;
 }
 
-QMap<QString, int> Item::get_modifiers() const {
+QMap<QString, qint8> Item::get_modifiers() const {
   return modifiers;
 }
 
@@ -40,28 +41,21 @@ quint16 Item::get_id() const {
   return ID;
 }
 
-QMap<QString, int> Item::get_attributes() const {
+QMap<QString, qint16> Item::get_attributes() const {
   return attributes;
 }
 
-int Item::get_weight() const {
-  return weight;
-}
 
 void Item::set_name(const QString& new_name) {
   name = new_name;
 }
 
-void Item::set_modifier(const QString& mod_name, int value) {
+void Item::set_modifier(const QString& mod_name, qint8 value) {
   modifiers[mod_name] = value;
 }
 
-void Item::set_attribute(const QString& attr_name, int value) {
+void Item::set_attribute(const QString& attr_name, qint16 value) {
   attributes[attr_name] = value;
-}
-
-void Item::set_weight(int new_weight) {
-  weight = new_weight;
 }
 
 void Item::remove_attribute(const QString& attr_to_remove) {
@@ -76,19 +70,16 @@ void Item::remove_modifier(const QString& mod_to_remove) {
 
 QDataStream& Item::read_from_stream(QDataStream& ds) {
   ds >> name;
-  //ds >> modifiers;
-  //ds >> attributes;
-  //ds >> weight;
-
+  ds >> modifiers;
+  ds >> attributes;
   return ds;
 }
 
 QDataStream& Item::write_to_stream(QDataStream& ds) const{
 
   ds << name;
-  //ds << QMap<QString, int>(modifiers);
-  //ds << attributes;
-  //ds << weight;
+  ds << modifiers;
+  ds << attributes;
 
   return ds;
 }
