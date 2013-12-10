@@ -21,7 +21,12 @@ SOURCES += main.cc\
     src/ModifierBlock.cc \
     src/ValueBlock.cc \
     src/DamageBlock.cc \
-    src/CompareBlock.cc
+    src/CompareBlock.cc \
+    src/Character.cc \
+    src/Story.cc \
+    src/Item.cc \
+    src/Inventory.cc \
+    src/Ruleset.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
