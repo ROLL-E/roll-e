@@ -31,10 +31,10 @@ void ModifierBlock::remove_modifier(string name) {
         throw logicblock_error("Can't erase modifier, it dosent exist");
 }
 
-LogicBlock* ModifierBlock::execute() { //Needs further testing with functional Character class.
+LogicBlock* ModifierBlock::execute() {
 
     for (map<string, int>::iterator it = modifiers.begin(); it != modifiers.end(); ++it)
-        target->add_to_attributes(it->first, it->second);
+        target->add_to_attribute(it->first, it->second);
 
     return this->get_next();
 }

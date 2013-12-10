@@ -22,7 +22,7 @@ public:
     void set_name(const std::string&);
     int get_attribute(std::string) const;
 
-    void add_to_attributes(std::string, int) {};
+    void add_to_attribute(const std::string&, int);
     void set_attribute(const std::string&, int);
     void take_damage(const std::string&, int);
 

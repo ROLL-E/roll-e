@@ -154,6 +154,32 @@ try {
   if (dynamic_cast<WaitBlock*>(block8->get_next()) == nullptr)
       cout << "Inte ett WaitBlock" << endl;
 
+  //Take damage test
+  ValueBlock* block10(new ValueBlock);
+  DamageBlock* block11(new DamageBlock);
+
+  block10->set_value(2);
+  block11->set_valueblock(block10);
+  block11->set_target(bob);
+
+  cout << "Bobs current health: " << bob->get_attribute("health") << endl;
+  cout << "Damage to bob: " << block10->get_value() << endl;
+  block11->execute();
+  cout << "Bobs current health: " << bob->get_attribute("health") << endl;
+
+
+  ModifierBlock* block12(new ModifierBlock);
+
+  block12->set_target(bob);
+  block12->set_modifier("strength",2);
+  block12->set_modifier("armor", -1);
+
+  cout << "Bobs strength: " << bob->get_attribute("strength") << endl;
+  cout << "Bobs armor: " << bob->get_attribute("armor") << endl;
+  block12->execute();
+  cout << "Bobs strength: " << bob->get_attribute("strength") << endl;
+  cout << "Bobs armor: " << bob->get_attribute("armor") << endl;
+
 
   w.show();
   return a.exec();
