@@ -1,36 +1,41 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
-#include <string>
-#include <map>
+#include <QString>
+#include <QMap>
 #include <list>
+#include <QDataStream>
 #include "Skill.h"
 #include "ClientConnection.h"
 #include "Inventory.h"
 
 class Character {
 private:
-    std::string name;
+    QString name;
     ClientConnection* client;
-    std::map<std::string, int> attributes;
-    std::list<Skill*> skills;
+    QMap<QString, qint16> attributes;
+    QList<quint16> skills;
 
 
 public:
     Inventory inventory;
-    Character(std::map<std::string, int>, int);
+    Character(QMap<QString, qint16>, quint16);
     Character(const Character&);
-    std::string get_name() const;
-    void set_name(const std::string&);
-    int get_attribute(std::string) const;
-    void set_attribute(const std::string&, int);
-    void take_damage(const std::string&, int);
-    std::list<Skill*> get_skills() const;
-    void add_skill(Skill*);
-    void remove_skill(Skill*);
-    void add_item(int);
-    void remove_item(int);
-    bool has_item(int) const;
+    QString get_name() const;
+    void set_name(const QString&);
+    qint16 get_attribute(QString) const;
+    void set_attribute(const QString&, qint16);
+    void take_damage(const QString&, qint16);
+    QList<quint16> get_skills() const;
+    void add_skill(quint16);
+    void remove_skill(quint16);
+    void add_item(quint16);
+    void remove_item(quint16);
+    bool has_item(quint16) const;
 
+    QDataStream& write_to_stream(QDataStream&);
+    QDataStream& read_from_stream(QDataStream&);
 };
 
+QDataStream& operator<<(QDataStream&, Character*&);
+QDataStream& operator>>(QDataStream&, Character*&);
 #endif

@@ -45,7 +45,6 @@ QMap<QString, qint16> Item::get_attributes() const {
   return attributes;
 }
 
-
 void Item::set_name(const QString& new_name) {
   name = new_name;
 }
