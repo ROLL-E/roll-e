@@ -44,13 +44,7 @@ int main(int argc, char *argv[])
     std::cerr << "out_of_range exception: " << e.what() << std::endl;
   }
 
-  main_story.myServer->server->waitForNewConnection(30000);
-  ClientConnection* cc = main_story.myServer->clients.front();
-  if (cc != nullptr){
-    cc->send_message(Message{"rout", "you", "hej!"});
-    cc->clientSocket->waitForReadyRead(1000);
-    qDebug() << cc->get_message_from_buffer()->message;
-    }
+
   w.show();
 
   return a.exec();

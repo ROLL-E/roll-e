@@ -33,18 +33,19 @@ class ClientConnection : public QObject {
     Q_OBJECT
 
 private:
-
-    std::vector<Message*> message_buffer;
-    std::vector<Request*> request_buffer;
+    QList<Message*> message_buffer;
+    QList<Request*> request_buffer;
 
 public:
     QTcpSocket* clientSocket; // private?
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);//uncertain about this constructor...
     bool isConnected();
     void send_message(Message) const;
-    Message* get_message_from_buffer();
     void push_data(Story*);
-    Request* get_request_from_buffer();
+
+signals:
+    void got_message(Message*);
+    void got_request(Request*);
 
 public slots:
     void connected();
