@@ -6,12 +6,13 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include <stdlib.h>
 
 class ValueBlock : public LogicBlock
 {
 private:
   char intention;
-  int value;
+  int value{0};
   int sides;
   int number;
   std::list<std::string> attributes;

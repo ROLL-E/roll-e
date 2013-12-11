@@ -181,6 +181,16 @@ try {
   cout << "Bobs armor: " << bob->get_attribute("armor") << endl;
 
 
+  cout << "Testing ValueBlock" << endl;
+
+  ValueBlock* block13(new ValueBlock);
+  block13->set_number(1);
+  block13->set_sides(10);
+  block13->set_intention('r');
+  cout << "Sides is: " << block13->get_sides() << endl;
+  block13->execute();
+  cout << "Random number is: " << block13->get_value() << endl;
+
   w.show();
   return a.exec();
 }

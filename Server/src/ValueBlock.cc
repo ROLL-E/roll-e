@@ -126,5 +126,13 @@ void ValueBlock::remove_flag(const string& name) {
 }
 
 LogicBlock* ValueBlock::execute() {
+    if (intention == 's')
+        return this->get_next();
+    else if (intention == 'r') {
+        srand(time(NULL));
+
+        for (int i{0}; i < number ; ++i)
+            value += (rand() % sides) + 1;
+    }
     return this->get_next(); //Not yet implemented
 }
