@@ -19,24 +19,12 @@ Server::Server(QObject *parent) :
 void Server::newConnection() {
   //prompt gamemaster for permission?
   clients.insert(clients.begin(), new ClientConnection{server->nextPendingConnection()});
-  connect(clients.first(), SIGNAL(got_message(Message*)), this, SLOT(incoming_message(Message*)));
-  connect(clients.first(), SIGNAL(got_request(Request*)), this, SLOT(incoming_request(Request*)));
+  connect(clients.first(), SIGNAL(got_message(Message&)), this, SLOT(incoming_message(Message&)));
+  connect(clients.first(), SIGNAL(got_request(Request&)), this, SLOT(incoming_request(Request&)));
+  connect(clients.first(), SIGNAL(disconnected()), this, SLOT(client_disconnected()));
   //remember to keep listening/waitfornewConnection
 }
 
-void Server::incoming_message(Message* msg){
-    message_buffer.push_back(msg);
-
-    //for testing reasons
-    process_messages();
-}
-
-void Server::incoming_request(Request* req){
-    request_buffer.push_back(req);
-
-    //same as above
-    process_requests();
-}
 
 
 Message* Server::get_message_from_buffer(){
@@ -53,18 +41,22 @@ Request* Server::get_request_from_buffer(){
         return nullptr;
 }
 
-void Server::process_messages(){
-    for(int i=0; i <= message_buffer.count(); i++){
-        Message* msg = get_message_from_buffer();
+void Server::update_messages(){
+    foreach(ClientConnection* c, clients){
+        Message* msg = c->get_message_from_buffer();
         if(msg != nullptr)
-        qDebug() << msg->sender << " says: " << msg->message << " to " << msg->recevier;
+        message_buffer.push_back(new Message{msg});
     }
 }
 
-void Server::process_requests(){
-    for(int i=0; i <= request_buffer.count(); i++){
-        Request* req = get_request_from_buffer();
+void Server::update_requests(){
+    foreach(ClientConnection* c, clients){
+        Request* req = c->get_request_from_buffer();
         if(req != nullptr)
-        qDebug() << "got request of type " << req->type << " with ID " << req->id;
+        request_buffer.push_back(new Request{req});
     }
+}
+
+void Server::client_disconnected(std::iterator pos){
+    clients.erase(pos)
 }

@@ -3,9 +3,11 @@
 
 #include "ClientConnection.h"
 
+class Client;
+
 class Server : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 private:
     QList<Message*> message_buffer;
@@ -18,15 +20,14 @@ public:
   explicit Server(QObject* parent = 0);
   QTcpServer* server; //private?
   QList<ClientConnection*> clients;
-  void process_messages();
-  void process_requests();
+  void update_messages();
+  void update_requests();
   
 signals:
 
 public slots:
   void newConnection();
-  void incoming_message(Message*);
-  void incoming_request(Request*);
+  void client_disconnected();
 };
 
 #endif // SERVER_H

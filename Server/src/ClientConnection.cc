@@ -19,15 +19,16 @@ void ClientConnection::readyRead(){
   if (token == QChar('m')) {
       Message msg;
       in_stream >> msg;
-      emit got_message(msg);
+      message_buffer.push_back(new Message{msg});
+//      emit got_message(msg);
     }
   else if (token == QChar('r')) {
       Request req;
       in_stream >> req;
-      emit got_request(req);
+      request_buffer.push_back(new Request{req});
+//      emit got_request(req);
     }
 }
-//req och msg behöver överleva readyRead's scope...
 
 
 void ClientConnection::connected(){
@@ -60,4 +61,11 @@ QDataStream& operator>>(QDataStream& in, Message& msg) {
 QDataStream& operator>>(QDataStream& in, Request& req) {
   in >> req.type >> req.id;
   return in;
+}
+
+Message* ClientConnection::get_message_from_buffer(){
+    if(!message_buffer.empty())
+        return message_buffer.takeFirst();
+    else
+        return nullptr;
 }
