@@ -12,9 +12,9 @@ class ValueBlock : public LogicBlock
 {
 private:
   char intention;
-  int value;
-  int sides;
-  int number;
+  int value{0};
+  int sides{0};
+  int number{0};
   std::list<std::string> attributes;
   std::list<std::string> applicable_skills;
   std::list<int> applicable_items;

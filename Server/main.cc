@@ -186,10 +186,11 @@ try {
   ValueBlock* block13(new ValueBlock);
   block13->set_number(1);
   block13->set_sides(10);
-  block13->set_intention('r');
-  cout << "Sides is: " << block13->get_sides() << endl;
+  block13->set_intention('a');
+  block13->set_target(bob);
+  block13->add_to_attributes("health");
   block13->execute();
-  cout << "Random number is: " << block13->get_value() << endl;
+  cout << "Health + random is: " << block13->get_value() << endl;
 
   w.show();
   return a.exec();

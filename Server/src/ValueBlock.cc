@@ -133,11 +133,19 @@ int ValueBlock::roll() const {
     return temp;
 }
 
+
 LogicBlock* ValueBlock::execute() {
     if (intention == 's')
         return this->get_next();
     else if (intention == 'r') {
         value = roll();
     }
+    else if (intention == 'a') {
+        list<string>::iterator it;
+        for (it = attributes.begin(); it != attributes.end(); ++it)
+            value += target->get_attribute(*it);
+        value += roll();
+    }
+
     return this->get_next(); //Not yet implemented
 }
