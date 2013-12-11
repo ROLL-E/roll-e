@@ -125,14 +125,19 @@ void ValueBlock::remove_flag(const string& name) {
         throw logicblock_error("Can't remove flag, it doesn't exist");
 }
 
+int ValueBlock::roll() const {
+    int temp{0};
+    srand(time(NULL));
+    for (int i{0}; i < number ; ++i)
+        temp += (rand() % sides) + 1;
+    return temp;
+}
+
 LogicBlock* ValueBlock::execute() {
     if (intention == 's')
         return this->get_next();
     else if (intention == 'r') {
-        srand(time(NULL));
-
-        for (int i{0}; i < number ; ++i)
-            value += (rand() % sides) + 1;
+        value = roll();
     }
     return this->get_next(); //Not yet implemented
 }

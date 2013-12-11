@@ -12,7 +12,7 @@ class ValueBlock : public LogicBlock
 {
 private:
   char intention;
-  int value{0};
+  int value;
   int sides;
   int number;
   std::list<std::string> attributes;
