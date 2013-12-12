@@ -5,12 +5,12 @@
 class WaitBlock : public LogicBlock
 {
 private:
-  int wait_turns;
-  int wait_counter;
+  int wait_turns = 0;
+  int wait_counter = 0;
 public:
   WaitBlock() = default;
-  WaitBlock(WaitBlock&);
-  LogicBlock* execute() const;
+  WaitBlock(WaitBlock&) = default;
+  LogicBlock* execute() override;
   void set_wait_turns(int);
   int get_wait_turns() const;
 };

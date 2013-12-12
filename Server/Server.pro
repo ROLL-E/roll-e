@@ -16,6 +16,12 @@ CONFIG += c++11
 SOURCES += main.cc\
         serverwindow.cc \
     src/placeholder.cc \
+    src/WaitBlock.cc \
+    src/LogicBlock.cc \
+    src/ModifierBlock.cc \
+    src/ValueBlock.cc \
+    src/DamageBlock.cc \
+    src/CompareBlock.cc \
     src/Character.cc \
     src/Story.cc \
     src/Item.cc \

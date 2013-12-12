@@ -14,7 +14,7 @@ private:
 public:
   ModifierBlock() = default;
   ModifierBlock(ModifierBlock&);
-  LogicBlock* execute() const;
+  LogicBlock* execute() override;
   void set_target(Character*);
   Character* get_target() const;
   std::map<std::string,int> get_modifiers() const;

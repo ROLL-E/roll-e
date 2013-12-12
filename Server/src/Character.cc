@@ -31,7 +31,9 @@ void Character::set_attribute(const QString& attr_name, qint16 value) {
   attributes[attr_name] = value;
 }
 
-// add_to_attribute?
+void Character::add_to_attribute(const string& attr_name, int value) {
+        attributes[attr_name] = value + attributes.at(attr_name);
+}
 
 void Character::take_damage(const QString& type, qint16 amount) {
   //TODO add the handling
