@@ -1,0 +1,21 @@
+import QtQuick 2.0
+
+Rectangle {
+    id:basicButton
+    
+    color:"gray"
+    width: 150; height: 75
+    
+    Text {
+        id:buttonLabel
+        anchors.centerIn: parent
+        text: "button label"
+    }
+    
+    MouseArea {
+        id:buttonMouseArea
+        anchors.fill: parent
+        
+        onClicked: console.log(buttonLabel.text + " clicked")
+    }
+}
