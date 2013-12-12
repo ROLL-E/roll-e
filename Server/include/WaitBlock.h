@@ -9,6 +9,7 @@ private:
   int wait_counter = 0;
 public:
   WaitBlock() = default;
+  WaitBlock(int turns) : wait_turns{turns} {};
   WaitBlock(WaitBlock&) = default;
   LogicBlock* execute() override;
   void set_wait_turns(int);

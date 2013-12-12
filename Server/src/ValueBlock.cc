@@ -146,6 +146,5 @@ LogicBlock* ValueBlock::execute() {
             value += target->get_attribute(*it);
         value += roll();
     }
-
     return this->get_next(); //Not yet implemented
 }

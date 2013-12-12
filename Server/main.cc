@@ -192,6 +192,28 @@ try {
   block13->execute();
   cout << "Health + random is: " << block13->get_value() << endl;
 
+
+  cout << "Testing Scenario" << endl;
+
+  Scenario* scenario1(new Scenario);
+
+  scenario1->set_flag("blunt", true);
+  scenario1->set_flag("critical", false);
+
+  cout << "Blunt? " << scenario1->get_flag("blunt") << endl;
+  cout << "Critical? " << scenario1->get_flag("critical") << endl;
+  cout << "Random? " << scenario1->get_flag("random") << endl;
+
+  scenario1->set_head(block10);
+  block10->set_next(block11);
+  block11->set_next(block12);
+  block12->set_next(block13);
+  block11->set_last(true);
+  block12->set_last(true);
+
+
+  cout << "Depth: " << scenario1->find_turn_depth() << endl;
+
   w.show();
   return a.exec();
 }
