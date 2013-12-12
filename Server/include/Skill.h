@@ -9,19 +9,14 @@ class Skill
 private:
   QString name;
   QMap<QString, qint8> modifiers;
-  quint16 ID;
-
-  static quint16 next_ID;
 
 public:
   static void set_next_ID(quint16);
 
-  Skill(const QString&);
-  Skill(const quint16&);
+  Skill(const QString& new_name): name{new_name} {}
 
   QMap<QString,qint8> get_modifiers() const;
   QString get_name() const;
-  quint16 get_id() const;
 
 
   void set_modifier(const QString&,qint8);

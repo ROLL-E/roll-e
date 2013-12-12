@@ -8,13 +8,14 @@
 
 class Story;
 class ClientConnection;
+class Skill;
 
 class Character {
 private:
     QString name;
     ClientConnection* client;
     QMap<QString, qint16> attributes;
-    QList<quint16> skills;
+    QList<Skill*> skills;
     Story* story;
 
 public:
@@ -26,9 +27,9 @@ public:
     qint16 get_attribute(QString) const;
     void set_attribute(const QString&, qint16);
     void take_damage(const QString&, qint16);
-    QList<quint16> get_skills() const;
-    void add_skill(quint16);
-    void remove_skill(quint16);
+    QList<Skill*> get_skills() const;
+    void add_skill(Skill*);
+    void remove_skill(Skill*);
     void add_item(quint16);
     void remove_item(quint16);
     bool has_item(quint16) const;

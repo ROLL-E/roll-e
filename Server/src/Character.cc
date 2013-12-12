@@ -46,16 +46,16 @@ void Character::take_damage(const QString& type, qint16 amount) {
   }
 }
 
-QList<quint16> Character::get_skills() const {
+QList<Skill*> Character::get_skills() const {
   return skills;
 }
 
-void Character::add_skill(quint16 new_skill_id) {
-  skills.push_back(new_skill_id);
+void Character::add_skill(Skill* new_skill) {
+  skills.push_back(new_skill);
 }
 
-void Character::remove_skill(quint16 remove_id) {
-  skills.removeOne(remove_id); // won't this destroy the skill itself, since remove calls the element's destructor?
+void Character::remove_skill(Skill* skill_to_remove) {
+  skills.removeOne(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
 }
 
 void Character::add_item(quint16 new_id) {

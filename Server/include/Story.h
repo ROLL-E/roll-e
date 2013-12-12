@@ -2,7 +2,7 @@
 #define STORY_H
 #include "ClientConnection.h"
 #include "Ruleset.h"
-#include <list>
+#include <QList>
 #include <QMap>
 
 class Item;
@@ -13,35 +13,35 @@ class Character;
 class Story {
 
 private:
-    std::list<Character*> characters;
-    Fight* current_fight;
-    std::list<Scenario*> current_scenarios;
-    Ruleset& ruleset;
-    QMap<int, Item*> items;
-    std::list<ClientConnection*> clients;
+  QList<Character*> characters;
+  Fight* current_fight;
+  QList<Scenario*> current_scenarios;
+  Ruleset& ruleset;
+  QMap<quint16, Item*> items;
+  QList<ClientConnection*> clients;
 
 public:
-    Story(Ruleset&);
+  Story(Ruleset&);
 
-    void add_character(Character*);
-    void add_scenario(Scenario*);
-    void add_item(Item*);
-    void add_clientconnection(ClientConnection*);
+  void add_character(Character*);
+  void add_scenario(Scenario*);
+  void add_item(Item*);
+  void add_clientconnection(ClientConnection*);
 
-    std::list<Character*> get_characters() const; //when would this be used?
-    Fight* get_fight() const;
-    std::list<Scenario*> get_scenarios() const;
-    Ruleset& get_ruleset() const;
-    QMap<int, Item*> get_items() const;
-    std::list<ClientConnection*> get_clientconnections() const;
+  QList<Character*> get_characters() const; //when would this be used?
+  Fight* get_fight() const;
+  QList<Scenario*> get_scenarios() const;
+  Ruleset& get_ruleset() const;
+  QMap<quint16, Item*> get_items() const;
+  QList<ClientConnection*> get_clientconnections() const;
 
-    void set_fight(Fight*);
-    void set_items(QMap<int, Item*>);
+  void set_fight(Fight*);
+  void set_items(QMap<quint16, Item*>);
 
-    void remove_character(Character*);
-    void remove_scenario(Scenario*);
-    void remove_item(int);
-    void remove_clientconnection(ClientConnection*);
+  void remove_character(Character*);
+  void remove_scenario(Scenario*);
+  void remove_item(quint16);
+  void remove_clientconnection(ClientConnection*);
 
 };
 

@@ -1,19 +1,5 @@
 #include "Skill.h"
 
-quint16 Skill::next_ID{0};
-
-Skill::Skill(const QString& new_name) : name{new_name} {
-  ID = next_ID++;
-}
-
-Skill::Skill(const quint16& new_id) : ID{new_id} {
-  next_ID = new_id + 1;
-}
-
-void Skill::set_next_ID(quint16 new_next_id) {
-  next_ID = new_next_id;
-}
-
 QMap<QString,qint8> Skill::get_modifiers() const {
   return modifiers;
 }
