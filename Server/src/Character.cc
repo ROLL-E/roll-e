@@ -2,9 +2,10 @@
 
 using namespace std;
 
-Character::Character(QMap<QString, qint16> new_attributes, quint16 start_max_weight)
+Character::Character(QMap<QString, qint16> new_attributes, quint16 start_max_weight, Story* new_story)
   : attributes{new_attributes},
-    inventory{start_max_weight} {
+    story{new_story},
+    inventory{start_max_weight, new_story} {
 }
 
 Character::Character(const Character& other)

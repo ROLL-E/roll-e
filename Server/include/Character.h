@@ -2,11 +2,12 @@
 #define CHARACTER_H
 #include <QString>
 #include <QMap>
-#include <list>
+#include <QList>
 #include <QDataStream>
-#include "Skill.h"
-#include "ClientConnection.h"
 #include "Inventory.h"
+
+class Story;
+class ClientConnection;
 
 class Character {
 private:
@@ -14,11 +15,11 @@ private:
     ClientConnection* client;
     QMap<QString, qint16> attributes;
     QList<quint16> skills;
-
+    Story* story;
 
 public:
     Inventory inventory;
-    Character(QMap<QString, qint16>, quint16);
+    Character(QMap<QString, qint16>, quint16, Story*);
     Character(const Character&);
     QString get_name() const;
     void set_name(const QString&);

@@ -1,17 +1,22 @@
 #include "Inventory.h"
 #include <algorithm>
-
+#include <stdexcept>
+#include <QDebug>
+#include "Story.h"
+#include "Item.h"
 using namespace std;
 
-Inventory::Inventory(quint16 new_max_weight)
-  : max_weight{new_max_weight} {
+Inventory::Inventory(quint16 new_max_weight, Story* new_story)
+  : max_weight{new_max_weight},
+    story{new_story} {
 }
 
 Inventory::Inventory(const Inventory& other)
   : items{other.items},
     max_weight{other.max_weight},
     current_weight{other.current_weight},
-    equipped{other.equipped} {
+    equipped{other.equipped},
+    story{other.story} {
 }
 
 quint16 Inventory::get_weight() const {
@@ -26,6 +31,11 @@ QList<quint16> Inventory::get_equipped() const {
   return equipped;
 }
 
+QList<quint16> Inventory::get_items() const
+{
+  return items;
+}
+
 bool Inventory::has_item(quint16 id) const {
   return (find(items.begin(), items.end(), id) != items.end());
 }
@@ -35,6 +45,18 @@ void Inventory::set_max_weight(quint16 new_max) {
 }
 
 void Inventory::add_item(quint16 id_to_add) {
+  Item* item{story->get_items().value(id_to_add, nullptr)};
+  if (item == nullptr)
+    throw out_of_range("Item does not exist");
+
+  qint16 temp_weight{item->get_attributes().value("Weight",0x7fff)};
+  if  (temp_weight != 0x7fff && current_weight + temp_weight > max_weight) {
+      //TODO: add overweight handling
+      qDebug() << "Can't add item " << id_to_add << ", overweight";
+      return;
+
+  } else
+    current_weight += item->get_attributes().value("Weight");
   items.push_back(id_to_add);
 }
 

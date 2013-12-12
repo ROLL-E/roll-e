@@ -10,6 +10,14 @@ Skill::Skill(const quint16& new_id) : ID{new_id} {
   next_ID = new_id + 1;
 }
 
+void Skill::set_next_ID(quint16 new_next_id) {
+  next_ID = new_next_id;
+}
+
+QMap<QString,qint8> Skill::get_modifiers() const {
+  return modifiers;
+}
+
 void Skill::set_modifier(const QString& mod_name, qint8 value) {
   modifiers[mod_name] = value;
 }
