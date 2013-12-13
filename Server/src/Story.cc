@@ -5,7 +5,15 @@ using namespace std;
 
 Story::Story(Ruleset& new_ruleset)
   : ruleset(new_ruleset) {
-  myServer = new Server{};
+  myServer = new Server;
+  netThread = new QThread;
+  myServer->moveToThread(netThread);
+  //connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
+  connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
+  connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
+  connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
+  connect(netThread, SIGNAL(finished()), netThread, SLOT(deleteLater()));
+  netThread->start();
 }
 
 void Story::add_character(Character* new_character) {

@@ -4,12 +4,17 @@
 #include "Ruleset.h"
 #include "Server.h"
 #include <list>
+#include <QThread>
+#include <QObject>
+
 class Item;
 class Fight;
 class Scenario;
 class Character;
 
-class Story {
+class Story : public QObject {
+
+  Q_OBJECT
 
 private:
     std::list<Character*> characters;
@@ -17,6 +22,7 @@ private:
     std::list<Scenario*> current_scenarios;
     Ruleset& ruleset;
     std::map<int, Item*> items;
+    QThread* netThread;
 
 
 public:
@@ -43,6 +49,10 @@ public:
     void remove_item(int);
     void remove_clientconnection(ClientConnection*);
     void start_server();
+
+signals:
+
+public slots:
 
 };
 

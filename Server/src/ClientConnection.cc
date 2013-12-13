@@ -5,10 +5,10 @@ ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QO
   clientSocket = connection;
   connect(clientSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
   connect(clientSocket, SIGNAL(connected()), this, SLOT(connected()));
-  connect(clientSocket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+  connect(clientSocket, SIGNAL(disconnected()), this, SLOT(remote_disconnected()));
 }
 
-void ClientConnection::disconnected(){
+void ClientConnection::remote_disconnected(){
   clientSocket->close();
 }
 
@@ -19,13 +19,13 @@ void ClientConnection::readyRead(){
   if (token == QChar('m')) {
       Message msg;
       in_stream >> msg;
-      message_buffer.push_back(new Message{msg});
+      message_buffer.push_back(new Message(msg));
 //      emit got_message(msg);
     }
   else if (token == QChar('r')) {
       Request req;
       in_stream >> req;
-      request_buffer.push_back(new Request{req});
+      request_buffer.push_back(new Request(req));
 //      emit got_request(req);
     }
 }
@@ -33,10 +33,6 @@ void ClientConnection::readyRead(){
 
 void ClientConnection::connected(){
   qDebug() << "Connection!\n";
-}
-
-bool ClientConnection::isConnected(){
-  return clientSocket->isValid();
 }
 
 void ClientConnection::send_message(Message msg) const{
@@ -66,6 +62,13 @@ QDataStream& operator>>(QDataStream& in, Request& req) {
 Message* ClientConnection::get_message_from_buffer(){
     if(!message_buffer.empty())
         return message_buffer.takeFirst();
+    else
+        return nullptr;
+}
+
+Request* ClientConnection::get_request_from_buffer(){
+    if(!request_buffer.empty())
+        return request_buffer.takeFirst();
     else
         return nullptr;
 }

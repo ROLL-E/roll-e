@@ -6,25 +6,24 @@ Server::Server(QObject *parent) :
 {
   server = new QTcpServer(this);
   connect(server,SIGNAL(newConnection()),this,SLOT(newConnection()));
-
-  if(!server->listen(QHostAddress::Any,14449))
-  {
-      qDebug() << "Server could not listen...";
-  }else
-  {
-      qDebug() << "Server is listening.";
-  }
 }
 
 void Server::newConnection() {
   //prompt gamemaster for permission?
-  clients.insert(clients.begin(), new ClientConnection{server->nextPendingConnection()});
-  connect(clients.first(), SIGNAL(got_message(Message&)), this, SLOT(incoming_message(Message&)));
-  connect(clients.first(), SIGNAL(got_request(Request&)), this, SLOT(incoming_request(Request&)));
-  connect(clients.first(), SIGNAL(disconnected()), this, SLOT(client_disconnected()));
-  //remember to keep listening/waitfornewConnection
+  clients.prepend(QPair<ClientConnection*,QThread*>(new ClientConnection(server->nextPendingConnection()),
+                           new QThread(this)));
+  clients.first().first->moveToThread(clients.first().second); // Meaty because we need the actual pointers located in the list.
+  connect(clients.first().first, SIGNAL(disconnected()), this, SLOT(client_disconnected()));
+  connect(clients.first().second,SIGNAL(started()),clients.first().first,SLOT(thread_started()));
+  connect(clients.first().first,SIGNAL(finished()),clients.first().first,SLOT(deleteLater()));
+  connect(clients.first().first,SIGNAL(finished()), clients.first().second,SLOT(quit()));
+  connect(clients.first().second,SIGNAL(finished()),clients.first().second,SLOT(deleteLater()));
+  clients.first().second->start();
 }
 
+void Server::client_disconnected(){
+    qDebug() << "This isn't supposed to happen...yet";
+}
 
 
 Message* Server::get_message_from_buffer(){
@@ -42,21 +41,23 @@ Request* Server::get_request_from_buffer(){
 }
 
 void Server::update_messages(){
-    foreach(ClientConnection* c, clients){
-        Message* msg = c->get_message_from_buffer();
+    // gör om till vanlig for-loop
+    for(int i = 0; i < clients.count();i++){
+        Message* msg = clients.at(i).first->get_message_from_buffer();
+        Request* req = clients.at(i).first->get_request_from_buffer();
         if(msg != nullptr)
-        message_buffer.push_back(new Message{msg});
-    }
-}
-
-void Server::update_requests(){
-    foreach(ClientConnection* c, clients){
-        Request* req = c->get_request_from_buffer();
+        message_buffer.push_back(new Message(*msg));
         if(req != nullptr)
-        request_buffer.push_back(new Request{req});
+        request_buffer.push_back(new Request(*req));
     }
 }
 
-void Server::client_disconnected(std::iterator pos){
-    clients.erase(pos)
+void Server::start(){
+  if(!server->listen(QHostAddress::Any,14449)){
+      qDebug() << "Server could not listen...";
+      throw(std::runtime_error{"Fatal error: could not initiate server."});
+    }else
+    {
+      qDebug() << "Server is listening.";
+    }
 }

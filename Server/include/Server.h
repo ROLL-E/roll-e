@@ -19,15 +19,16 @@ private:
 public:
   explicit Server(QObject* parent = 0);
   QTcpServer* server; //private?
-  QList<ClientConnection*> clients;
+  QList<QPair<ClientConnection*,QThread*>> clients;
   void update_messages();
   void update_requests();
   
 signals:
-
+  void finished();
 public slots:
   void newConnection();
   void client_disconnected();
+  void start();
 };
 
 #endif // SERVER_H

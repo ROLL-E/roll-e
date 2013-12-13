@@ -5,19 +5,24 @@
 #include <QDebug>
 #include <QtNetwork/QtNetwork>
 #include <QObject>
+#include <QPair>
 
 class Story;
 
 struct Message {
-    QString sender;
-    QString recevier;
-    QString message;
+  Message() = default;
+  Message(const Message&) = default;
+  QString sender;
+  QString recevier;
+  QString message;
 
 };
 
 struct Request {
-    QString type;
-    quint16 id;
+  Request() = default;
+  Request(const Request&) = default;
+  QString type;
+  quint16 id;
 };
 
 QDataStream& operator<<(QDataStream&, Message&);
@@ -31,7 +36,6 @@ QDataStream& operator>>(QDataStream&, Request&);
 class ClientConnection : public QObject {
 
     Q_OBJECT
-    QThread workerThread;
 
 friend class Server;
 
@@ -54,7 +58,7 @@ signals:
 
 public slots:
     void connected();
-    void disconnected();
+    void remote_disconnected();
     void readyRead();
 
 };
