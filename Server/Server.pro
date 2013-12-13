@@ -27,7 +27,8 @@ SOURCES += main.cc\
     src/Item.cc \
     src/Inventory.cc \
     src/Ruleset.cc \
-    src/Scenario.cc
+    src/Scenario.cc \
+    src/GameSave.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
@@ -47,7 +48,8 @@ HEADERS  += serverwindow.h \
     include/ClientConnection.h \
     include/Character.h \
     include/ActiveSkill.h \
-    include/ActiveItem.h
+    include/ActiveItem.h \
+    include/GameSave.h
 
 INCLUDEPATH += include
 FORMS    += serverwindow.ui
