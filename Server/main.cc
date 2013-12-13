@@ -17,9 +17,10 @@
 #include "GameSave.h"
 #include "Character.h"
 #include "Item.h"
+#include "Ruleset.h"
+#include "Skill.h"
 
 using namespace std;
-
 
 
 int main(int argc, char *argv[])
@@ -27,7 +28,7 @@ int main(int argc, char *argv[])
   QApplication a(argc, argv);
   ServerWindow w;
 
-  std::list<std::string> attr_list{"health", "armor", "strength"};
+  QList<QString> attr_list{"health", "armor", "strength"};
   Ruleset rs(attr_list);
 
   Story main_story(rs);
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
   main_story.add_character(new Character(attr_map, 50, &main_story));
 
   Character* bob = main_story.get_characters().front();
-
+  bob->set_name("BOB!");
 
 
   try {
@@ -110,9 +111,9 @@ try {
         cout << e.what() << endl;
     }
 
-  list<int> new_list = block3->get_applicable_items();
+  QList<int> new_list = block3->get_applicable_items();
 
-  for (list<int>::iterator it = new_list.begin(); it != new_list.end(); ++it)
+  for (QList<int>::iterator it = new_list.begin(); it != new_list.end(); ++it)
       cout << *it << endl;
 
   block3->remove_applicable_item(2);
@@ -124,9 +125,9 @@ try {
       cout << e.what() << endl;
   }
 
-  list<int> new_list2 = block3->get_applicable_items();
+  QList<int> new_list2 = block3->get_applicable_items();
 
-  for (list<int>::iterator it = new_list2.begin(); it != new_list2.end(); ++it)
+  for (QList<int>::iterator it = new_list2.begin(); it != new_list2.end(); ++it)
       cout << *it << endl;
 
   DamageBlock* block4(new DamageBlock);
@@ -205,6 +206,33 @@ try {
   block13->add_to_attributes("health");
   block13->execute();
   cout << "Health + random is: " << block13->get_value() << endl;
+
+  Character* herman = new Character(attr_map, 10, &main_story);
+  main_story.add_character(herman);
+  herman->set_name("Herr Man");
+
+  rs.add_skill(new Skill("Break those cuffs"));
+  rs.add_skill(new Skill("Eat horse"));
+  bob->add_skill(rs.get_skills().at(0));
+  bob->add_skill(rs.get_skills().at(1));
+  herman->add_skill(rs.get_skills().at(1));
+
+  GameSave::save(&main_story, "F:\\Projekt\\bigsave.dat");
+
+  Story second{rs};
+  GameSave::load("F:\\Projekt\\bigsave.dat", &second);
+
+  for (Item* i : second.get_items()) {
+    qDebug() << i->get_id() << ": " << i->get_name();
+  }
+
+  qDebug();
+
+  for (Character* c : second.get_characters()) {
+    qDebug() << c->get_name();
+    qDebug() << c->get_attribute("health");
+    qDebug() << c->get_skills();
+  }
 
   w.show();
   return a.exec();

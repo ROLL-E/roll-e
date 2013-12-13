@@ -4,6 +4,10 @@ QMap<QString,qint8> Skill::get_modifiers() const {
   return modifiers;
 }
 
+QString Skill::get_name() const {
+  return name;
+}
+
 void Skill::set_modifier(const QString& mod_name, qint8 value) {
   modifiers[mod_name] = value;
 }
@@ -31,6 +35,7 @@ QDataStream& operator<<(QDataStream& ds, Skill*& skill) {
 }
 
 QDataStream& operator>>(QDataStream& ds, Skill*& skill) {
+  skill = new Skill();
   return skill->read_from_stream(ds);
 }
 

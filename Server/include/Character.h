@@ -6,6 +6,7 @@
 #include <QDataStream>
 #include "Inventory.h"
 
+
 class Story;
 class ClientConnection;
 class Skill;
@@ -19,9 +20,12 @@ private:
     Story* story;
 
 public:
+    QList<quint16> skill_ids;
+
     Inventory inventory;
     Character(QMap<QString, qint16>, quint16, Story*);
     Character(const Character&);
+    Character() {}
 
     QString get_name() const;
     void set_name(const QString&);
@@ -30,7 +34,7 @@ public:
     void take_damage(const QString&, qint16);
     QList<Skill*> get_skills() const;
 
-    void add_to_attribute(const std::string&, int);
+    void add_to_attribute(const QString&, qint16);
 
     
     void add_skill(Skill*);

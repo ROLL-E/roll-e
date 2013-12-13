@@ -1,14 +1,16 @@
 #ifndef DAMAGEBLOCK_H
 #define DAMAGEBLOCK_H
 #include "LogicBlock.h"
-#include "ValueBlock.h"
-#include<string>
+#include <QString>
+
+class ValueBlock;
+class Character;
 
 class DamageBlock : public LogicBlock
 {
 private:
   Character* target{nullptr};
-  std::string type;
+  QString type;
   ValueBlock* valueblock{nullptr};
 public:
   DamageBlock() = default;

@@ -16,6 +16,7 @@ private:
 public:
     Inventory(quint16, Story*);
     Inventory(const Inventory&);
+    Inventory() {}
 
     quint16 get_weight() const;
     quint16 get_max_weight() const;

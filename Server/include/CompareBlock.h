@@ -1,7 +1,8 @@
 #ifndef COMPAREBLOCK_H
 #define COMPAREBLOCK_H
 #include "LogicBlock.h"
-#include "ValueBlock.h"
+
+class ValueBlock;
 
 class CompareBlock : public LogicBlock
 {

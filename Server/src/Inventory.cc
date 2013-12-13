@@ -19,6 +19,7 @@ Inventory::Inventory(const Inventory& other)
     story{other.story} {
 }
 
+
 quint16 Inventory::get_weight() const {
   return current_weight;
 }

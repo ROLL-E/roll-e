@@ -1,5 +1,7 @@
 #include "DamageBlock.h"
 #include <iostream>
+#include "Character.h"
+#include "ValueBlock.h"
 
 DamageBlock::DamageBlock(DamageBlock& other) {
     target = other.target;

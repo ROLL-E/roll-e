@@ -14,6 +14,7 @@ public:
   static void set_next_ID(quint16);
 
   Skill(const QString& new_name): name{new_name} {}
+  Skill() {}
 
   QMap<QString,qint8> get_modifiers() const;
   QString get_name() const;

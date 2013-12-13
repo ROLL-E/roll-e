@@ -15,6 +15,7 @@ Character::Character(const Character& other)
     inventory(other.inventory) {
 }
 
+
 QString Character::get_name() const {
   return name;
 }
@@ -31,8 +32,8 @@ void Character::set_attribute(const QString& attr_name, qint16 value) {
   attributes[attr_name] = value;
 }
 
-void Character::add_to_attribute(const string& attr_name, int value) {
-        attributes[attr_name] = value + attributes.at(attr_name);
+void Character::add_to_attribute(const QString& attr_name, qint16 value) {
+        attributes[attr_name] = value + attributes.value(attr_name);
 }
 
 void Character::take_damage(const QString& type, qint16 amount) {
@@ -75,7 +76,7 @@ bool Character::has_item(quint16 id) const {
 QDataStream& Character::write_to_stream(QDataStream& ds) {
  ds << name;
  ds << attributes;
- ds << skills;
+ ds << skill_ids;
  ds << inventory;
 
  return ds;
@@ -84,7 +85,7 @@ QDataStream& Character::write_to_stream(QDataStream& ds) {
 QDataStream& Character::read_from_stream(QDataStream& ds) {
   ds >> name;
   ds >> attributes;
-  ds >> skills;
+  ds >> skill_ids;
   ds >> inventory;
 
   return ds;
@@ -95,5 +96,6 @@ QDataStream& operator<<(QDataStream& out_stream, Character*& character) {
 }
 
 QDataStream& operator>>(QDataStream& in_stream, Character*& character) {
+  character = new Character();
   return character->read_from_stream(in_stream);
 }

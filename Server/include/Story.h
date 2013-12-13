@@ -1,7 +1,5 @@
 #ifndef STORY_H
 #define STORY_H
-#include "ClientConnection.h"
-#include "Ruleset.h"
 #include <QList>
 #include <QMap>
 
@@ -9,6 +7,8 @@ class Item;
 class Fight;
 class Scenario;
 class Character;
+class Ruleset;
+class ClientConnection;
 
 class Story {
 
@@ -21,6 +21,9 @@ private:
   QList<ClientConnection*> clients;
 
 public:
+  QMap<quint16, Scenario*> scenario_id_map;
+  QMap<quint16, Character*> character_id_map;
+
   Story(Ruleset&);
 
   void add_character(Character*);
