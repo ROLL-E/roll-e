@@ -11,6 +11,7 @@
 #include "Story.h"
 #include "Character.h"
 #include "Item.h"
+#include <qDebug>
 
 using namespace std;
 
@@ -205,14 +206,31 @@ try {
   cout << "Random? " << scenario1->get_flag("random") << endl;
 
   scenario1->set_head(block10);
+  scenario1->set_next_block(block10);
   block10->set_next(block11);
   block11->set_next(block12);
   block12->set_next(block13);
+  block10->set_last(false);
   block11->set_last(true);
   block12->set_last(true);
-
+  block13->set_last(false);
 
   cout << "Depth: " << scenario1->find_turn_depth() << endl;
+
+
+  qDebug() <<  (bob->get_attribute("health") == 7) << endl;
+  scenario1->run();
+  qDebug() << (bob->get_attribute("health") == 5) << endl;
+  qDebug() << (bob->get_attribute("strength") == 7) << endl;
+  qDebug() << (bob->get_attribute("armor") == 1) << endl;
+  scenario1->run();
+  qDebug() << (bob->get_attribute("strength") == 9) << endl;
+  qDebug() << (bob->get_attribute("armor") == 0) << endl;
+  qDebug() << "Health + random is: " << block13->get_value() << endl;
+  scenario1->run();
+  qDebug() << "Health + random is: " << block13->get_value() << endl;
+
+  //scenario1->run();
 
   w.show();
   return a.exec();

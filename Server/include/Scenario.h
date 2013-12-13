@@ -23,6 +23,8 @@ public:
     bool get_flag(const std::string&) const;
     void set_head(LogicBlock*);
     LogicBlock* get_head() const;
+    void set_next_block(LogicBlock*);
+    LogicBlock* get_next_block() const;
 
 };
 
