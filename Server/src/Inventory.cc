@@ -8,7 +8,8 @@ using namespace std;
 
 Inventory::Inventory(quint16 new_max_weight, Story* new_story)
   : max_weight{new_max_weight},
-    story{new_story} {
+    current_weight{0},
+    story{new_story}{
 }
 
 Inventory::Inventory(const Inventory& other)

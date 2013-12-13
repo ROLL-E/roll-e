@@ -17,6 +17,7 @@
 #include "Character.h"
 #include "Item.h"
 #include "Ruleset.h"
+#include "Scenario.h"
 #include "Skill.h"
 
 using namespace std;
@@ -52,9 +53,6 @@ int main(int argc, char *argv[])
     bob->add_item(hammer2->get_id());
 
 
-
-
-
     qDebug() << "Bob's stuff:";
     for (auto item_id : bob->inventory.get_items()) {
       qDebug() << main_story.get_items().value(item_id)->get_name();
@@ -64,16 +62,37 @@ int main(int argc, char *argv[])
     qDebug() << "out_of_range exception: " << e.what();
   }
 
+  Character* herman = new Character(attr_map, 10, &main_story);
+  main_story.add_character(herman);
+  herman->set_name("Herr Man");
 
-  GameSave::save(&main_story, "F:\\Projekt\\save.dat");
-  main_story.remove_item(0);
+  rs.add_skill(new Skill("Break those cuffs"));
+  rs.add_skill(new Skill("Eat horse"));
+  bob->add_skill(rs.get_skills().at(0));
+  bob->add_skill(rs.get_skills().at(1));
 
-  for (auto item : main_story.get_items())  {
-    qDebug() << item->get_id();
-    qDebug() << item->get_name();
-    qDebug() << "End_Item";
+  herman->add_skill(rs.get_skills().at(1));
+
+  GameSave::save(&main_story, "F:\\Projekt\\bigsave.dat");
+
+  rs = Ruleset(attr_list);
+  Story second{rs};
+  GameSave::load("F:\\Projekt\\bigsave.dat", &second);
+
+  for (Item* i : second.get_items()) {
+    qDebug() << i->get_id() << ": " << i->get_name();
   }
-  //std::cout << main_story.get_items().value(0)->get_name().toStdString() <<std::endl;
+
+  qDebug();
+
+  for (Character* c : second.get_characters()) {
+    qDebug() << c->get_name();
+    qDebug() << c->get_attribute("health");
+    for (Skill* s : c->get_skills())
+      qDebug() << s->get_name();
+  }
+
+
 
 
   WaitBlock* block1(new WaitBlock);
@@ -216,32 +235,6 @@ try {
   cout << "Health + random is: " << block13->get_value() << endl;
 
 
-  Character* herman = new Character(attr_map, 10, &main_story);
-  main_story.add_character(herman);
-  herman->set_name("Herr Man");
-
-  rs.add_skill(new Skill("Break those cuffs"));
-  rs.add_skill(new Skill("Eat horse"));
-  bob->add_skill(rs.get_skills().at(0));
-  bob->add_skill(rs.get_skills().at(1));
-  herman->add_skill(rs.get_skills().at(1));
-
-  GameSave::save(&main_story, "F:\\Projekt\\bigsave.dat");
-
-  Story second{rs};
-  GameSave::load("F:\\Projekt\\bigsave.dat", &second);
-
-  for (Item* i : second.get_items()) {
-    qDebug() << i->get_id() << ": " << i->get_name();
-  }
-
-  qDebug();
-
-  for (Character* c : second.get_characters()) {
-    qDebug() << c->get_name();
-    qDebug() << c->get_attribute("health");
-    qDebug() << c->get_skills();
-  }
 
   cout << "Testing Scenario" << endl;
 
