@@ -6,7 +6,6 @@
 #include <QMap>
 #include <QFile>
 #include <stdexcept>
-
 #include "LogicBlock.h"
 #include "ModifierBlock.h"
 #include "WaitBlock.h"
@@ -66,6 +65,15 @@ int main(int argc, char *argv[])
   }
 
 
+  GameSave::save(&main_story, "F:\\Projekt\\save.dat");
+  main_story.remove_item(0);
+
+  for (auto item : main_story.get_items())  {
+    qDebug() << item->get_id();
+    qDebug() << item->get_name();
+    qDebug() << "End_Item";
+  }
+  //std::cout << main_story.get_items().value(0)->get_name().toStdString() <<std::endl;
 
 
   WaitBlock* block1(new WaitBlock);
@@ -207,6 +215,7 @@ try {
   block13->execute();
   cout << "Health + random is: " << block13->get_value() << endl;
 
+
   Character* herman = new Character(attr_map, 10, &main_story);
   main_story.add_character(herman);
   herman->set_name("Herr Man");
@@ -233,6 +242,42 @@ try {
     qDebug() << c->get_attribute("health");
     qDebug() << c->get_skills();
   }
+
+  cout << "Testing Scenario" << endl;
+
+  Scenario* scenario1(new Scenario);
+
+  scenario1->set_flag("blunt", true);
+  scenario1->set_flag("critical", false);
+
+  cout << "Blunt? " << scenario1->get_flag("blunt") << endl;
+  cout << "Critical? " << scenario1->get_flag("critical") << endl;
+  cout << "Random? " << scenario1->get_flag("random") << endl;
+
+  scenario1->set_head(block10);
+  scenario1->set_next_block(block10);
+  block10->set_next(block11);
+  block11->set_next(block12);
+  block12->set_next(block13);
+  block10->set_last(false);
+  block11->set_last(true);
+  block12->set_last(true);
+  block13->set_last(false);
+
+  cout << "Depth: " << scenario1->find_turn_depth() << endl;
+
+
+  qDebug() <<  (bob->get_attribute("health") == 7) << endl;
+  scenario1->run();
+  qDebug() << (bob->get_attribute("health") == 5) << endl;
+  qDebug() << (bob->get_attribute("strength") == 7) << endl;
+  qDebug() << (bob->get_attribute("armor") == 1) << endl;
+  scenario1->run();
+  qDebug() << (bob->get_attribute("strength") == 9) << endl;
+  qDebug() << (bob->get_attribute("armor") == 0) << endl;
+  qDebug() << "Health + random is: " << block13->get_value() << endl;
+  scenario1->run();
+  qDebug() << "Health + random is: " << block13->get_value() << endl;
 
   w.show();
   return a.exec();

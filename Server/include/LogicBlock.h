@@ -12,8 +12,8 @@ public:
 class LogicBlock
 {
 private:
-  LogicBlock* next = nullptr;
-  bool last_block;
+  LogicBlock* next{nullptr};
+  bool last_block{false};
 public:
   LogicBlock() = default;
   LogicBlock(LogicBlock&);
