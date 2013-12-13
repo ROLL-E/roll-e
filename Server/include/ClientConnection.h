@@ -44,8 +44,9 @@ private:
     QList<Request*> request_buffer;
 
 public:
+    //QString name; fixa så man kan skicka meddelanden till individuella clientConnections.
     QTcpSocket* clientSocket; // private?
-    explicit ClientConnection(QTcpSocket*,QObject* parent = 0);//uncertain about this constructor...
+    explicit ClientConnection(QTcpSocket*,QObject* parent = 0);
     void send_message(Message) const;
     void push_data(Story*);
     Message* get_message_from_buffer();
@@ -58,6 +59,7 @@ signals:
 
 public slots:
     void connected();
+    void deleteLater(){this->deleteLater();}
     void remote_disconnected();
     void readyRead();
 

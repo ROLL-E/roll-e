@@ -44,7 +44,6 @@ int main(int argc, char *argv[])
     std::cerr << "out_of_range exception: " << e.what() << std::endl;
   }
 
-
   w.show();
 
   return a.exec();

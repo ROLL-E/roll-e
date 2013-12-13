@@ -33,7 +33,6 @@ public:
     void add_character(Character*);
     void add_scenario(Scenario*);
     void add_item(Item*);
-    void add_clientconnection(ClientConnection*);
 
     std::list<Character*> get_characters() const; //when would this be used?
     Fight* get_fight() const;
@@ -47,8 +46,7 @@ public:
     void remove_character(Character*);
     void remove_scenario(Scenario*);
     void remove_item(int);
-    void remove_clientconnection(ClientConnection*);
-    void start_server();
+    void remove_clientconnection(QPointer<ClientConnection>);
 
 signals:
 

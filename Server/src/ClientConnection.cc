@@ -10,6 +10,7 @@ ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QO
 
 void ClientConnection::remote_disconnected(){
   clientSocket->close();
+  emit disconnected();
 }
 
 void ClientConnection::readyRead(){

@@ -34,6 +34,7 @@ public:
   void send_message(Message) const;
   void send_request(Request) const;
   void join(QHostAddress);
+
 public slots:
   void connected();
   void disconnected();

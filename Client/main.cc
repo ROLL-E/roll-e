@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
   ServerConnection testie{};
   testie.join(QHostAddress::LocalHost);
   testie.clientSocket->waitForReadyRead(1000);
+  testie.send_message("client","server","Hiya!");
   for(quint16 i=0; i < 1000; i++){
       testie.send_request(Request{"test",i});
       testie.clientSocket->waitForBytesWritten(100);
