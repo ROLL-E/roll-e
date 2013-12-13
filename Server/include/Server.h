@@ -20,7 +20,6 @@ public:
   explicit Server(QObject* parent = 0);
   QTcpServer* server; //private?
   QList<QPair<QPointer<ClientConnection>,QThread*>> clients;
-  void serverUpdate();
   
 signals:
   void finished();
@@ -29,6 +28,9 @@ public slots:
   void newConnection();
   void client_disconnected();
   void start();
+  void put_message_in_buffer(ClientConnection*);
+  void put_request_in_buffer(ClientConnection*);
+
 };
 
 #endif // SERVER_H

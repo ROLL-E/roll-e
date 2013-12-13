@@ -54,8 +54,8 @@ public:
 
 signals:
     void disconnected();
-//    void got_message(Message&);
-//    void got_request(Request&);
+    void got_message(ClientConnection*);
+    void got_request(ClientConnection*);
 
 public slots:
     void connected();

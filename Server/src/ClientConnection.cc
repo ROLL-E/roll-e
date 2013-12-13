@@ -21,13 +21,13 @@ void ClientConnection::readyRead(){
       Message msg;
       in_stream >> msg;
       message_buffer.push_back(new Message(msg));
-//      emit got_message(msg);
+      emit got_message(this);
     }
   else if (token == QChar('r')) {
       Request req;
       in_stream >> req;
       request_buffer.push_back(new Request(req));
-//      emit got_request(req);
+      emit got_request(this);
     }
 }
 
