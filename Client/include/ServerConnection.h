@@ -2,7 +2,8 @@
 #define SERVERCONNECTION_H
 #include <string>
 #include <vector>
-#include <QtNetwork/QtNetwork>
+#include <QtNetwork>
+#include <QObject>
 
 struct Message {
     QString sender;

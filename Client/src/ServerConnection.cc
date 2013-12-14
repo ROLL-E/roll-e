@@ -1,5 +1,4 @@
 #include "ServerConnection.h"
-#include <QtNetwork/QtNetwork>
 
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
@@ -28,7 +27,7 @@ void ServerConnection::join(QHostAddress address){
 }
 
 void ServerConnection::connected(){
-  qDebug() << "Connection established!";
+    qDebug() << "Connection established!";
 }
 
 void ServerConnection::disconnected(){
