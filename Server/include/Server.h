@@ -15,7 +15,6 @@ private:
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();
 
-
 public:
   explicit Server(QObject* parent = 0);
   QTcpServer* server; //private?
@@ -23,13 +22,15 @@ public:
   
 signals:
   void finished();
+  void got_something();
 
 public slots:
   void newConnection();
   void client_disconnected();
   void start();
-  void put_message_in_buffer(ClientConnection*);
-  void put_request_in_buffer(ClientConnection*);
+  void update_messages_and_requests(ClientConnection*);
+  void push_data(); // Give story*?
+  void redirect_messages();
 
 };
 

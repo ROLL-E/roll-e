@@ -10,30 +10,36 @@ ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QO
 
 void ClientConnection::remote_disconnected(){
   clientSocket->close();
+  //this should make sure that both the clientconnection and its thread is terminated.
   emit disconnected();
 }
 
 void ClientConnection::readyRead(){
   QChar token;
   QDataStream in_stream(clientSocket);
+  // Are there more messages to recieve?
+  while(clientSocket->bytesAvailable()){
   in_stream >> token;
+  // What kind of message did we recieve?
   if (token == QChar('m')) {
       Message msg;
       in_stream >> msg;
       message_buffer.push_back(new Message(msg));
-      emit got_message(this);
     }
   else if (token == QChar('r')) {
       Request req;
       in_stream >> req;
       request_buffer.push_back(new Request(req));
-      emit got_request(this);
     }
+  }
+  emit got_something(this);
 }
 
 
 void ClientConnection::connected(){
   qDebug() << "Connection!\n";
+  //since the server only acts in response to events there is no need for Nadle's algorithm.
+  clientSocket->setSocketOption(QAbstractSocket::LowDelayOption,1);
 }
 
 void ClientConnection::send_message(Message msg) const{
@@ -42,6 +48,8 @@ void ClientConnection::send_message(Message msg) const{
 }
 
 void ClientConnection::push_data(Story*){
+    //behöver veta hur storys och klientens information kommer se ut för att göra klart den här,
+    // eg, blir nog bäst att lämna till efter merge.
   qDebug() << clientSocket->write("push_data() not yet implemented.");
 }
 
