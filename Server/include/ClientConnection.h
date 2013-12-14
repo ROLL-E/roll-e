@@ -43,9 +43,10 @@ private:
     QList<Message*> message_buffer;
     QList<Request*> request_buffer;
 
-public:
-    //QString name; fixa så man kan skicka meddelanden till individuella clientConnections.
-    QTcpSocket* clientSocket; // private?
+protected:
+    // QString name; to enable private messages?
+    // we need some way for a connection to identify it's corresponding character.
+    QTcpSocket* clientSocket;
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);
     void send_message(Message) const;
     void push_data(Story*);
@@ -54,12 +55,10 @@ public:
 
 signals:
     void disconnected();
-    void got_message(ClientConnection*);
-    void got_request(ClientConnection*);
+    void got_something(ClientConnection*);
 
 public slots:
     void connected();
-    void deleteLater(){this->deleteLater();}
     void remote_disconnected();
     void readyRead();
 

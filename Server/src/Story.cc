@@ -8,11 +8,12 @@ Story::Story(Ruleset& new_ruleset)
   myServer = new Server;
   netThread = new QThread;
   myServer->moveToThread(netThread);
-  //connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
+  // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
   connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
   connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
   connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
   connect(netThread, SIGNAL(finished()), netThread, SLOT(deleteLater()));
+  // Start the networking
   netThread->start();
 }
 
