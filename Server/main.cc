@@ -14,6 +14,7 @@
 #include "GameSave.h"
 #include "Character.h"
 #include "Item.h"
+#include "Fight.h"
 
 using namespace std;
 
@@ -55,10 +56,10 @@ try {
     std::cerr << "out_of_range exception: " << e.what() << std::endl;
   }
 
-  GameSave::save(&main_story, "F:\\Projekt\\save.dat");
+  /*GameSave::save(&main_story, "F:\\Projekt\\save.dat");
   main_story.remove_item(0);
 
-  GameSave::load("F:\\Projekt\\save.dat", &main_story);
+  GameSave::load("F:\\Projekt\\save.dat", &main_story);*/
 
   for (auto item : main_story.get_items())  {
     qDebug() << item->get_id();
@@ -243,6 +244,36 @@ try {
   scenario1->run();
   qDebug() << "Health + random is: " << block13->get_value() << endl;
 
+  cout << "Testing fight" << endl;
+
+  Fight* fight1(new Fight);
+
+  Character* fredrik(new Character(attr_map, 40));
+
+  Scenario* scen1(new Scenario);
+  Scenario* scen2(new Scenario);
+  ModifierBlock* block14(new ModifierBlock);
+  block14->set_last(true);
+  ModifierBlock* block15(new ModifierBlock);
+  block15->set_last(true);
+
+  block14->set_next(block15);
+
+  scen2->set_head(block14);
+  scen2->set_next_block((block14));
+
+  fight1->add_character(bob);
+  fight1->add_character(fredrik);
+
+  fight1->add_scenario(bob,scen1);
+
+  cout << "scen2.find_depth(): " << scen2->find_turn_depth() << endl;
+
+  fight1->use_active(scen2);
+
+  WaitBlock* next_block3 = dynamic_cast<WaitBlock*>(scen1->get_next_block());
+
+  cout << "scen1.get_next()->get_wait_turns: " << next_block3->get_wait_turns() << endl;
 
   w.show();
   return a.exec();
