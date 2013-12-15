@@ -11,14 +11,18 @@ private:
 
 public:
     Inventory(int);
-    Inventory(Inventory&);
-    void add_item(int);
-    void remove_item(int);
-    bool has_item(int);
-    void set_max_weight(int);
+    Inventory(const Inventory&);
+
     int get_weight() const;
     int get_max_weight() const;
     std::list<int> get_equipped() const;
+    bool has_item(int) const;
+
+    void set_max_weight(int);
+
+    void add_item(int);
+    void remove_item(int);
+
     void equip(int);
     void unequip(int);
 };
