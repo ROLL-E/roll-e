@@ -1,4 +1,5 @@
 #include "ModifierBlock.h"
+#include <iostream>
 
 using namespace std;
 
@@ -32,6 +33,8 @@ void ModifierBlock::remove_modifier(string name) {
 }
 
 LogicBlock* ModifierBlock::execute() {
+
+    cout << "Running block" << endl;
 
     for (map<string, int>::iterator it = modifiers.begin(); it != modifiers.end(); ++it)
         target->add_to_attribute(it->first, it->second);

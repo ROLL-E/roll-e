@@ -28,7 +28,8 @@ SOURCES += main.cc\
     src/Inventory.cc \
     src/Ruleset.cc \
     src/Scenario.cc \
-    src/GameSave.cc
+    src/GameSave.cc \
+    src/Fight.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
