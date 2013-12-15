@@ -33,6 +33,15 @@ void Fight::run_next_turn() {
     for (list<Scenario*>::iterator it = list_to_run.begin(); it != list_to_run.end(); ++it) {
         (*it)->run();
     }
+    if (current_character < list_of_characters.size() - 1)
+        ++current_character;
+    else
+        current_character = 0;
+}
+
+void Fight::run_next_round() {
+    for (uint16_t i{0}; i < list_of_characters.size(); ++i)
+        run_next_turn();
 }
 
 Character* Fight::get_current_character() const{
