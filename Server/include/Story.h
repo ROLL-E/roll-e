@@ -34,6 +34,7 @@ public:
     void add_item(Item*);
 
     QList<Character*> get_characters() const; //when would this be used?
+    Character* get_character(QString);
     Fight* get_fight() const;
     std::list<Scenario*> get_scenarios() const;
     Ruleset& get_ruleset() const;

@@ -70,7 +70,10 @@ void Server::push_data(Story* story){ // Might need story* here.
     // we need to implement character and story for this
     while(0 < request_buffer.size()){
         Request* req = request_buffer.takeFirst();
-        qDebug() << req->type << req->id;
+        if(req->type == "item"){
+            QList::const_iterator it = Story.get_character();
+
+        }
     }
 }
 
@@ -80,22 +83,11 @@ void Server::redirect_messages(Story* story){
     try{
         while(0 < message_buffer.size()){
             Message* msg = message_buffer.takeFirst();
-            QList::const_iterator it = story->get_characters().cbegin();
-            // Find the character whom the message is for
-            while((*it)->get_name() != msg->recevier){
-                it++;
-                if(it = story->get_characters().cend()){
-                    it = story->get_characters().cbegin();
-                    // Reciever not found, return to sender
-                    while((*it)->get_name() != msg->sender){
-                        it++;
-                        if(it = story->get_characters().cend())
-                            // Neither sender nor receiver found, wtf?!
-                            throw(std::out_of_range("could not find receiver, this should be impossible."));
-                    }
-                }
+            try{
+
+            }catch(std::out_of_range e){
+
             }
-            (*it)->get_client().send_message(msg);
         }
     }catch(std::out_of_range e){
         qDebug << e.what();

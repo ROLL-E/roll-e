@@ -22,6 +22,7 @@ struct Request {
   Request() = default;
   Request(const Request&) = default;
   QString type;
+  QString sender;
   quint16 id;
 };
 

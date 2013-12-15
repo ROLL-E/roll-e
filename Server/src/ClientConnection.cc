@@ -65,7 +65,7 @@ QDataStream& operator>>(QDataStream& in, Message& msg) {
 }
 
 QDataStream& operator>>(QDataStream& in, Request& req) {
-  in >> req.type >> req.id;
+  in >> req.type >> req.id >> req.sender;
   return in;
 }
 

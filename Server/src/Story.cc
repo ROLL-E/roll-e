@@ -34,6 +34,17 @@ QList<Character *> Story::get_characters() const {
   return characters;
 }
 
+Character* Story::get_character(QString name){
+    QList::const_iterator it = characters.cbegin();
+    while((*it)->get_name() != name){
+        it++;
+        if(it = characters.cend()){
+            throw(std::out_of_range("could not find receiver, this should be impossible."));
+        }
+    }
+    return (*it);
+}
+
 Fight* Story::get_fight() const {
   return current_fight;
 }
