@@ -133,6 +133,16 @@ int ValueBlock::roll() const {
     return temp;
 }
 
+int ValueBlock::fetch_item_bonus(int id) const {
+    int result{0};
+    //Qmap<int,Item*> items = current_story->get_items();
+    list<int>::const_iterator it_applicable;
+    for (it_applicable = applicable_items.cbegin(); it_applicable != applicable_items.end(); ++it_applicable) {
+        //if (*it_applicable == id)
+            // result += items.find(*it_applicable)->get_bouns(); //Solve later!!
+    }
+}
+
 
 LogicBlock* ValueBlock::execute() {
     if (intention == 's')
@@ -144,6 +154,7 @@ LogicBlock* ValueBlock::execute() {
         list<string>::iterator it;
         for (it = attributes.begin(); it != attributes.end(); ++it)
             value += target->get_attribute(*it);
+
         value += roll();
     }
     return this->get_next(); //Not yet implemented

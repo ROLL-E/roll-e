@@ -22,7 +22,6 @@ private:
   std::map<std::string,bool> flags;
   
   int roll() const;
-  int fetch_attribute(const std::string&) const;
   int fetch_item_bonus(int) const;
   int fetch_skill_bonus(const std::string&) const;
   int modify(int) const;
