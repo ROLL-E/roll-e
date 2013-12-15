@@ -266,14 +266,12 @@ try {
   fight1->add_character(fredrik);
 
   fight1->add_scenario(bob,scen1);
+  fight1->add_scenario(bob,scen2);
 
-  cout << "scen2.find_depth(): " << scen2->find_turn_depth() << endl;
+  scen1->set_next_block(block14);
+  scen2->set_next_block(block15);
 
-  fight1->use_active(scen2);
-
-  WaitBlock* next_block3 = dynamic_cast<WaitBlock*>(scen1->get_next_block());
-
-  cout << "scen1.get_next()->get_wait_turns: " << next_block3->get_wait_turns() << endl;
+  fight1->run_next_turn();
 
   w.show();
   return a.exec();

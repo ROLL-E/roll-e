@@ -22,6 +22,7 @@ public:
     void remove_character(Character*);
     void add_scenario(Character*, Scenario*);
     void remove_scenario(Character* , Scenario*);
+    Character* get_current_character() const;
 };
 
 #endif

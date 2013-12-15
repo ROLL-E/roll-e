@@ -21,25 +21,24 @@ void Fight::remove_scenario(Character* character, Scenario* scenario) {
 }
 
 void Fight::use_active(Scenario* scenario) {
-    list<Character*>::iterator it;
-    it = list_of_characters.begin();
-    advance(it,current_character);
 
-    add_scenario(*it,scenario); //Adding scenario to current character.
+    add_scenario(get_current_character(),scenario); //Adding scenario to current character.
 
-    character_scenarios.at(*it).front()->wait_turns(scenario->find_turn_depth()); //Adding WaitBlocks to main scenario for the current character.
+    character_scenarios.at(get_current_character()).front()->wait_turns(scenario->find_turn_depth()); //Adding WaitBlocks to main scenario for the current character.
 }
 
-
 void Fight::run_next_turn() {
-    list<Character*>::iterator it;
-    it = list_of_characters.begin();
+    list<Scenario*> list_to_run = character_scenarios.at(get_current_character());
+
+    for (list<Scenario*>::iterator it = list_to_run.begin(); it != list_to_run.end(); ++it) {
+        (*it)->run();
+    }
+}
+
+Character* Fight::get_current_character() const{
+    list<Character*>::const_iterator it;
+    it = list_of_characters.cbegin();
     advance(it,current_character);
-
-    list<Scenario*> list_to_run = character_scenarios.at(*it);
-
-    for_each (list_to_run.begin(), list_to_run.end(), run);
-
-
+    return *it;
 }
 
