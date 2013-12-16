@@ -18,7 +18,8 @@ SOURCES += main.cc\
     src/placeholder.cc \
     src/Character.cc \
     src/Item.cc \
-    src/Skill.cc
+    src/Skill.cc \
+    src/ClientInventory.cc
 
 
 

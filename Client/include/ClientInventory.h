@@ -2,6 +2,8 @@
 #define CLIENTINVENTORY_H
 #include <list>
 
+class Item;
+
 class ClientInventory {
 private:
     std::list<Item*> items;
@@ -11,16 +13,17 @@ private:
 
 public:
     ClientInventory(int);
-    ClientInventory(ClientInventory& other) {};
-    void add_item(int);
-    void remove_item(int);
-    bool has_item(int) const;
-    void set_max_weight(int);
+    ClientInventory(const ClientInventory&);
+    void add_item(Item*);
+    void remove_item(Item*);
+    bool has_item(Item*) const;
+    void set_max_weight(Item*);
     int get_weight() const;
     int get_max_weight() const;
+    void set_max_weight(int);
     std::list<Item*> get_equipped() const;
-    void equip(int);
-    void unequip(int);
+    void equip(Item*);
+    void unequip(Item*);
 };
 
 #endif

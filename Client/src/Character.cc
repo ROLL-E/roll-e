@@ -47,16 +47,24 @@ void Character::remove_skill(Skill* skill_to_remove) {
   skills.remove(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
 }
 
-void Character::add_item(int new_id) {
-  inventory.add_item(new_id);
+void Character::add_item(Item* new_item) {
+  inventory.add_item(new_item);
 }
 
-void Character::remove_item(int id_to_remove) {
-  inventory.remove_item(id_to_remove);
+void Character::remove_item(Item* item_to_remove) {
+  inventory.remove_item(item_to_remove);
 }
 
-bool Character::has_item(int id) const {
-  return inventory.has_item(id);
+bool Character::has_item(Item* item) const {
+  return inventory.has_item(item);
+}
+
+ServerConnection* Character::get_server() const {
+    return server;
+}
+
+void Character::set_server(ServerConnection* new_server) {
+    server = new_server;
 }
 
 

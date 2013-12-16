@@ -23,9 +23,12 @@ public:
   std::list<Skill*> get_skills() const;
   void add_skill(Skill*);
   void remove_skill(Skill*);
-  void add_item(int);
-  void remove_item(int);
-  bool has_item(int) const;
+  void add_item(Item*);
+  void remove_item(Item*);
+  bool has_item(Item*) const;
+
+  ServerConnection* get_server() const;
+  void set_server(ServerConnection*);
   
 private:
   std::string name;
