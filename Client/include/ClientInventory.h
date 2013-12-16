@@ -11,10 +11,10 @@ private:
 
 public:
     ClientInventory(int);
-    ClientInventory(ClientInventory&);
+    ClientInventory(ClientInventory& other) {};
     void add_item(int);
     void remove_item(int);
-    bool has_item(int);
+    bool has_item(int) const;
     void set_max_weight(int);
     int get_weight() const;
     int get_max_weight() const;
