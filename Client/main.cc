@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     testie.join(QHostAddress("192.168.1.35"));
     if(testie.clientSocket->isValid()){
         testie.send_message(Message{"client","server","Hiya!"});
-        for(quint16 i=0; i<1000;i++){
+        for(quint16 i=0; i<10000;i++){
             testie.send_request(Request{"test",i});
             testie.clientSocket->flush();
             std::this_thread::sleep_for(std::chrono::milliseconds(3));
