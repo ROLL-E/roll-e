@@ -1,13 +1,13 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
-#include <list>
+#include <QList>
 
 class Inventory {
 private:
-    std::list<int> items;
+    QList<int> items;
     int max_weight;
     int current_weight;
-    std::list<int> equipped;
+    QList<int> equipped;
 
 public:
     Inventory(int);
@@ -15,7 +15,8 @@ public:
 
     int get_weight() const;
     int get_max_weight() const;
-    std::list<int> get_equipped() const;
+    QList<int> get_equipped() const;
+    QList<int> get_items() const;
     bool has_item(int) const;
 
     void set_max_weight(int);

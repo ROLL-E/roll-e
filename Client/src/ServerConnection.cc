@@ -61,7 +61,7 @@ QDataStream& operator<<(QDataStream& out, Message& msg) {
 }
 
 QDataStream& operator<<(QDataStream& out, Request& req) {
-  out << req.type << req.id;
+  out << req.type << req.id << req.sender;
   return out;
 }
 

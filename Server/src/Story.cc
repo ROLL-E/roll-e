@@ -3,12 +3,13 @@
 
 using namespace std;
 
-Story::Story(Ruleset& new_ruleset)
-  : ruleset(new_ruleset) {
+Story::Story(Ruleset& new_ruleset) : ruleset(new_ruleset) {
   myServer = new Server;
   netThread = new QThread;
   myServer->moveToThread(netThread);
   // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
+  connect(myServer, SIGNAL(got_message()), myServer, SLOT(redirect_messages(this)));
+  connect(myServer,SIGNAL(got_request()),myServer,SLOT(push_data(this)));
   connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
   connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
   connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
@@ -29,8 +30,19 @@ void Story::add_item(Item* new_item) {
   items[new_item->get_id()] = new_item;
 }
 
-std::list<Character*> Story::get_characters() const {
+QList<Character *> Story::get_characters() const {
   return characters;
+}
+
+Character* Story::get_character(QString name){
+    QList::const_iterator it = characters.cbegin();
+    while((*it)->get_name() != name){
+        it++;
+        if(it = characters.cend()){
+            throw(std::out_of_range("could not find receiver, this should be impossible."));
+        }
+    }
+    return (*it);
 }
 
 Fight* Story::get_fight() const {
@@ -64,4 +76,3 @@ void Story::remove_scenario(Scenario* scenario_to_remove) {
 void Story::remove_item(int id_to_remove) {
   items.erase(id_to_remove);
 }
-

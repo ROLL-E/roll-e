@@ -2,8 +2,11 @@
 #define SERVER_H
 
 #include "ClientConnection.h"
+#include "Story.h"
+#include <QList>
 
 class Client;
+class Story;
 
 class Server : public QObject
 {
@@ -22,15 +25,16 @@ public:
   
 signals:
   void finished();
-  void got_something();
+  void got_message();
+  void got_request();
 
 public slots:
   void newConnection();
   void client_disconnected();
   void start();
   void update_messages_and_requests(ClientConnection*);
-  void push_data(); // Give story*?
-  void redirect_messages();
+  void push_data(Story*);
+  void redirect_messages(Story*);
 
 };
 

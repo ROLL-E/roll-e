@@ -22,6 +22,7 @@ struct Request {
   Request() = default;
   Request(const Request&) = default;
   QString type;
+  QString sender;
   quint16 id;
 };
 
@@ -49,7 +50,7 @@ protected:
     QTcpSocket* clientSocket;
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);
     void send_message(Message) const;
-    void push_data(Story*);
+    void push_data(); // Send Story* ?
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();
 

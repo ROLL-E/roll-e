@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
     ClientWindow w;
     w.show();
     ServerConnection testie{};
-    testie.join(QHostAddress("192.168.1.35"));
+    testie.join(QHostAddress("130.236.77.252")); // ("192.168.1.35")
     if(testie.clientSocket->isValid()){
         testie.send_message(Message{"client","server","Hiya!"});
         for(quint16 i=0; i<10000;i++){
             testie.send_request(Request{"test",i});
             testie.clientSocket->flush();
-            std::this_thread::sleep_for(std::chrono::milliseconds(3));
+            std::this_thread::sleep_for(std::chrono::microseconds(2500));
         }
     }
     return a.exec();

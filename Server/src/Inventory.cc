@@ -22,8 +22,12 @@ int Inventory::get_max_weight() const {
   return max_weight;
 }
 
-list<int> Inventory::get_equipped() const {
+QList<int> Inventory::get_equipped() const {
   return equipped;
+}
+
+QList<int> Inventory::get_items() const {
+    return items;
 }
 
 bool Inventory::has_item(int id) const {

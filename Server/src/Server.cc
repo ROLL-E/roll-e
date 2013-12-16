@@ -1,5 +1,5 @@
 #include "Server.h"
-#include <QList>
+
 
 Server::Server(QObject *parent) : QObject(parent){
     server = new QTcpServer(this);
@@ -13,8 +13,6 @@ void Server::newConnection() {
     // Meaty because we need the actual pointers of the clientconnection and its thread located in the list to setup the connection.
     // Not sure how QObject sets up the connection, might be possible to clean this up.
     connect(clients.first().first, SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
-    connect(this,SIGNAL(got_something()),this,SLOT(push_data())); // Might need a story* here.
-    connect(this,SIGNAL(got_something()),this,SLOT(redirect_messages()));
     connect(clients.first().first, SIGNAL(disconnected()), this, SLOT(client_disconnected()));
     connect(clients.first().first,SIGNAL(disconnected()),clients.first().first,SLOT(deleteLater()));
     connect(clients.first().first,SIGNAL(disconnected()), clients.first().second,SLOT(quit()));
@@ -47,14 +45,15 @@ void Server::update_messages_and_requests(ClientConnection* client){
         Message* msg = client->get_message_from_buffer();
         if(msg != nullptr)
             message_buffer.append(msg);
-    } // If the client has any pending requests, then get them.
+    }
+    emit got_message();
+    // If the client has any pending requests, then get them.
     while(0 < client->request_buffer.size()){
         Request* req = client->get_request_from_buffer();
         if(req != nullptr)
             request_buffer.append(req);
     }
-    // Tell ourself that we have something (messages/requests) to work with.
-    emit got_something();
+    emit got_request();
 }
 
 
@@ -67,19 +66,30 @@ void Server::start(){
     }
 }
 
-void Server::push_data(){ // Might need story* here.
+void Server::push_data(Story* story){ // Might need story* here.
     // we need to implement character and story for this
     while(0 < request_buffer.size()){
         Request* req = request_buffer.takeFirst();
-        qDebug() << req->type << req->id;
+        if(req->type == "item"){
+            QList::const_iterator it = Story.get_character();
+
+        }
     }
 }
 
-void Server::redirect_messages(){
+void Server::redirect_messages(Story* story){
     // This should just redirect the message to intendet reciever based on
     // the reciever-field in msg.
-    while(0 < message_buffer.size()){
-        Message* msg = message_buffer.takeFirst();
-        qDebug() << msg->sender << " says " << msg->message << " to " << msg->recevier;
+    try{
+        while(0 < message_buffer.size()){
+            Message* msg = message_buffer.takeFirst();
+            try{
+
+            }catch(std::out_of_range e){
+
+            }
+        }
+    }catch(std::out_of_range e){
+        qDebug << e.what();
     }
 }

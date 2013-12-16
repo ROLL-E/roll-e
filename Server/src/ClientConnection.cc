@@ -1,5 +1,4 @@
 #include <ClientConnection.h>
-class Story;
 
 ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QObject(parent) {
   clientSocket = connection;
@@ -10,7 +9,7 @@ ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QO
 
 void ClientConnection::remote_disconnected(){
   clientSocket->close();
-  //this should make sure that both the clientconnection and its thread is terminated.
+  // This should make sure that both the clientconnection and its thread is terminated.
   emit disconnected();
 }
 
@@ -18,9 +17,10 @@ void ClientConnection::readyRead(){
   QChar token;
   QDataStream in_stream(clientSocket);
   // Are there more messages to recieve?
-  while(clientSocket->bytesAvailable()){
+  while(!clientSocket->atEnd()){
   in_stream >> token;
   // What kind of message did we recieve?
+  // To add a new kind of packet, just add another char.
   if (token == QChar('m')) {
       Message msg;
       in_stream >> msg;
@@ -38,7 +38,8 @@ void ClientConnection::readyRead(){
 
 void ClientConnection::connected(){
   qDebug() << "Connection!\n";
-  //since the server only acts in response to events there is no need for Nadle's algorithm.
+  // Since the server only acts in response to events there is no need for Nadle's algorithm.
+  // We might still need a slight delay on the clientside to prevent missahps though.
   clientSocket->setSocketOption(QAbstractSocket::LowDelayOption,1);
 }
 
@@ -47,7 +48,7 @@ void ClientConnection::send_message(Message msg) const{
   out_stream << QChar('m') << msg;
 }
 
-void ClientConnection::push_data(Story*){
+void ClientConnection::push_data(){
     //behöver veta hur storys och klientens information kommer se ut för att göra klart den här,
     // eg, blir nog bäst att lämna till efter merge.
   qDebug() << clientSocket->write("push_data() not yet implemented.");
@@ -64,7 +65,7 @@ QDataStream& operator>>(QDataStream& in, Message& msg) {
 }
 
 QDataStream& operator>>(QDataStream& in, Request& req) {
-  in >> req.type >> req.id;
+  in >> req.type >> req.id >> req.sender;
   return in;
 }
 
