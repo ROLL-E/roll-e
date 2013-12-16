@@ -127,7 +127,7 @@ void ValueBlock::remove_flag(const string& name) {
 
 int ValueBlock::roll() const {
     int temp{0};
-    srand(time(NULL));
+    srand(time_t(NULL));
     for (int i{0}; i < number ; ++i)
         temp += (rand() % sides) + 1;
     return temp;
