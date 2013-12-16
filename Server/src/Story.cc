@@ -1,15 +1,13 @@
 #include "Story.h"
 #include "Item.h"
 
-using namespace std;
-
 Story::Story(Ruleset& new_ruleset) : ruleset(new_ruleset) {
   myServer = new Server;
   netThread = new QThread;
   myServer->moveToThread(netThread);
   // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
-  connect(myServer, SIGNAL(got_message()), myServer, SLOT(redirect_messages(this)));
-  connect(myServer,SIGNAL(got_request()),myServer,SLOT(push_data(this)));
+  connect(myServer, SIGNAL(got_message()), this, SLOT(redirect_messages()));
+  connect(myServer,SIGNAL(got_request()),this, SLOT(push_data()));
   connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
   connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
   connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
@@ -35,10 +33,10 @@ QList<Character *> Story::get_characters() const {
 }
 
 Character* Story::get_character(QString name){
-    QList::const_iterator it = characters.cbegin();
+    QList<Character*>::const_iterator it = characters.cbegin();
     while((*it)->get_name() != name){
         it++;
-        if(it = characters.cend()){
+        if(it == characters.cend()){
             throw(std::out_of_range("could not find receiver, this should be impossible."));
         }
     }
@@ -57,7 +55,7 @@ Ruleset& Story::get_ruleset() const {
   return ruleset;
 }
 
-QMap<int, Item*> Story::get_items() const {
+QMap<int, Item *> Story::get_items() const {
   return items;
 }
 
@@ -65,12 +63,12 @@ void Story::set_fight(Fight* new_fight) {
   current_fight = new_fight;
 }
 
-void Story::set_items(QMap<int, Item*> map) {
+void Story::set_items(QMap<int, Item *> map) {
   items = map;
 }
 
 void Story::remove_character(Character* char_to_remove) {
-  characters.remove(char_to_remove);
+  characters.removeOne(char_to_remove);
 }
 
 void Story::remove_scenario(Scenario* scenario_to_remove) {
@@ -79,4 +77,12 @@ void Story::remove_scenario(Scenario* scenario_to_remove) {
 
 void Story::remove_item(int id_to_remove) {
   items.remove(id_to_remove);
+}
+
+void Story::redirect_messages(){
+    myServer->redirect_messages(this);
+}
+
+void Story::push_data(){
+    myServer->push_data(this);
 }

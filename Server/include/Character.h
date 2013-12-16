@@ -9,7 +9,7 @@
 
 class Character {
 private:
-    std::string name;
+    QString name;
     QPointer<ClientConnection> client;
     std::map<std::string, int> attributes;
     std::list<Skill*> skills;
@@ -19,8 +19,8 @@ public:
     Inventory inventory;
     Character(std::map<std::string, int>, int);
     Character(const Character&);
-    std::string get_name() const;
-    void set_name(const std::string&);
+    QString get_name() const;
+    void set_name(const QString &);
     int get_attribute(std::string) const;
 
     void add_to_attribute(const std::string&, int);

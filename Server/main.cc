@@ -36,23 +36,23 @@ int main(int argc, char *argv[])
   Character* bob = main_story.get_characters().front();
 
   bob->set_name("Bob");
-  std::cout << bob->get_name() << std::endl;
+  qDebug() << bob->get_name() << endl;
 
-  std::cout << "bob's health" << bob->get_attribute("health") << std::endl;
+  qDebug() << "bob's health" << bob->get_attribute("health") << endl;
   bob->take_damage("blunt", 3);
-  std::cout << "bob's health after hit" << bob->get_attribute("health") << std::endl;
+  qDebug() << "bob's health after hit" << bob->get_attribute("health") << endl;
 
 try {
   main_story.add_item(new Item("Hammer of doom"));
   bob->add_item(0);
   main_story.add_item(new Item("nicer hammah"));
   bob->add_item(1);
-  std::cout << std::boolalpha << bob->has_item(1) << " " << bob->has_item(2) << std::endl;
-  std::cout << main_story.get_items().value(0)->get_name().toStdString() << std::endl;
-  std::cout << main_story.get_items().value(1)->get_name().toStdString() << std::endl;
+  qDebug() << std::boolalpha << bob->has_item(1) << " " << bob->has_item(2) << endl;
+  qDebug() << main_story.get_items().value(0)->get_name() << endl;
+  qDebug() << main_story.get_items().value(1)->get_name() << endl;
   }
   catch (const std::out_of_range& e) {
-    std::cerr << "out_of_range exception: " << e.what() << std::endl;
+    std::cerr << "out_of_range exception: " << e.what() << endl;
   }
 
   /*GameSave::save(&main_story, "F:\\Projekt\\save.dat");
@@ -65,7 +65,7 @@ try {
     qDebug() << item->get_name();
     qDebug() << "End_Item";
   }
-  //std::cout << main_story.get_items().value(0)->get_name().toStdString() <<std::endl;
+  //qDebug() << main_story.get_items().value(0)->get_name().toStdString() <<endl;
 
   WaitBlock* block1(new WaitBlock);
 

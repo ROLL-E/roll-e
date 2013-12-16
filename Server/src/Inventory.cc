@@ -43,7 +43,7 @@ void Inventory::add_item(int id_to_add) {
 }
 
 void Inventory::remove_item(int id_to_remove) {
-  items.remove(id_to_remove);
+  items.removeOne(id_to_remove);
 }
 
 void Inventory::equip(int id_to_equip){
@@ -51,7 +51,7 @@ void Inventory::equip(int id_to_equip){
 }
 
 void Inventory::unequip(int id_to_unequip) {
-  equipped.remove(id_to_unequip);
+  equipped.removeOne(id_to_unequip);
 }
 
 

@@ -1,4 +1,5 @@
 #include "Server.h"
+#include <iostream>
 
 
 Server::Server(QObject *parent) : QObject(parent){
@@ -68,13 +69,7 @@ void Server::start(){
 
 void Server::push_data(Story* story){ // Might need story* here.
     // we need to implement character and story for this
-    while(0 < request_buffer.size()){
-        Request* req = request_buffer.takeFirst();
-        if(req->type == "item"){
-            QList::const_iterator it = Story.get_character();
 
-        }
-    }
 }
 
 void Server::redirect_messages(Story* story){
@@ -90,6 +85,6 @@ void Server::redirect_messages(Story* story){
             }
         }
     }catch(std::out_of_range e){
-        qDebug << e.what();
+        std::cout << e.what();
     }
 }

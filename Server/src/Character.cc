@@ -14,11 +14,11 @@ Character::Character(const Character& other)
     inventory(other.inventory) {
 }
 
-string Character::get_name() const {
+QString Character::get_name() const {
   return name;
 }
 
-void Character::set_name(const string& new_name) {
+void Character::set_name(const QString& new_name) {
   name = new_name;
 }
 

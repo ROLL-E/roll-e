@@ -3,6 +3,7 @@
 #include "ClientConnection.h"
 #include "Ruleset.h"
 #include "Server.h"
+#include "Character.h"
 #include <list>
 #include <QThread>
 #include <QObject>
@@ -12,13 +13,14 @@ class Item;
 class Fight;
 class Scenario;
 class Character;
+class Server;
 
 class Story : public QObject {
 
   Q_OBJECT
 
 private:
-    QMap<QString,Character*> characters;
+    QList<Character*> characters;
     Fight* current_fight;
     std::list<Scenario*> current_scenarios;
     Ruleset& ruleset;
@@ -39,7 +41,7 @@ public:
     Fight* get_fight() const;
     std::list<Scenario*> get_scenarios() const;
     Ruleset& get_ruleset() const;
-    std::map<int, Item*> get_items() const;
+    QMap<int, Item*> get_items() const;
 
     void set_fight(Fight*);
     void set_items(QMap<int, Item*>);
@@ -50,7 +52,9 @@ public:
 
 signals:
 
-public slots:
+private slots:
+    void redirect_messages();
+    void push_data();
 };
 
 #endif
