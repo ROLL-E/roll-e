@@ -1,12 +1,43 @@
 import QtQuick 2.0
+import QtQuick.Dialogs 1.0
+
 
 Rectangle {
     id: mainWindow
+
+    state: "CHARACTER"
 
     width: 1248
     height: 840
 
     color: "black"
+
+    PopUp {
+        id: openFilePopUp
+
+        width: 400
+        height: 250
+
+        title: "File Loaded"
+
+        Rectangle {
+            color: "black"
+
+            anchors.fill: parent
+        }
+
+        Text {
+            anchors.centerIn: parent
+            color: "green"
+            text: fileDialog.fileUrl
+        }
+    }
+
+    FileDialog {
+        id: fileDialog
+        nameFilters: [ "Text files (*.txt)" ]
+        onAccepted: openFilePopUp.visible = true
+    }
 
     TopMenu {
         id: topMenu
@@ -65,6 +96,7 @@ Rectangle {
         Rectangle {
             id: currentPlayer
 
+
             color: "lightblue"
 
             height: 50
@@ -99,6 +131,8 @@ Rectangle {
         Rectangle {
             id: characterSheet
 
+            visible: characterMenu.activeState === "Attributes"
+
             color: "lightblue"
 
             anchors.top: characterMenu.bottom
@@ -111,6 +145,8 @@ Rectangle {
             ListView {
                 id: attributeList
                 width: 253
+
+                clip: true
 
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
@@ -167,6 +203,8 @@ Rectangle {
         Rectangle {
             id: invetnory
 
+            visible: characterMenu.activeState === "Inventory"
+
             color: "lightblue"
 
             anchors.top: characterMenu.bottom
@@ -191,9 +229,13 @@ Rectangle {
                 GridView {
                     id: itemSelector
 
-                    anchors.fill: parent
+                    anchors.top: parent.top
+                    anchors.right: addItemButton.left
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
 
-                    anchors.margins: 0
+
+                    anchors.margins: 10
 
                     clip: true
 
@@ -203,12 +245,7 @@ Rectangle {
                         height: 50
                         Column {
 
-                            Text {
-                                x: 5
-                                text: name
-                                font.bold: true
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
+
 
                             Rectangle {
                                 id: crectItem
@@ -218,6 +255,14 @@ Rectangle {
                                 border.width: 2
                                 border.color: "black"
                                 anchors.horizontalCenter: parent.horizontalCenter
+
+                                Text {
+                                    text: name
+
+                                    anchors.centerIn: parent
+                                    font.bold: true
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
 
                             spacing: 5
@@ -288,7 +333,22 @@ Rectangle {
                     cellWidth: 70
                 }
 
+                Button {
+                    id: addItemButton
+
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+
+                    width: parent.height - 40
+
+                    anchors.margins: 20
+                    label: "+"
+                }
+
             }
+
+
 
             Rectangle {
                 id: itemDetails
@@ -309,6 +369,8 @@ Rectangle {
             id: skills
 
             color: "lightblue"
+
+            visible: characterMenu.activeState === "Skills"
 
             anchors.top: characterMenu.bottom
             anchors.left: parent.left
@@ -333,9 +395,12 @@ Rectangle {
                 GridView {
                     id: skillSelector
 
-                    anchors.fill: parent
+                    anchors.top: parent.top
+                    anchors.right: addSkillButton.left
+                    anchors.left: parent.left
+                    anchors.bottom: parent.bottom
 
-                    anchors.margins: 0
+                    anchors.margins: 10
 
                     clip: true
 
@@ -345,13 +410,6 @@ Rectangle {
                         height: 50
                         Column {
 
-                            Text {
-                                x: 5
-                                text: name
-                                font.bold: true
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-
                             Rectangle {
                                 id: crectSkill
                                 width: 60
@@ -360,6 +418,14 @@ Rectangle {
                                 border.width: 2
                                 border.color: "black"
                                 anchors.horizontalCenter: parent.horizontalCenter
+
+                                Text {
+                                    text: name
+                                    font.bold: true
+
+                                    anchors.centerIn: parent
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                }
                             }
 
                             spacing: 5
@@ -424,6 +490,19 @@ Rectangle {
                         }
                     }
                     cellWidth: 70
+                }
+
+                Button {
+                    id: addSkillButton
+
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+
+                    width: parent.height - 40
+
+                    anchors.margins: 20
+                    label: "+"
                 }
 
             }
@@ -473,6 +552,7 @@ Rectangle {
             GridView {
                 id: scenarioGridView
                 anchors.fill: parent
+                anchors.topMargin: 20
 
                 clip: true
                 cellHeight: 90
@@ -838,6 +918,66 @@ Rectangle {
         }
 
     }
+    states: [
+        State {
+            name: "CHARACTER"
+
+            PropertyChanges {
+                target: scenarioContainer
+                visible: false
+            }
+
+            PropertyChanges {
+                target: fightContainer
+                visible: false
+            }
+
+            PropertyChanges {
+                target: fightControllContainer
+                x: 10
+                y: 102
+                anchors.topMargin: 12
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
+                anchors.bottomMargin: 8
+            }
+        },
+        State {
+            name: "FIGHT"
+
+            PropertyChanges {
+                target: characterContainer
+                visible: false
+            }
+
+            PropertyChanges {
+                target: scenarioContainer
+                visible: false
+            }
+
+            PropertyChanges {
+                target: fightContainer
+                visible: true
+            }
+        },
+        State {
+            name: "SCENARIO"
+
+            PropertyChanges {
+                target: characterContainer
+                visible: false
+            }
+
+            PropertyChanges {
+                target: scenarioContainer
+            }
+
+            PropertyChanges {
+                target: fightContainer
+                visible: false
+            }
+        }
+    ]
 
 
 }

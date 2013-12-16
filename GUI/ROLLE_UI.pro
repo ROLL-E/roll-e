@@ -31,4 +31,7 @@ OTHER_FILES += \
     qml/ROLLE_UI/LogicBlockSlot.qml \
     qml/ROLLE_UI/CharacterList.qml \
     qml/ROLLE_UI/CharacterDrawer.qml \
-    qml/ROLLE_UI/CharacterMenu.qml
+    qml/ROLLE_UI/CharacterMenu.qml \
+    qml/ROLLE_UI/CharacterContainer.qml \
+    qml/ROLLE_UI/PopUpqml \
+    qml/ROLLE_UI/PopUp.qml

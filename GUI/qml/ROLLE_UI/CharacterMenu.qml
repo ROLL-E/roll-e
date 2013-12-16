@@ -1,12 +1,12 @@
 import QtQuick 2.0
 
 Rectangle {
-    property bool characterButtonActive: false
-    property bool scenarioButtonActive: false
-    property bool fightButtonActive: false
+    property string activeState
 
     id: characterMenu
     height: 100
+
+    state: "ATTRIBUTES"
 
     Row {
         anchors.centerIn: parent
@@ -18,7 +18,7 @@ Rectangle {
 
             color: gameMenu.scenarioButtonActive ? "green" : buttonColor
 
-            onButtonClicked: mainWindow.state = "CHARACTER_ATTRIBUTES"
+            onButtonClicked: characterMenu.state = "ATTRIBUTES"
 
         }
 
@@ -28,7 +28,7 @@ Rectangle {
 
             color: gameMenu.fightButtonActive ? "green" : buttonColor
 
-            onButtonClicked: mainWindow.state = "CHARACTER_INVENTORY"
+            onButtonClicked: characterMenu.state = "INVENTORY"
 
         }
 
@@ -38,10 +38,35 @@ Rectangle {
 
             color: gameMenu.fightButtonActive ? "green" : buttonColor
 
-            onButtonClicked: mainWindow.state = "CHARACTER_SKILLS"
+            onButtonClicked: characterMenu.state = "SKILLS"
 
         }
 
     }
+    states: [
+        State {
+            name: "ATTRIBUTES"
+            PropertyChanges {
+                target: characterMenu
+                activeState: "Attributes"
+
+            }
+        },
+        State {
+            name: "SKILLS"
+
+            PropertyChanges {
+                target: characterMenu
+                activeState: "Skills"
+            }
+        },
+        State {
+            name: "INVENTORY"
+            PropertyChanges {
+                target: characterMenu
+                activeState: "Inventory"
+            }
+        }
+    ]
 
 }

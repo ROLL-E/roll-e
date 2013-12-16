@@ -32,18 +32,32 @@ Rectangle {
         }
 
         Button {
-            id: saveLoadMenuButton
+            id: saveMenuButton
 
             labelSize: 6
-            label: "Save/Load"
+            label: "Save"
 
 
             buttonWidth: 80
             buttonHeight: 30
 
-            onButtonClicked: mainWindow.state = "SAVE/LOAD"
+        }
+
+        Button {
+            id: loadMenuButton
+
+            labelSize: 6
+            label: "Load"
+
+
+            buttonWidth: 80
+            buttonHeight: 30
+
+            onButtonClicked: fileDialog.open()
 
         }
+
+
 
         Button {
             id: exitMenuButton
