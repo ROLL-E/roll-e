@@ -2,342 +2,1116 @@ import QtQuick 2.0
 
 Rectangle {
     id: mainWindow
-    width: 1024
+
+    width: 1248
     height: 840
 
     color: "black"
 
-    Flickable {
-        id: characterSheet
-        width: parent.width
-        height: parent.height-topMenu.height-gameMenu.height
-        visible: false
-        anchors.top: gameMenu.bottom
-
-        contentWidth: parent.width
-        contentHeight: pergamentImage.height
-
-
-
-        Image {
-            id: pergamentImage
-            anchors.top: parent.top
-
-            source: "pergament2.png"
-
-            Text {
-                id: text2
-                x: 189
-                y: 221
-                text: "HP: "
-                opacity: 0
-                font.pixelSize: 12
-            }
-
-            TextInput {
-                id: text_input1
-                x: 417
-                y: 439
-                width: 80
-                height: 20
-                text: "40"
-                opacity: 0
-                font.pixelSize: 12
-            }
-
-            Text {
-                id: text3
-                x: 179
-                y: 367
-                text: qsTr("Text")
-                opacity: 0
-                font.pixelSize: 12
-            }
-
-            TextInput {
-                id: text_input2
-                x: 345
-                y: 452
-                width: 80
-                height: 20
-                text: qsTr("Text")
-                opacity: 0
-                font.pixelSize: 12
-            }
-
-            Text {
-                id: text4
-                x: 224
-                y: 712
-                text: qsTr("Text")
-                opacity: 0
-                font.pixelSize: 12
-            }
-        }
-
-    }
-
-    Rectangle {
-        id: scenario_temp
-
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: gameMenu.bottom
-        anchors.bottom: parent.bottom
-
-        color: "cyan"
-
-        Text {
-            id: text1
-            anchors.centerIn: parent
-            text: "Här ska det finnas saker sen..."
-        }
-
-        LogicBlock {
-            id: logicblock1
-
-            colorKey: "red"
-
-            x: 421
-            y: 229
-            opacity: 0
-        }
-
-        LogicBlockSlot {
-            id: logicblockslot1
-
-            colorKey: "red"
-            x: 605
-            y: 226
-            opacity: 0
-        }
-
-        LogicBlock {
-            id: logicblock2
-
-            colorKey: "blue"
-            blockLabel: "OB"
-            x: 370
-            y: 344
-            opacity: 0
-        }
-
-        LogicBlockSlot {
-            id: logicblockslot2
-
-            colorKey: "blue"
-            x: 550
-            y: 344
-            opacity: 0
-        }
-
-
-        visible: false
-
-    }
-
     TopMenu {
         id: topMenu
-        anchors.top: mainWindow.top
+        anchors.top: parent.top
+    }
+
+    CharacterList {
+        id: characterList
+
+
+        anchors.top : topMenu.bottom
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        anchors.margins:  10
+
+        width: 300
     }
 
     GameMenu {
         id: gameMenu
-        anchors.top: topMenu.bottom
 
-        visible: true
+        anchors.top: topMenu.bottom
+        anchors.left: parent.left
+        anchors.right: characterList.left
+
+        anchors.margins: 10
+
+        height: 100
+        gradient: Gradient {
+            GradientStop {
+                position: 0
+                color: "#000000"
+            }
+
+            GradientStop {
+                position: 1
+                color: "#5d949c"
+            }
+        }
     }
 
-    SaveLoadMenu {
-        id: saveLoadMenu
-        anchors.top: topMenu.bottom
+    Rectangle {
+        id: characterContainer
 
-        visible: false
-    }
+        color: "blue"
+
+        anchors.top: gameMenu.bottom
+        anchors.left: parent.left
+        anchors.right: characterList.left
+        anchors.bottom: parent.bottom
+
+        anchors.margins: 10
 
 
+        Rectangle {
+            id: currentPlayer
 
+            color: "lightblue"
 
+            height: 50
 
-    states: [
-        State {
-            name: "SAVE/LOAD"
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
 
-            PropertyChanges {
-                target: saveLoadMenu
-                visible: true
-            }
+            anchors.margins: 20
 
-            PropertyChanges {
-                target: gameMenu
-                visible: false
-            }
+            Text {
+                anchors.centerIn: parent
 
-            PropertyChanges {
-                target: characterSheet
-                visible: false
-            }
-        },
-        State {
-            name: "GAME_CHARACTER"
-
-            PropertyChanges {
-                target: gameMenu
-
-                characterButtonActive: true
-                scenarioButtonActive: false
-                fightButtonActive: false
-
-            }
-
-            PropertyChanges {
-                target: characterSheet
-                visible: true
-
-            }
-
-            PropertyChanges {
-                target: pergamentImage
-                sourceSize.width: 1026
-                clip: false
-            }
-
-            PropertyChanges {
-                target: text_input1
-                x: 312
-                y: 321
-                font.family: "Papyrus"
-                selectionColor: "#000000"
-                font.pointSize: 50
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: text2
-                x: 178
-                y: 240
-                text: "HP"
-                font.family: "Papyrus"
-                font.pointSize: 50
+                font.pointSize: 18
                 font.bold: true
-                opacity: 1
+                font.underline: true
+
+                text: "Player 1"
+            }
+        }
+
+        CharacterMenu {
+            id: characterMenu
+
+            anchors.top: currentPlayer.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            anchors.margins: 20
+        }
+
+        Rectangle {
+            id: characterSheet
+
+            color: "lightblue"
+
+            anchors.top: characterMenu.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            anchors.margins: 20
+
+            ListView {
+                id: attributeList
+                width: 253
+
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+
+                anchors.margins: 20
+
+
+                delegate: Item {
+                    anchors.left: parent.left
+                    height: 40
+                    Row {
+                        id: row1
+
+                        Text {
+                            text: name
+                            font.bold: true
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        TextEdit {
+                            text: value
+                            font.bold: true
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        spacing: 10
+                    }
+                }
+                model: ListModel {
+                    ListElement {
+                        name: "HP"
+                        value: "100"
+                    }
+
+                    ListElement {
+                        name: "SP"
+                        value: "40"
+                    }
+
+                    ListElement {
+                        name: "Dex"
+                        value: "20"
+                    }
+
+                    ListElement {
+                        name: "Strength"
+                        value: "15"
+                    }
+                }
+            }
+        }
+
+        Rectangle {
+            id: invetnory
+
+            color: "lightblue"
+
+            anchors.top: characterMenu.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            anchors.margins: 20
+
+            Rectangle {
+                id: itemSelectorContainer
+                height: 120
+
+                color: "blue"
+
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.top: parent.top
+
+                anchors.margins: 20
+
+                GridView {
+                    id: itemSelector
+
+                    anchors.fill: parent
+
+                    anchors.margins: 0
+
+                    clip: true
+
+                    delegate: Item {
+                        id: itemInSelector
+                        x: 5
+                        height: 50
+                        Column {
+
+                            Text {
+                                x: 5
+                                text: name
+                                font.bold: true
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            Rectangle {
+                                id: crectItem
+                                width: 60
+                                height: 60
+                                color: colorCode
+                                border.width: 2
+                                border.color: "black"
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            spacing: 5
+                        }
+                    }
+                    cellHeight: 80
+                    model: ListModel {
+                        ListElement {
+                            name: "Grey"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+
+                        ListElement {
+                            name: "Grey"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+
+                        ListElement {
+                            name: "Grey"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+                    }
+                    cellWidth: 70
+                }
+
             }
 
-            PropertyChanges {
-                target: scenario_temp
-                x: 0
-                y: 146
-                anchors.bottomMargin: -6
-                anchors.leftMargin: 0
-                anchors.topMargin: 6
-                anchors.rightMargin: 0
+            Rectangle {
+                id: itemDetails
+                color: "blue"
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 20
+                anchors.top: itemSelectorContainer.bottom
+                anchors.topMargin: 20
             }
 
-            PropertyChanges {
-                target: text3
-                x: 179
-                y: 371
-                text: qsTr("SP")
-                font.pointSize: 50
-                font.family: "Papyrus"
-                opacity: 1
+        }
+
+        Rectangle {
+            id: skills
+
+            color: "lightblue"
+
+            anchors.top: characterMenu.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            anchors.margins: 20
+
+
+            Rectangle {
+                id: skillSelectorContainer
+                height: 120
+
+                color: "blue"
+
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.top: parent.top
+
+                anchors.margins: 20
+
+                GridView {
+                    id: skillSelector
+
+                    anchors.fill: parent
+
+                    anchors.margins: 0
+
+                    clip: true
+
+                    delegate: Item {
+                        id: skillInSelector
+                        x: 5
+                        height: 50
+                        Column {
+
+                            Text {
+                                x: 5
+                                text: name
+                                font.bold: true
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            Rectangle {
+                                id: crectSkill
+                                width: 60
+                                height: 60
+                                color: colorCode
+                                border.width: 2
+                                border.color: "black"
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            spacing: 5
+                        }
+                    }
+                    cellHeight: 80
+                    model: ListModel {
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+
+                        ListElement {
+                            name: "Grey"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+
+                        ListElement {
+                            name: "Grey"
+                            colorCode: "grey"
+                        }
+
+                        ListElement {
+                            name: "Red"
+                            colorCode: "red"
+                        }
+
+                        ListElement {
+                            name: "Blue"
+                            colorCode: "blue"
+                        }
+
+                        ListElement {
+                            name: "Green"
+                            colorCode: "green"
+                        }
+                    }
+                    cellWidth: 70
+                }
+
             }
 
-            PropertyChanges {
-                target: text_input2
-                x: 312
-                y: 446
-                text: qsTr("33")
-                font.family: "Papyrus"
-                font.pointSize: 50
-                opacity: 1
+            Rectangle {
+                id: skillDetails
+                color: "blue"
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 20
+                anchors.top: skillSelectorContainer.bottom
+                anchors.topMargin: 20
             }
 
-            PropertyChanges {
-                target: text4
-                x: 224
-                y: 852
-                text: qsTr("Other fun stuff...")
-                font.pointSize: 50
-                font.family: "Papyrus"
-                opacity: 1
-            }
+        }
 
 
-        },
-        State {
-            name: "GAME_SCENARIO"
+    }
 
-            PropertyChanges {
-                target: gameMenu
+    Rectangle {
+        id: scenarioContainer
 
-                characterButtonActive: false
-                scenarioButtonActive: true
-                fightButtonActive: false
+        color: "blue"
 
-            }
+        anchors.top: gameMenu.bottom
+        anchors.left: parent.left
+        anchors.right: characterList.left
+        anchors.bottom: parent.bottom
 
-            PropertyChanges {
-                target: characterSheet
-                visible: false
-            }
+        anchors.margins: 10
 
-            PropertyChanges {
-                target: scenario_temp
-                x: 246
-                y: 312
-                visible: true
-                opacity: 1
-            }
+        Rectangle {
+            id: selectScenarioContainer
+            height: 150
+            color: "lightblue"
 
-            PropertyChanges {
-                target: logicblock1
-                x: 456
-                y: 226
-                opacity: 1
-            }
+            anchors.left: parent.left
+            anchors.leftMargin: 20
+            anchors.top: parent.top
+            anchors.topMargin: 20
+            anchors.right: parent.right
+            anchors.rightMargin: 20
 
-            PropertyChanges {
-                target: text1
-                x: 268
-                y: 262
-                text: "Bara ett test..."
-                anchors.horizontalCenterOffset: -172
-                anchors.verticalCenterOffset: -81
-            }
+            GridView {
+                id: scenarioGridView
+                anchors.fill: parent
 
-            PropertyChanges {
-                target: logicblockslot1
-                opacity: 1
-            }
+                clip: true
+                cellHeight: 90
+                cellWidth: 100
 
-            PropertyChanges {
-                target: logicblock2
-                opacity: 1
-            }
+                delegate: Item {
+                    width:scenarioGridView.cellWidth;
+                    height: scenarioGridView.cellHeight
 
-            PropertyChanges {
-                target: logicblockslot2
-                opacity: 1
-            }
+                    Rectangle {
+                        width: 60
+                        height: 60
+                        color: colorCode
+                        anchors.horizontalCenter: parent.horizontalCenter
 
-        },
-        State {
-            name: "GAME_FIGHT"
+                        Text {
+                            text: name
+                            font.bold: true
+                            anchors.centerIn: parent
+                        }
+                    }
+                }
 
-            PropertyChanges {
-                target: characterSheet
-                visible: false
-            }
 
-            PropertyChanges {
-                target: gameMenu
 
-                characterButtonActive: false
-                scenarioButtonActive: false
-                fightButtonActive: true
+
+                model: ListModel {
+                    ListElement {
+                        name: "Grey"
+                        colorCode: "grey"
+                    }
+
+                    ListElement {
+                        name: "Red"
+                        colorCode: "red"
+                    }
+
+                    ListElement {
+                        name: "Blue"
+                        colorCode: "blue"
+                    }
+
+                    ListElement {
+                        name: "Green"
+                        colorCode: "green"
+                    }
+                }
 
             }
         }
-    ]
+
+        Rectangle {
+            id: configureScenarioContainer
+
+            color: "lightblue"
+            anchors.top: selectScenarioContainer.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            anchors.margins: 20
+
+            Rectangle {
+                id: logicBlockContainer
+                color: "blue"
+
+                width: 150
+
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+
+                anchors.margins: 10
+
+            }
+
+            Rectangle {
+                id: logicTreeEditor
+                color: "black"
+
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: logicBlockContainer.left
+                anchors.bottom: parent.bottom
+
+                anchors.margins: 10
+
+                Rectangle {
+                    id: startBlock
+                    y: 170
+                    width: 100
+                    height: 100
+                    color: "green"
+
+                    radius: 50
+                    anchors.left: parent.left
+                    anchors.leftMargin: 30
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "Start"
+                    }
+                }
+
+            }
+        }
+    }
+
+    Rectangle {
+        id: fightContainer
+
+        color: "blue"
+
+        anchors.top: gameMenu.bottom
+        anchors.left: parent.left
+        anchors.right: characterList.left
+        anchors.bottom: parent.bottom
+
+        anchors.margins: 10
+
+        Rectangle {
+            id: orderContainer
+            color: "lightblue"
+
+            width: 200
+
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+
+            anchors.margins: 10
+
+            ListView {
+                id: characterOrderView
+                anchors.topMargin: 20
+                anchors.fill: parent
+
+                clip: true
+
+
+
+                delegate: Item {
+                    x: parent.x + 10
+                    height: 100
+                    width: 100
+
+                    Row {
+                        spacing: 10
+
+                        Item {
+                            width: 80
+                            height: 80
+
+                            Image {
+                                visible: currentCharacter
+                                anchors.centerIn: parent
+                                source: "arrow-right.png"
+                            }
+                        }
+
+                        Rectangle {
+                            width: 80
+                            height: 80
+                            color: colorCode
+
+                            Text {
+                                text: name
+                                font.bold: true
+                                anchors.centerIn: parent
+                            }
+
+                        }
+                    }
+
+
+                }
+                model: ListModel {
+                    ListElement {
+                        name: "Grey"
+                        colorCode: "grey"
+                        currentCharacter: false
+                    }
+
+                    ListElement {
+                        name: "Red"
+                        colorCode: "red"
+                        currentCharacter: false
+                    }
+
+                    ListElement {
+                        name: "Blue"
+                        colorCode: "blue"
+                        currentCharacter: true
+                    }
+
+                    ListElement {
+                        name: "Green"
+                        colorCode: "green"
+                        currentCharacter: false
+                    }
+                }
+            }
+
+        }
+
+        Rectangle {
+            id: runnningScenarioContainer
+            color: "lightblue"
+
+            height: 200
+
+            anchors.top: parent.top
+            anchors.left: orderContainer.right
+            anchors.right: parent.right
+
+            anchors.margins: 10
+
+            Rectangle {
+                id: fightStatusBox
+                color: "green"
+
+                height: 80
+
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                anchors.margins: 10
+
+                Text {
+                    id: fightStatusText
+
+                    anchors.centerIn: parent
+
+                    font.pointSize: 20
+                    text: "Running scenario _instert_name_here_"
+                }
+
+
+            }
+
+            Rectangle {
+                id: fightControllContainer
+                color: "blue"
+
+                anchors.top: fightStatusBox.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+
+                anchors.margins: 10
+
+                Row {
+                    id: fightControllButtonRow
+
+                    anchors.centerIn: parent
+                    spacing: 100
+
+                    Button {
+                        id: stopScenarioInFightButton
+                        buttonHeight: 50
+                        buttonWidth: 200
+
+                        label: "Stop"
+                    }
+
+                    Button {
+                        id: continueInFightButton
+                        buttonHeight: 50
+                        buttonWidth: 200
+
+                        label: "Continue"
+                    }
+                }
+
+            }
+        }
+
+        Rectangle {
+            id:backgroundScenorioContainer
+            color: "lightblue"
+
+            anchors.top: runnningScenarioContainer.bottom
+            anchors.left: orderContainer.right
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            anchors.margins: 10
+
+            ListView {
+                id: backgroundScenarioView
+
+                anchors.topMargin: 10
+                anchors.fill: parent
+
+                clip: true
+
+                delegate: Item {
+                    x: 5
+                    height: 70
+                    Row {
+                        id: row2
+                        spacing: 10
+                        Rectangle {
+                            width: backgroundScenorioContainer.width - 10
+                            height: 60
+                            color: colorCode
+
+                            Text {
+                                text: name
+                                anchors.centerIn: parent
+                                font.bold: true
+                            }
+
+                            Rectangle {
+                                color: "yellow"
+
+                                width: parent.height - 20
+                                height: parent.height - 20
+
+                                anchors.right: parent.right
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottm
+
+                                anchors.margins: 10
+
+                                Text {
+                                    anchors.centerIn: parent
+
+                                    text: turnsLeft
+                                }
+
+                            }
+                        }
+
+
+                    }
+                }
+                model: ListModel {
+                    ListElement {
+                        name: "Grey"
+                        colorCode: "grey"
+                        turnsLeft: 4
+                    }
+
+                    ListElement {
+                        name: "Red"
+                        colorCode: "red"
+                        turnsLeft: 2
+                    }
+
+                    ListElement {
+                        name: "Blue"
+                        colorCode: "blue"
+                        turnsLeft: 1
+                    }
+
+                }
+            }
+
+
+        }
+
+    }
+
+
 }
+
+//Rectangle {
+//    id: mainWindow
+//    width: 1024
+//    height: 840
+
+//    color: "black"
+
+
+//    Item {
+//        id: gameContainer
+//        anchors.top: topMenu.bottom
+//        anchors.right: parent.right
+//        anchors.bottom: parent.bottom
+//        anchors.left: parent.left
+//        anchors.topMargin: 0
+
+//        GameMenu {
+//            id: gameMenu
+//            x: 0
+//            y: 0
+
+//            gradient: Gradient {
+//                GradientStop {
+//                    position: 0
+//                    color: "#939393"
+//                }
+
+//                GradientStop {
+//                    position: 1
+//                    color: "#000000"
+//                }
+//            }
+
+//            anchors.top: parent.top
+//            visible: true
+//        }
+
+//        Rectangle {
+//            id: scenario_temp
+//            x: 0
+//            y: 0
+
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            anchors.top: gameMenu.bottom
+//            anchors.bottom: parent.bottom
+
+//            color: "cyan"
+
+//            Text {
+//                id: text1
+//                anchors.centerIn: parent
+//                text: "Här ska det finnas saker sen..."
+//            }
+
+//            LogicBlock {
+//                id: logicblock1
+
+//                colorKey: "red"
+
+//                x: 421
+//                y: 229
+//                opacity: 0
+//            }
+
+//            LogicBlockSlot {
+//                id: logicblockslot1
+
+//                colorKey: "red"
+//                x: 605
+//                y: 226
+//                opacity: 0
+//            }
+
+//            LogicBlock {
+//                id: logicblock2
+
+//                colorKey: "blue"
+//                blockLabel: "OB"
+//                x: 370
+//                y: 344
+//                opacity: 0
+//            }
+
+//            LogicBlockSlot {
+//                id: logicblockslot2
+
+//                colorKey: "blue"
+//                x: 550
+//                y: 344
+//                opacity: 0
+//            }
+
+
+//            visible: false
+
+//        }
+
+//    }
+
+//    Item {
+//        id: characterContainer
+//        x: 388
+//        y: 329
+//        anchors.right: characterList.left
+//        anchors.rightMargin: 0
+//        anchors.left: parent.left
+//        anchors.leftMargin: 0
+//        anchors.bottom: parent.bottom
+//        anchors.bottomMargin: 0
+//        anchors.top: topMenu.bottom
+//        anchors.topMargin: 0
+
+//        CharacterMenu {
+//            id: characterMenu
+//            x: 0
+//            y: 0
+
+
+//            gradient: Gradient {
+//                GradientStop {
+//                    position: 0
+//                    color: "#939393"
+//                }
+
+//                GradientStop {
+//                    position: 1
+//                    color: "#000000"
+//                }
+//            }
+
+//            visible: false
+//            anchors.right: parent.right
+//            anchors.rightMargin: 0
+//            anchors.left: parent.left
+//            anchors.leftMargin: 0
+//            anchors.top: parent.top
+//            anchors.topMargin: 0
+//    }
+
+//        Flickable {
+//            id: characterSheet
+//            width: parent.width
+//            height: parent.height-topMenu.height-gameMenu.height
+//            anchors.topMargin: 0
+//            visible: false
+//            anchors.top: characterMenu.bottom
+
+//            contentWidth: parent.width
+//            contentHeight: pergamentImage.height
+
+
+
+//            Image {
+//                id: pergamentImage
+//                visible: true
+//                anchors.top: parent.top
+
+//                source: "pergament2.png"
+
+//                TextInput {
+//                    id: text_input1
+//                    x: 230
+//                    y: 183
+//                    width: 80
+//                    height: 20
+//                    text: qsTr("Text")
+//                    font.pixelSize: 12
+//                    opacity: 0
+//                }
+
+//                TextInput {
+//                    id: text_input2
+//                    x: 354
+//                    y: 178
+//                    width: 80
+//                    height: 20
+//                    text: qsTr("Text")
+//                    font.pixelSize: 12
+//                    opacity: 0
+//                }
+
+//                Text {
+//                    id: text2
+//                    x: 265
+//                    y: 69
+//                    text: qsTr("Text")
+//                    font.pixelSize: 12
+//                    opacity: 0
+//                }
+
+//                Text {
+//                    id: text3
+//                    x: 220
+//                    y: 336
+//                    text: qsTr("Text")
+//                    font.pixelSize: 12
+//                    opacity: 0
+//                }
+
+//                Text {
+//                    id: text4
+//                    x: 391
+//                    y: 69
+//                    text: qsTr("Text")
+//                    font.pixelSize: 12
+//                    opacity: 0
+//                }
+//            }
+
+//        }
+
+//    }
+
+//    Item {
+//        id: saveLoadContainer
+//        anchors.top: topMenu.bottom
+//        anchors.topMargin: 0
+//        anchors.bottom: parent.bottom
+//        anchors.bottomMargin: 0
+//        anchors.right: parent.right
+//        anchors.rightMargin: 0
+//        anchors.left: parent.left
+//        anchors.leftMargin: 0
+
+//        opacity: 0
+
+//        SaveLoadMenu {
+//            id: saveLoadMenu
+//            x: 0
+//            y: 0
+
+//            gradient: Gradient {
+//                GradientStop {
+//                    position: 0
+//                    color: "#939393"
+//                }
+
+//                GradientStop {
+//                    position: 1
+//                    color: "#000000"
+//                }
+//            }
+
+//            anchors.top: parent.top
+//            visible: false
+//    }
+
+//    }
+
+
+
+//    TopMenu {
+//        id: topMenu
+//        anchors.top: mainWindow.top
+
+
+//    }
+
+//    CharacterList {
+//        id: characterList
+//        anchors.topMargin: 40
+//        width: 300
+//        anchors.right: parent.right
+//        anchors.rightMargin: 0
+
+//        anchors.top: parent.top
+//        anchors.bottom: mainWindow.bottom
+//        anchors.left: characterDrawer.right
+//    }
+
+
+//}

@@ -28,4 +28,7 @@ OTHER_FILES += \
     qml/ROLLE_UI/SaveLoadMenu.qml \
     images/pergament.jpg \
     qml/ROLLE_UI/LogicBlock.qml \
-    qml/ROLLE_UI/LogicBlockSlot.qml
+    qml/ROLLE_UI/LogicBlockSlot.qml \
+    qml/ROLLE_UI/CharacterList.qml \
+    qml/ROLLE_UI/CharacterDrawer.qml \
+    qml/ROLLE_UI/CharacterMenu.qml

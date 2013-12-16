@@ -16,24 +16,7 @@ Rectangle {
         anchors.leftMargin: 10
 
         width: 320
-        // spacing for 3 buttons
         spacing: width / 6
-
-        Button {
-            id: gameMenuButton
-
-            labelSize: 6
-            label: "Game Menu"
-
-            buttonWidth: 80
-            buttonHeight: 30
-
-            buttonColor: "blue"
-
-            onButtonClicked: mainWindow.state = "GAME"
-
-
-        }
 
         Button {
             id: settingsMenuButton
@@ -41,6 +24,7 @@ Rectangle {
             labelSize: 6
             label: "Settings"
 
+            buttonColor: "purple"
 
             buttonWidth: 80
             buttonHeight: 30

@@ -7,32 +7,29 @@ Rectangle {
 
     id: gameMenu
     width: parent.width
-    height: 100
-    gradient: Gradient {
-        GradientStop {
-            position: 0
-            color: "#939393"
-        }
-
-        GradientStop {
-            position: 1
-            color: "blue"
-        }
-    }
 
     Row {
+        spacing: 60
+
         anchors.centerIn: parent
-
-        // spacing for 3 buttons
-        spacing: parent.width / 6
-
         Button {
             id: characterMenuButton
             label: "Character"
 
-            color: gameMenu.characterButtonActive ? "green" : buttonColor
+            color: gameMenu.fightButtonActive ? "green" : buttonColor
 
-            onButtonClicked: mainWindow.state = "GAME_CHARACTER"
+            onButtonClicked: mainWindow.state = "CHARACTER"
+
+        }
+
+
+        Button {
+            id: fightMenuButton
+            label: "Fight"
+
+            color: gameMenu.fightButtonActive ? "green" : buttonColor
+
+            onButtonClicked: mainWindow.state = "FIGHT"
 
         }
 
@@ -42,17 +39,7 @@ Rectangle {
 
             color: gameMenu.scenarioButtonActive ? "green" : buttonColor
 
-            onButtonClicked: mainWindow.state = "GAME_SCENARIO"
-
-        }
-
-        Button {
-            id: fightMenuButton
-            label: "Fight"
-
-            color: gameMenu.fightButtonActive ? "green" : buttonColor
-
-            onButtonClicked: mainWindow.state = "GAME_FIGHT"
+            onButtonClicked: mainWindow.state = "SCENARIO"
 
         }
 
