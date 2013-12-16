@@ -1,21 +1,36 @@
 #ifndef SKILL_H
 #define SKILL_H
-#include <string>
-#include <map>
+#include <QString>
+#include <QMap>
+#include <QDataStream>
 
 class Skill
 {
-  private:
-  std::map<std::string,int> modifiers;
-  std::string name;
+private:
+  QString name;
+  QMap<QString, qint8> modifiers;
 
-  public:
-  Skill(std::string);
-  std::map<std::string,int> get_modifiers() const;
-  void set_modifier(std::string, int);
-  void remove_modifier(std::string);
-  std::string get_name() const;
-  void set_name(std::string);
+public:
+  static void set_next_ID(quint16);
+
+  Skill(const QString& new_name): name{new_name} {}
+  Skill() {}
+
+  QMap<QString,qint8> get_modifiers() const;
+  QString get_name() const;
+
+
+  void set_modifier(const QString&,qint8);
+  void set_name(const QString&);
+
+  void remove_modifier(const QString&);
+
+  QDataStream& read_from_stream(QDataStream&);
+  QDataStream& write_to_stream(QDataStream&) const;
 
 };
+
+QDataStream& operator<<(QDataStream&, Skill*&);
+QDataStream& operator>>(QDataStream&, Skill*&);
+
 #endif

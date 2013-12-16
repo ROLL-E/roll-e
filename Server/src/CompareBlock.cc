@@ -1,5 +1,5 @@
 #include "CompareBlock.h"
-
+#include "ValueBlock.h"
 
 void CompareBlock::set_lhs(ValueBlock* new_lhs) {
     lhs_block = new_lhs;

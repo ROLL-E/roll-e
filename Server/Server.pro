@@ -30,9 +30,10 @@ SOURCES += main.cc\
     src/Ruleset.cc \
     src/ClientConnection.cc \
     src/Server.cc \
-    src/Scenario.cc \
+    src/Fight.cc \
     src/GameSave.cc \
-    src/Fight.cc
+    src/Skill.cc \
+    src/Scenario.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \

@@ -1,9 +1,12 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
+
 #include "LogicBlock.h"
 #include "WaitBlock.h"
 #include <map>
 #include <string>
+
+class LogicBlock;
 
 class Scenario {
 

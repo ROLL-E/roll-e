@@ -1,21 +1,26 @@
 #include "serverwindow.h"
 #include <QApplication>
 #include <iostream>
+#include <QDebug>
+#include <QString>
+#include <QMap>
+#include <QFile>
+#include <stdexcept>
 #include "LogicBlock.h"
 #include "ModifierBlock.h"
 #include "WaitBlock.h"
 #include "ValueBlock.h"
 #include "DamageBlock.h"
 #include "CompareBlock.h"
-#include <stdexcept>
-#include <QDebug>
-#include <QString>
 #include "Story.h"
 #include "GameSave.h"
 #include "Character.h"
 #include "Item.h"
 #include "Server.h"
 #include "Fight.h"
+#include "Ruleset.h"
+#include "Scenario.h"
+#include "Skill.h"
 
 using namespace std;
 
@@ -25,45 +30,68 @@ int main(int argc, char *argv[])
   QApplication a(argc, argv);
   ServerWindow w;
 
-  std::list<std::string> attr_list{"health", "armor", "strength"};
+  QList<QString> attr_list{"health", "armor", "strength"};
   Ruleset rs(attr_list);
 
   Story main_story(rs);
 
-  std::map<std::string, int> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
-  main_story.add_character(new Character(attr_map, 50));
+  QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
+  main_story.add_character(new Character(attr_map, 50, &main_story));
 
   Character* bob = main_story.get_characters().front();
+  bob->set_name("BOB!");
 
-  bob->set_name("Bob");
-  qDebug() << bob->get_name() << endl;
 
-  qDebug() << "bob's health" << bob->get_attribute("health") << endl;
-  bob->take_damage("blunt", 3);
-  qDebug() << "bob's health after hit" << bob->get_attribute("health") << endl;
+  try {
+    Item* hammer1 = new Item("Hammer of doom");
+    main_story.add_item(hammer1);
+    hammer1->set_attribute("Weight", 20);
 
-try {
-  main_story.add_item(new Item("Hammer of doom"));
-  bob->add_item(0);
-  main_story.add_item(new Item("nicer hammah"));
-  bob->add_item(1);
-  qDebug() << std::boolalpha << bob->has_item(1) << " " << bob->has_item(2) << endl;
-  qDebug() << main_story.get_items().value(0)->get_name() << endl;
-  qDebug() << main_story.get_items().value(1)->get_name() << endl;
+    Item* hammer2 = new Item("nicer hammah");
+    main_story.add_item(hammer2);
+    hammer2->set_attribute("Weight", 20);
+
+    bob->add_item(hammer1->get_id());
+    bob->add_item(hammer2->get_id());
+
+
+    qDebug() << "Bob's stuff:";
+    for (auto item_id : bob->inventory.get_items()) {
+      qDebug() << main_story.get_items().value(item_id)->get_name();
+    }
   }
   catch (const std::out_of_range& e) {
-    std::cerr << "out_of_range exception: " << e.what() << endl;
+    qDebug() << "out_of_range exception: " << e.what();
   }
 
-  /*GameSave::save(&main_story, "F:\\Projekt\\save.dat");
-  main_story.remove_item(0);
+  Character* herman = new Character(attr_map, 10, &main_story);
+  main_story.add_character(herman);
+  herman->set_name("Herr Man");
 
-  GameSave::load("F:\\Projekt\\save.dat", &main_story);*/
+  rs.add_skill(new Skill("Break those cuffs"));
+  rs.add_skill(new Skill("Eat horse"));
+  bob->add_skill(rs.get_skills().at(0));
+  bob->add_skill(rs.get_skills().at(1));
 
-  for (auto item : main_story.get_items())  {
-    qDebug() << item->get_id();
-    qDebug() << item->get_name();
-    qDebug() << "End_Item";
+  herman->add_skill(rs.get_skills().at(1));
+
+  GameSave::save(&main_story, "F:\\Projekt\\bigsave.dat");
+
+  rs = Ruleset(attr_list);
+  Story second{rs};
+  GameSave::load("F:\\Projekt\\bigsave.dat", &second);
+
+  for (Item* i : second.get_items()) {
+    qDebug() << i->get_id() << ": " << i->get_name();
+  }
+
+  qDebug();
+
+  for (Character* c : second.get_characters()) {
+    qDebug() << c->get_name();
+    qDebug() << c->get_attribute("health");
+    for (Skill* s : c->get_skills())
+      qDebug() << s->get_name();
   }
   //qDebug() << main_story.get_items().value(0)->get_name().toStdString() <<endl;
 
@@ -110,9 +138,9 @@ try {
         cout << e.what() << endl;
     }
 
-  list<int> new_list = block3->get_applicable_items();
+  QList<int> new_list = block3->get_applicable_items();
 
-  for (list<int>::iterator it = new_list.begin(); it != new_list.end(); ++it)
+  for (QList<int>::iterator it = new_list.begin(); it != new_list.end(); ++it)
       cout << *it << endl;
 
   block3->remove_applicable_item(2);
@@ -124,9 +152,9 @@ try {
       cout << e.what() << endl;
   }
 
-  list<int> new_list2 = block3->get_applicable_items();
+  QList<int> new_list2 = block3->get_applicable_items();
 
-  for (list<int>::iterator it = new_list2.begin(); it != new_list2.end(); ++it)
+  for (QList<int>::iterator it = new_list2.begin(); it != new_list2.end(); ++it)
       cout << *it << endl;
 
   DamageBlock* block4(new DamageBlock);
@@ -205,6 +233,7 @@ try {
   block13->add_to_attributes("health");
   block13->execute();
   cout << "Health + random is: " << block13->get_value() << endl;
+
 
 
   cout << "Testing Scenario" << endl;

@@ -1,14 +1,15 @@
 #ifndef MODIFIERBLOCK_H
 #define MODIFIERBLOCK_H
 #include "LogicBlock.h"
-#include "Character.h"
-#include <string>
-#include <map>
+#include <QString>
+#include <QMap>
+
+class Character;
 
 class ModifierBlock : public LogicBlock
 {
 private:
-  std::map<std::string, int> modifiers;
+  QMap<QString, qint8> modifiers;
   Character* target;
   ModifierBlock* previous_modifier;
 public:
@@ -17,9 +18,9 @@ public:
   LogicBlock* execute() override;
   void set_target(Character*);
   Character* get_target() const;
-  std::map<std::string,int> get_modifiers() const;
-  void remove_modifier(std::string);
-  void set_modifier(std::string,int);
+  QMap<QString,qint8> get_modifiers() const;
+  void remove_modifier(QString);
+  void set_modifier(QString,int);
 };
 
 #endif

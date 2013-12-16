@@ -1,4 +1,5 @@
 #include "ModifierBlock.h"
+#include "Character.h"
 #include <iostream>
 
 using namespace std;
@@ -17,27 +18,28 @@ Character* ModifierBlock::get_target() const {
     return target;
 }
 
-map<string, int> ModifierBlock::get_modifiers() const {
+QMap<QString, qint8> ModifierBlock::get_modifiers() const {
     return modifiers;
 }
 
-void ModifierBlock::set_modifier(string name, int value) {
+void ModifierBlock::set_modifier(QString name, int value) {
     modifiers[name] = value;
 }
 
-void ModifierBlock::remove_modifier(string name) {
+void ModifierBlock::remove_modifier(QString name) {
     if (modifiers.find(name) != modifiers.end())
-        modifiers.erase(name);
+        modifiers.remove(name);
     else
         throw logicblock_error("Can't erase modifier, it dosent exist");
 }
 
 LogicBlock* ModifierBlock::execute() {
 
-    cout << "Running block" << endl;
-
-    for (map<string, int>::iterator it = modifiers.begin(); it != modifiers.end(); ++it)
-        target->add_to_attribute(it->first, it->second);
+  for (auto key : modifiers.keys()) {
+    target->add_to_attribute(key,modifiers.value(key));
+  }
+    //for (QMap<QString, qint8>::iterator it = modifiers.begin(); it != modifiers.end(); ++it)
+     //   target->add_to_attribute(it->first, it->second);
 
     return this->get_next();
 }

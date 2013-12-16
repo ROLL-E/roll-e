@@ -2,9 +2,10 @@
 
 using namespace std;
 
-Character::Character(std::map<std::string, int> new_attributes, int start_max_weight)
+Character::Character(QMap<QString, qint16> new_attributes, quint16 start_max_weight, Story* new_story)
   : attributes{new_attributes},
-    inventory{start_max_weight} {
+    story{new_story},
+    inventory{start_max_weight, new_story} {
 }
 
 Character::Character(const Character& other)
@@ -22,19 +23,19 @@ void Character::set_name(const QString& new_name) {
   name = new_name;
 }
 
-int Character::get_attribute(string attr_name) const {
-  return attributes.at(attr_name); // operator[] is not const-safe
+qint16 Character::get_attribute(QString attr_name) const {
+  return attributes.value(attr_name); // operator[] is not const-safe
 }
 
-void Character::set_attribute(const string& attr_name, int value) {
+void Character::set_attribute(const QString& attr_name, qint16 value) {
   attributes[attr_name] = value;
 }
 
-void Character::add_to_attribute(const string& attr_name, int value) {
-        attributes[attr_name] = value + attributes.at(attr_name);
+void Character::add_to_attribute(const QString& attr_name, qint16 value) {
+        attributes[attr_name] = value + attributes.value(attr_name);
 }
 
-void Character::take_damage(const string& type, int amount) {
+void Character::take_damage(const QString& type, qint16 amount) {
   //TODO add the handling
   // placeholder for testing:
   if (attributes.count("health") == 1) {
@@ -47,7 +48,7 @@ void Character::take_damage(const string& type, int amount) {
   }
 }
 
-std::list<Skill*> Character::get_skills() const {
+QList<Skill*> Character::get_skills() const {
   return skills;
 }
 
@@ -56,18 +57,44 @@ void Character::add_skill(Skill* new_skill) {
 }
 
 void Character::remove_skill(Skill* skill_to_remove) {
-  skills.remove(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
+  skills.removeOne(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
 }
 
-void Character::add_item(int new_id) {
+void Character::add_item(quint16 new_id) {
   inventory.add_item(new_id);
 }
 
-void Character::remove_item(int id_to_remove) {
+void Character::remove_item(quint16 id_to_remove) {
   inventory.remove_item(id_to_remove);
 }
 
-bool Character::has_item(int id) const {
+bool Character::has_item(quint16 id) const {
   return inventory.has_item(id);
 }
 
+QDataStream& Character::write_to_stream(QDataStream& ds) {
+ ds << name;
+ ds << attributes;
+ ds << skill_ids;
+ ds << inventory;
+
+ return ds;
+}
+
+QDataStream& Character::read_from_stream(QDataStream& ds) {
+  ds >> name;
+  ds >> attributes;
+  ds >> skill_ids;
+  ds >> inventory;
+
+  return ds;
+}
+
+QDataStream& operator<<(QDataStream& out_stream, Character*& character) {
+  return character->write_to_stream(out_stream);
+}
+
+QDataStream& operator>>(QDataStream& in_stream, Character*& character) {
+  character = new Character();
+  return character->read_from_stream(in_stream);
+}
