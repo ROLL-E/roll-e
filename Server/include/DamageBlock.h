@@ -20,6 +20,12 @@ public:
   Character* get_target() const;
   void set_valueblock(ValueBlock*);
   ValueBlock* get_valueblock() const;
+
+  QDataStream& write_to_stream(QDataStream&);
+  QDataStream& read_from_stream(QDataStream&);
 };
+
+//QDataStream& operator<<(QDataStream&, DamageBlock*&);
+//QDataStream& operator>>(QDataStream&, DamageBlock*&);
 
 #endif

@@ -42,3 +42,33 @@ LogicBlock* ModifierBlock::execute() {
 
     return this->get_next();
 }
+
+QDataStream& ModifierBlock::write_to_stream(QDataStream & ds) {
+
+
+
+  ds << get_next();
+  ds << get_last();
+
+  ds << modifiers;
+  //ds << target;
+  //ds << previous_modifier
+
+  return ds;
+}
+
+QDataStream& ModifierBlock::read_from_stream(QDataStream& ds) {
+  LogicBlock* temp_next;
+  bool temp_last;
+
+  ds >> temp_next;
+  ds >> temp_last;
+
+  set_next(temp_next);
+  set_last(temp_last);
+
+  ds >> modifiers;
+  //ds >> target;
+  //ds >> previous_modifier;
+  return ds;
+}

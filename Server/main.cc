@@ -138,6 +138,8 @@ try {
         cout << e.what() << endl;
     }
 
+
+
   QList<int> new_list = block3->get_applicable_items();
 
   for (QList<int>::iterator it = new_list.begin(); it != new_list.end(); ++it)

@@ -33,3 +33,37 @@ LogicBlock* CompareBlock::execute() {
     else
         return alternate_next;
 }
+
+QDataStream& CompareBlock::write_to_stream(QDataStream& ds) {
+  ds << get_next();
+  ds << get_last();
+
+  ds << alternate_next;
+  ds << lhs_block;
+  ds << rhs_block;
+  return ds;
+}
+
+QDataStream& CompareBlock::read_from_stream(QDataStream& ds) {
+  LogicBlock* temp_next;
+  bool temp_last;
+
+  ds >> temp_next;
+  ds >> temp_last;
+
+  set_next(temp_next);
+  set_last(temp_last);
+
+  //ds >> alternate_next;
+  //ds >> lhs_block;
+  //ds >> rhs_block;
+  return ds;
+}
+
+//QDataStream& operator<<(QDataStream& ds, CompareBlock*& block) {
+//  return block->write_to_stream(ds);
+//}
+
+//QDataStream& operator>>(QDataStream& ds, CompareBlock*& block) {
+//  return block->read_from_stream(ds);
+//}

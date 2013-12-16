@@ -11,6 +11,9 @@
 #include "Character.h"
 #include "Ruleset.h"
 
+#include "LogicBlock.h"
+#include "WaitBlock.h"
+
 
 void GameSave::load(QString filename, Story* story) {
   QFile input_file(filename);
@@ -95,7 +98,14 @@ void GameSave::save(Story* story, QString filename) {
     out_stream << skill;
   }
 
+  for (Scenario* scenario : story->get_scenarios()) {
+    out_stream << QString("Scen");
+    out_stream << scenario;
+  }
 
+
+  WaitBlock* wblock = new WaitBlock(3);
+  out_stream << wblock;
 
 
   out_stream << QString("End");

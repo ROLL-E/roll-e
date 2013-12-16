@@ -25,3 +25,11 @@ LogicBlock* LogicBlock::get_self() {
     return this;
 }
 
+QDataStream& operator<<(QDataStream& ds, LogicBlock*& block) {
+  return block->write_to_stream(ds);
+}
+
+QDataStream& operator>>(QDataStream& ds, LogicBlock*& block) {
+  return block->read_from_stream(ds);
+}
+

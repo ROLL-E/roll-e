@@ -21,6 +21,11 @@ public:
   QMap<QString,qint8> get_modifiers() const;
   void remove_modifier(QString);
   void set_modifier(QString,int);
+
+  QDataStream& write_to_stream(QDataStream&);
+  QDataStream& read_from_stream(QDataStream&);
 };
 
+//QDataStream& operator<<(QDataStream&, ModifierBlock*&);
+//QDataStream& operator>>(QDataStream&, ModifierBlock*&);
 #endif

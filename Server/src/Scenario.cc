@@ -1,22 +1,19 @@
 #include "Scenario.h"
 #include <QDebug>
+#include "WaitBlock.h"
+
 using namespace std;
 
-void Scenario::set_flag(const string& name, bool value) {
+void Scenario::set_flag(const QString& name, bool value) {
     current_flags[name] = value;
 }
 
-map<string,bool> Scenario::get_flags() const {
+QMap<QString,bool> Scenario::get_flags() const {
     return current_flags;
 }
 
-bool Scenario::get_flag(const string& name) const {
-    map<string,bool>::const_iterator it;
-    it = current_flags.find(name);
-    if (it == current_flags.end())
-        return false;
-    else
-        return it->second;
+bool Scenario::get_flag(const QString& name) const {
+  return current_flags.value(name, false);
 }
 
 
@@ -61,4 +58,30 @@ void Scenario::run() {
         cont = !next_block->get_last();
         next_block = next_block->execute();
     } while (cont && next_block != nullptr);
+}
+
+QDataStream& Scenario::write_to_stream(QDataStream& ds) {
+  ds << description;
+  ds << head_id;
+  ds << next_block_id;
+  ds << current_flags;
+
+  return ds;
+}
+
+QDataStream& Scenario::read_from_stream(QDataStream& ds) {
+  ds >> description;
+  ds >> head_id;
+  ds >> next_block_id;
+  ds >> current_flags;
+
+  return ds;
+}
+
+QDataStream& operator<<(QDataStream& ds, Scenario*& scenario) {
+  return scenario->write_to_stream(ds);
+}
+
+QDataStream& operator>>(QDataStream& ds, Scenario*& scenario) {
+  return scenario->read_from_stream(ds);
 }

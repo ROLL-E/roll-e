@@ -22,7 +22,6 @@ private:
 
 public:
   QMap<quint16, Scenario*> scenario_id_map;
-  QMap<quint16, Character*> character_id_map;
 
   Story(Ruleset&);
 

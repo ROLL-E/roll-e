@@ -21,6 +21,14 @@ public:
   ValueBlock* get_rhs() const;
   void set_alternate(LogicBlock*);
   LogicBlock* get_alternate() const;
+
+  QDataStream& write_to_stream(QDataStream&);
+  QDataStream& read_from_stream(QDataStream&);
 };
+
+
+//QDataStream& operator<<(QDataStream&, CompareBlock*&);
+//QDataStream& operator>>(QDataStream&, CompareBlock*&);
+
 
 #endif

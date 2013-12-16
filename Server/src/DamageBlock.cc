@@ -33,3 +33,31 @@ LogicBlock* DamageBlock::execute() {
         return this->get_next();
     }
 }
+
+QDataStream& DamageBlock::write_to_stream(QDataStream& ds) {
+  ds << get_next();
+  ds << get_last();
+
+
+  return ds;
+}
+
+QDataStream& DamageBlock::read_from_stream(QDataStream& ds) {
+  LogicBlock* temp_next;
+  bool temp_last;
+
+  ds >> temp_next;
+  ds >> temp_last;
+
+  set_next(temp_next);
+  set_last(temp_last);
+  return ds;
+}
+/*
+QDataStream& operator<<(QDataStream& ds, DamageBlock*& block) {
+  return block->write_to_stream(ds);
+}
+
+QDataStream& operator>>(QDataStream& ds, DamageBlock*& block) {
+  return block->read_from_stream(ds);
+}*/

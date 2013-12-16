@@ -61,6 +61,12 @@ public:
   void remove_applicable_item(int);
   void remove_flag(const QString&);
   
+  QDataStream& write_to_stream(QDataStream&);
+  QDataStream& read_from_stream(QDataStream&);
+
 };
+
+//QDataStream& operator<<(QDataStream&, ValueBlock*&);
+//QDataStream& operator>>(QDataStream&, ValueBlock*&);
 
 #endif

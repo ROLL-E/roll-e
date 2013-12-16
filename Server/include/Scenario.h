@@ -2,33 +2,42 @@
 #define SCENARIO_H
 
 #include "LogicBlock.h"
-#include "WaitBlock.h"
-#include <map>
-#include <string>
+#include <QMap>
+#include <QString>
+#include <QDataStream>
 
 class LogicBlock;
 
 class Scenario {
 
 private:
-    std::map<std::string, bool> current_flags;
-    LogicBlock* head;
-    LogicBlock* next_block;
+  QString description;
+  QMap<QString, bool> current_flags;
+  LogicBlock* head;
+  LogicBlock* next_block;
 
 public:
-    Scenario() = default;
-    Scenario(Scenario&);
-    void run();
-    void wait_turns(int);
-    int find_turn_depth() const;
-    void set_flag(const std::string&, bool);
-    std::map<std::string,bool> get_flags() const;
-    bool get_flag(const std::string&) const;
-    void set_head(LogicBlock*);
-    LogicBlock* get_head() const;
-    void set_next_block(LogicBlock*);
-    LogicBlock* get_next_block() const;
+  quint16 head_id;
+  quint16 next_block_id;
 
+  Scenario() = default;
+  Scenario(Scenario&);
+  void run();
+  void wait_turns(int);
+  int find_turn_depth() const;
+  void set_flag(const QString&, bool);
+  QMap<QString,bool> get_flags() const;
+  bool get_flag(const QString&) const;
+  void set_head(LogicBlock*);
+  LogicBlock* get_head() const;
+  void set_next_block(LogicBlock*);
+  LogicBlock* get_next_block() const;
+
+  QDataStream& write_to_stream(QDataStream&);
+  QDataStream& read_from_stream(QDataStream&);
 };
+
+QDataStream& operator<<(QDataStream&, Scenario*);
+QDataStream& operator>>(QDataStream&, Scenario*);
 
 #endif
