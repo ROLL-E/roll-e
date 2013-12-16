@@ -15,7 +15,21 @@ CONFIG += c++11
 
 SOURCES += main.cc\
         serverwindow.cc \
-    src/placeholder.cc
+    src/placeholder.cc \
+    src/WaitBlock.cc \
+    src/LogicBlock.cc \
+    src/ModifierBlock.cc \
+    src/ValueBlock.cc \
+    src/DamageBlock.cc \
+    src/CompareBlock.cc \
+    src/Character.cc \
+    src/Story.cc \
+    src/Item.cc \
+    src/Inventory.cc \
+    src/Ruleset.cc \
+    src/Scenario.cc \
+    src/GameSave.cc \
+    src/Fight.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
@@ -35,7 +49,8 @@ HEADERS  += serverwindow.h \
     include/ClientConnection.h \
     include/Character.h \
     include/ActiveSkill.h \
-    include/ActiveItem.h
+    include/ActiveItem.h \
+    include/GameSave.h
 
 INCLUDEPATH += include
 FORMS    += serverwindow.ui
