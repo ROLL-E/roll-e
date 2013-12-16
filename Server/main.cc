@@ -15,7 +15,6 @@
 #include "Character.h"
 #include "Item.h"
 #include "Fight.h"
-#include "Server.h"
 
 using namespace std;
 
@@ -43,16 +42,14 @@ int main(int argc, char *argv[])
   bob->take_damage("blunt", 3);
   std::cout << "bob's health after hit" << bob->get_attribute("health") << std::endl;
 
-
-  try {
-    main_story.add_item(new Item("Hammer of doom"));
-    bob->add_item(0);
-    main_story.add_item(new Item("nicer hammah"));
-    bob->add_item(1);
-    qDebug() << bob->has_item(1) << " " << bob->has_item(2);
-    qDebug() << main_story.get_items().value(0)->get_name();
-    qDebug() << main_story.get_items().value(1)->get_name();
-
+try {
+  main_story.add_item(new Item("Hammer of doom"));
+  bob->add_item(0);
+  main_story.add_item(new Item("nicer hammah"));
+  bob->add_item(1);
+  std::cout << std::boolalpha << bob->has_item(1) << " " << bob->has_item(2) << std::endl;
+  std::cout << main_story.get_items().value(0)->get_name().toStdString() << std::endl;
+  std::cout << main_story.get_items().value(1)->get_name().toStdString() << std::endl;
 
   }
   catch (const std::out_of_range& e) {

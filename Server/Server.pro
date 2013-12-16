@@ -5,7 +5,6 @@
 #-------------------------------------------------
 
 QT       += core gui
-QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -30,9 +29,7 @@ SOURCES += main.cc\
     src/Ruleset.cc \
     src/Scenario.cc \
     src/GameSave.cc \
-    src/Fight.cc \
-    src/ClientConnection.cc \
-    src/Server.cc
+    src/Fight.cc
 
 HEADERS  += serverwindow.h \
     include/ValueBlock.h \
@@ -53,8 +50,7 @@ HEADERS  += serverwindow.h \
     include/Character.h \
     include/ActiveSkill.h \
     include/ActiveItem.h \
-    include/GameSave.h \
-    include/Server.h
+    include/GameSave.h
 
 INCLUDEPATH += include
 FORMS    += serverwindow.ui

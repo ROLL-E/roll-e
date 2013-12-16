@@ -10,7 +10,7 @@
 class Character {
 private:
     std::string name;
-    QPointer<ClientConnection> client;
+    ClientConnection* client;
     std::map<std::string, int> attributes;
     std::list<Skill*> skills;
 
