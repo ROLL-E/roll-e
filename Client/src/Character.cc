@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Character::Character(map<string, int> new_attributes, int start_max_weight)
+Character::Character(QMap<QString, qint16> new_attributes, qint16 start_max_weight)
   : attributes{new_attributes},
     inventory{start_max_weight} {
 }
@@ -14,28 +14,28 @@ Character::Character(const Character& other)
     inventory(other.inventory) {
 }
 
-string Character::get_name() const {
+QString Character::get_name() const {
   return name;
 }
 
-void Character::set_name(const string& new_name) {
+void Character::set_name(const QString& new_name) {
   name = new_name;
 }
 
-int Character::get_attribute(const string& attr_name) const {
-  return attributes.at(attr_name); // operator[] is not const-safe
+qint16 Character::get_attribute(const QString& attr_name) const {
+  return attributes.value(attr_name); // operator[] is not const-safe
 }
 
-void Character::set_attribute(const string& attr_name, int value) {
+void Character::set_attribute(const QString& attr_name, qint16 value) {
   attributes[attr_name] = value;
 }
 
-void Character::add_to_attribute(const string& attr_name, int value) {
-        attributes[attr_name] = value + attributes.at(attr_name);
+void Character::add_to_attribute(const QString& attr_name, qint16 value) {
+        attributes[attr_name] = value + attributes.value(attr_name);
 }
 
 
-std::list<Skill*> Character::get_skills() const {
+QList<Skill*> Character::get_skills() const {
   return skills;
 }
 
@@ -44,7 +44,7 @@ void Character::add_skill(Skill* new_skill) {
 }
 
 void Character::remove_skill(Skill* skill_to_remove) {
-  skills.remove(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
+  skills.removeOne(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
 }
 
 void Character::add_item(Item* new_item) {

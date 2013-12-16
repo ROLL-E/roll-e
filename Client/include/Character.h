@@ -1,9 +1,9 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <string>
-#include <list>
-#include <map>
+#include <QString>
+#include <QList>
+#include <QMap>
 
 #include "Skill.h"
 #include "Item.h"
@@ -12,15 +12,15 @@
 
 class Character {
 public:
-  Character(std::map<std::string,int>, int);
+  Character(QMap<QString,qint16>, qint16);
   Character(const Character&);
   
-  std::string get_name() const;
-  void set_name(const std::string&);
-  int get_attribute(const std::string&) const;
-  void set_attribute(const std::string&, int);
-  void add_to_attribute(const std::string&, int);
-  std::list<Skill*> get_skills() const;
+  QString get_name() const;
+  void set_name(const QString&);
+  qint16 get_attribute(const QString&) const;
+  void set_attribute(const QString&, qint16);
+  void add_to_attribute(const QString&, qint16);
+  QList<Skill*> get_skills() const;
   void add_skill(Skill*);
   void remove_skill(Skill*);
   void add_item(Item*);
@@ -31,10 +31,10 @@ public:
   void set_server(ServerConnection*);
   
 private:
-  std::string name;
+  QString name;
   ServerConnection* server;
-  std::map<std::string, int> attributes;
-  std::list<Skill*> skills;
+  QMap<QString, qint16> attributes;
+  QList<Skill*> skills;
   ClientInventory inventory;
   
 };
