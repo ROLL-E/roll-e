@@ -57,12 +57,16 @@ Ruleset& Story::get_ruleset() const {
   return ruleset;
 }
 
-std::map<int, Item*> Story::get_items() const {
+QMap<int, Item*> Story::get_items() const {
   return items;
 }
 
 void Story::set_fight(Fight* new_fight) {
   current_fight = new_fight;
+}
+
+void Story::set_items(QMap<int, Item*> map) {
+  items = map;
 }
 
 void Story::remove_character(Character* char_to_remove) {
@@ -74,5 +78,5 @@ void Story::remove_scenario(Scenario* scenario_to_remove) {
 }
 
 void Story::remove_item(int id_to_remove) {
-  items.erase(id_to_remove);
+  items.remove(id_to_remove);
 }

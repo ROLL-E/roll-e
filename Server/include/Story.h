@@ -6,6 +6,7 @@
 #include <list>
 #include <QThread>
 #include <QObject>
+#include <QMap>
 
 class Item;
 class Fight;
@@ -21,7 +22,7 @@ private:
     Fight* current_fight;
     std::list<Scenario*> current_scenarios;
     Ruleset& ruleset;
-    std::map<int, Item*> items;
+    QMap<int,Item*> items;
     QThread* netThread;
     Server* myServer;
 
@@ -41,7 +42,7 @@ public:
     std::map<int, Item*> get_items() const;
 
     void set_fight(Fight*);
-
+    void set_items(QMap<int, Item*>);
     void remove_character(Character*);
     void remove_scenario(Scenario*);
     void remove_item(int);

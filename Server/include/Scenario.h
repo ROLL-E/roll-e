@@ -1,6 +1,7 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 #include "LogicBlock.h"
+#include "WaitBlock.h"
 #include <map>
 #include <string>
 
@@ -15,12 +16,15 @@ public:
     Scenario() = default;
     Scenario(Scenario&);
     void run();
-    void wait_turns(int) const;
+    void wait_turns(int);
     int find_turn_depth() const;
-    void set_flag(std::string, bool);
-    std::map<std::string,bool> get_flags();
-    bool get_flag(std::string);
+    void set_flag(const std::string&, bool);
+    std::map<std::string,bool> get_flags() const;
+    bool get_flag(const std::string&) const;
     void set_head(LogicBlock*);
+    LogicBlock* get_head() const;
+    void set_next_block(LogicBlock*);
+    LogicBlock* get_next_block() const;
 
 };
 

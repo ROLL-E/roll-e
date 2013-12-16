@@ -14,6 +14,7 @@ private:
     std::map<std::string, int> attributes;
     std::list<Skill*> skills;
 
+
 public:
     Inventory inventory;
     Character(std::map<std::string, int>, int);
@@ -21,8 +22,11 @@ public:
     std::string get_name() const;
     void set_name(const std::string&);
     int get_attribute(std::string) const;
+
+    void add_to_attribute(const std::string&, int);
     void set_attribute(const std::string&, int);
     void take_damage(const std::string&, int);
+
     std::list<Skill*> get_skills() const;
     void add_skill(Skill*);
     void remove_skill(Skill*);
