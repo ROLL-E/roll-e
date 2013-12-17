@@ -1,5 +1,5 @@
 #include "Fight.h"
-
+#include "Scenario.h"
 using namespace std;
 
 void Fight::add_character(Character* new_char) {

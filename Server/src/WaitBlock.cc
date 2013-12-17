@@ -5,7 +5,20 @@ void WaitBlock::set_wait_turns(int new_number) {
 }
 
 int WaitBlock::get_wait_turns() const {
-    return wait_turns;
+  return wait_turns;
+}
+
+void WaitBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  next_id = blocks.indexOf(get_next());
+  if (get_next() != nullptr)
+    get_next()->populate_id_fields(blocks, chars);
+}
+
+void WaitBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  set_next(blocks.value(next_id));
+  if (get_next() != nullptr) {
+    get_next()->populate_pointer_fields(blocks, chars);
+  }
 }
 
 LogicBlock* WaitBlock::execute() {
@@ -15,4 +28,28 @@ LogicBlock* WaitBlock::execute() {
     else
         wait_counter++;
     return this;
+}
+
+QDataStream& WaitBlock::write_to_stream(QDataStream & ds) {
+  ds << next_id;
+  ds << get_last();
+
+  ds << wait_turns;
+  ds << wait_counter;
+
+  return ds;
+}
+
+QDataStream& WaitBlock::read_from_stream(QDataStream & ds) {
+  bool temp_last;
+
+  ds >> next_id;
+  ds >> temp_last;
+
+  set_last(temp_last);
+
+  ds >> wait_turns;
+  ds >> wait_counter;
+
+  return ds;
 }
