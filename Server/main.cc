@@ -83,27 +83,27 @@ int main(int argc, char *argv[])
 
   //Test program, compares 2 2-sided dice to the number 3 and either waits 3
   // 3 turns and heals 1 point or deals 6 damage to bob, depending on the outcome.
-
+  qDebug() << "Valueblock 1";
   ValueBlock* b1 = new ValueBlock();
   b1->set_intention('s');
   b1->set_value(3);
-
+  qDebug() << "Valueblock 2";
   ValueBlock* b2 = new ValueBlock();
   b2->set_intention('r');
   b2->set_sides(2);
   b2->set_number(2);
   b1->set_next(b2);
-
+  qDebug() << "Valueblock 3";
   CompareBlock* b3 = new CompareBlock();
   b3->set_lhs(b1);
   b3->set_rhs(b2);
   b2->set_next(b3);
-
+  qDebug() << "Valueblock 4";
   ValueBlock* b4 = new ValueBlock();
   b4->set_intention('s');
   b4->set_value(6);
   b3->set_alternate(b4);
-
+  qDebug() << "damageblock 5";
   DamageBlock* b5 = new DamageBlock();
   b5->set_valueblock(b4);
   b5->set_target(bob);
@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
   b5->set_next(nullptr);
   b5->set_last(true);
   b4->set_next(b5);
-
+  qDebug() << "waitblock 6";
   WaitBlock* b6 = new WaitBlock();
   b6->set_wait_turns(3);
   b3->set_next(b6);
@@ -132,20 +132,20 @@ int main(int argc, char *argv[])
   b9->set_target(bob);
   b9->set_last(true);
   b8->set_next(b9);
-
+  qDebug() << "Damageblock 9";
 
   Scenario* scene1 = new Scenario();
   scene1->set_head(b1);
   scene1->set_next_block(b1);
   scene1->set_story(main_story);
-
+  qDebug() << "scenario 1";
   main_story->get_ruleset().add_scenario(scene1);
-
-  GameSave::save(main_story, "F:\\Projekt\\bigsave.dat");
-
+  qDebug() << "Save 1";
+  GameSave::save(main_story, "K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat");
+  qDebug() << "Save 2";
   rs = Ruleset(attr_list);
-  GameSave::load("F:\\Projekt\\bigsave.dat", main_story);
-
+  GameSave::load("K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat", main_story);
+  qDebug() << "Load 1";
   for (Item* i : main_story->get_items()) {
     qDebug() << i->get_id() << ": " << i->get_name();
   }

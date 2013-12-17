@@ -25,6 +25,7 @@ void GameSave::load(QString filename, Story*& story) {
   QString tag;
   in_stream >> tag;
 
+  story->myServer->deleteLater();
   delete story;
 
   try {

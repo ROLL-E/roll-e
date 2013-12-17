@@ -72,7 +72,7 @@ void Server::update_messages_and_requests(ClientConnection* client){
 void Server::start(){
     if(!server->listen(QHostAddress::Any,14449)){
         qDebug() << "Server could not listen...";
-        throw(std::runtime_error{"Fatal error: could not initiate server."}); // This should never happen.
+        throw(std::runtime_error{"Fatal error: could not initiate server."});
     } else {
         qDebug() << "Server is listening.";
     }
@@ -80,7 +80,6 @@ void Server::start(){
 
 void Server::push_data(){ // Might need story* here.
     // we need to implement character and story for this
-
 }
 
 void Server::redirect_messages(){
