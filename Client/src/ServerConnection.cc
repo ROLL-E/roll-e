@@ -3,13 +3,15 @@
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
   clientSocket = new QTcpSocket{this};
+  joined = false;
   connect(clientSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
   connect(clientSocket, SIGNAL(connected()), this, SLOT(connected()));
   connect(clientSocket, SIGNAL(disconnected()), this, SLOT(disconnected()));
 }
 
-void ServerConnection::send_message(Message msg) const {
+void ServerConnection::send_message(QString receiver, QString message) const {
   QDataStream out_stream(clientSocket);
+  Message msg{controlledChar,receiver,message};
   out_stream << QChar('m') << msg;
 
 }
@@ -19,11 +21,15 @@ void ServerConnection::send_request(Request req) const {
   out_stream << QChar('r') << req;
 }
 
-void ServerConnection::join(QHostAddress address){
-  clientSocket->connectToHost(address,14449);
+void ServerConnection::join(QString address, QString cha){
+  clientSocket->connectToHost(QHostAddress(address),14449);
   if(!clientSocket->waitForConnected(1000)){
       qDebug() << "connection timed out!";
-    }
+  } else {
+      send_request(Request{"Join",cha,0});
+      controlledChar = cha;
+  }
+
 }
 
 void ServerConnection::connected(){
@@ -43,7 +49,10 @@ void ServerConnection::readyRead(){
   if (token == QChar('m')) {
       Message msg;
       in_stream >> msg;
-      qDebug() << msg.message;
+      if(msg.message == QString("Welcome!") and msg.sender == QString("System")){
+          joined = true;
+      } else
+          qDebug() << msg.message;
     }
   else if (token == QChar('r')) {
       Request req;
@@ -52,6 +61,10 @@ void ServerConnection::readyRead(){
     }
   else
     qDebug() << "Fuck all";
+}
+
+bool ServerConnection::has_joined(){
+    return joined;
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {

@@ -2,6 +2,8 @@
 #define SERVERCONNECTION_H
 #include <string>
 #include <vector>
+#include <chrono>
+#include <thread>
 #include <QtNetwork>
 #include <QObject>
 
@@ -29,13 +31,16 @@ class ServerConnection : public QObject{
 private:
 
   std::vector<std::string> message_buffer;
+  QString controlledChar{"Legion"};
+  bool joined;
 
 public:
   QTcpSocket* clientSocket; //private?
   ServerConnection(QObject* parent = 0);
-  void send_message(Message) const;
+  void send_message(QString,QString) const;
   void send_request(Request) const;
-  void join(QHostAddress);
+  void join(QString,QString);
+  bool has_joined();
 
 public slots:
   void connected();
