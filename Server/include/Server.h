@@ -3,6 +3,7 @@
 
 #include "ClientConnection.h"
 #include "Story.h"
+#include <QPointer>
 #include <QList>
 
 class Client;
@@ -17,13 +18,15 @@ friend class Story;
 private:
     QList<Message*> message_buffer;
     QList<Request*> request_buffer;
+    QList<QPair<QPointer<ClientConnection>,Request*>> join_requests;
+    Story* story;
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();
-    void push_data(Story*);
-    void redirect_messages(Story*);
+    void push_data();
+    void redirect_messages();
 
 public:
-  explicit Server(QObject* parent = 0);
+  explicit Server(Story*, QObject* parent = 0);
   QTcpServer* server; //private?
   QList<QPair<QPointer<ClientConnection>,QThread*>> clients;
   
@@ -31,12 +34,14 @@ signals:
   void finished();
   void got_message();
   void got_request();
+  void got_join_request();
 
 public slots:
   void newConnection();
   void client_disconnected();
   void start();
-  void update_messages_and_requests(ClientConnection*);
+  void update_messages_and_requests(QPointer<ClientConnection>);
+  void join_request();
 
 
 };

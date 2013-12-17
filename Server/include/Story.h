@@ -55,8 +55,6 @@ public:
   void kick_player(QString);
 
 private slots:
-    void redirect_messages();
-    void push_data();
 };
 
 #endif

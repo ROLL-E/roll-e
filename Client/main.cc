@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         testie.send_message(Message{"fredrik","fredrik","Hiy!"});
         testie.send_message(Message{"fredrik","BOB!","Hay!"});
         testie.send_message(Message{"fredrik","Herr Man","Hey!"});
-        //testie.send_request(Request{"join","fredrik",1});
+        //testie.send_request(Request{"Join","fredrik",1});
     }
     return a.exec();
 }

@@ -2,8 +2,9 @@
 #include <iostream>
 
 
-Server::Server(QObject *parent) : QObject(parent){
+Server::Server(Story* main_story, QObject *parent) : QObject(parent){
     server = new QTcpServer(this);
+    story = main_story;
     connect(server,SIGNAL(newConnection()),this,SLOT(newConnection()));
 }
 
@@ -15,6 +16,7 @@ void Server::newConnection() {
     // Meaty because we need the actual pointers of the clientconnection and its thread located in the list to setup the connection.
     // Not sure how QObject sets up the connection, might be possible to clean this up.
     connect(clients.first().first, SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
+    connect(this,SIGNAL(got_join_request()),this,SLOT(join_request()));
     connect(clients.first().first, SIGNAL(disconnected()), this, SLOT(client_disconnected()));
     connect(clients.first().first,SIGNAL(disconnected()),clients.first().first,SLOT(deleteLater()));
     connect(clients.first().first,SIGNAL(disconnected()), clients.first().second,SLOT(quit()));
@@ -41,7 +43,7 @@ Request* Server::get_request_from_buffer(){
         return nullptr;
 }
 
-void Server::update_messages_and_requests(ClientConnection* client){
+void Server::update_messages_and_requests(QPointer<ClientConnection> client){
     // If the client has any messages to get, then get them.
     while(0 < client->message_buffer.size()){
         Message* msg = client->get_message_from_buffer();
@@ -53,10 +55,15 @@ void Server::update_messages_and_requests(ClientConnection* client){
     while(0 < client->request_buffer.size()){
         Request* req = client->get_request_from_buffer();
         if(req != nullptr)
-            request_buffer.append(req);
+            if(req->type == QString("Join")){
+                join_requests.append(QPair<QPointer<ClientConnection>, Request*>(client, req));
+                emit got_join_request();
+            }else
+                request_buffer.append(req);
     }
     emit got_request();
 }
+
 
 
 void Server::start(){
@@ -68,12 +75,12 @@ void Server::start(){
     }
 }
 
-void Server::push_data(Story* story){ // Might need story* here.
+void Server::push_data(){ // Might need story* here.
     // we need to implement character and story for this
 
 }
 
-void Server::redirect_messages(Story* story){
+void Server::redirect_messages(){
     // This should just redirect the message to intendet reciever based on
     // the reciever-field in msg.
     QMutex servermutex;
@@ -90,4 +97,18 @@ void Server::redirect_messages(Story* story){
         }
     }
     servermutex.unlock();
+}
+
+void Server::join_request(){
+    while(!join_requests.isEmpty()){
+        Request* req = join_requests.takeFirst().second;
+        Character* requested_char = story->get_character(req->intention);
+        ClientConnection* joiner = join_requests.takeFirst().first;
+        if(requested_char != nullptr){
+            if(requested_char->get_connection() == nullptr)
+                requested_char->set_connection(joiner);
+            else
+                joiner->send_message(Message{"Systen","new player", req->intention + " is not available."});
+        }
+    }
 }

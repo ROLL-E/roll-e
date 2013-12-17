@@ -2,11 +2,10 @@
 #include "Item.h"
 
 Story::Story(Ruleset& new_ruleset) : ruleset(new_ruleset) {
-  myServer = new Server;
+  myServer = new Server{this};
   netThread = new QThread;
   myServer->moveToThread(netThread);
   // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
-  connect(myServer, SIGNAL(got_message()), this, SLOT(redirect_messages()));
   connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
   connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
   connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
@@ -78,15 +77,4 @@ void Story::remove_scenario(Scenario* scenario_to_remove) {
 
 void Story::remove_item(quint16 id_to_remove) {
   items.remove(id_to_remove);
-}
-
-void Story::redirect_messages(){
-    QMutex mutex;
-    mutex.lock();
-    myServer->redirect_messages(this);
-    mutex.unlock();
-}
-
-void Story::push_data(){
-    myServer->push_data(this);
 }
