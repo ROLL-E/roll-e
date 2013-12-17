@@ -17,6 +17,7 @@ void Server::newConnection() {
     // Not sure how QObject sets up the connection, might be possible to clean this up.
     connect(clients.first().first, SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
     connect(this,SIGNAL(got_join_request()),this,SLOT(join_request()));
+    connect(this, SIGNAL(got_message()),this,SLOT(redirect_messages()));
     connect(clients.first().first, SIGNAL(disconnected()), this, SLOT(client_disconnected()));
     connect(clients.first().first,SIGNAL(disconnected()),clients.first().first,SLOT(deleteLater()));
     connect(clients.first().first,SIGNAL(disconnected()), clients.first().second,SLOT(quit()));
@@ -44,13 +45,14 @@ Request* Server::get_request_from_buffer(){
 }
 
 void Server::update_messages_and_requests(ClientConnection* client){
-    // If the client has any messages to get, then get them.
+   // If the client has any messages to get, then get them.
     while(0 < client->message_buffer.size()){
         Message* msg = client->get_message_from_buffer();
         if(msg != nullptr)
             message_buffer.append(msg);
     }
     emit got_message();
+
     // If the client has any pending requests, then get them.
     while(0 < client->request_buffer.size()){
         Request* req = client->get_request_from_buffer();
@@ -109,6 +111,7 @@ void Server::join_request(){
             if(requested_char->get_connection() == nullptr){
                 requested_char->set_connection(joiner.first);
                 joiner.first->send_message(Message{"System","new_player","Welcome!"});
+                qDebug()  << "Legion has taken control of " << requested_char->get_name();
             } else
                 joiner.first->send_message(Message{"System","new player", joiner.second->intention + " is not available."});
         }

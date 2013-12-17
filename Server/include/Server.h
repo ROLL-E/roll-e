@@ -22,8 +22,6 @@ private:
     Story* story;
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();
-    void push_data();
-    void redirect_messages();
 
 public:
   explicit Server(Story*, QObject* parent = 0);
@@ -37,12 +35,13 @@ signals:
   void got_join_request();
 
 public slots:
+  void push_data();
+  void redirect_messages();
   void newConnection();
   void client_disconnected();
   void start();
   void update_messages_and_requests(ClientConnection*);
   void join_request();
-
 
 };
 
