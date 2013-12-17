@@ -67,6 +67,10 @@ void Item::remove_modifier(const QString& mod_to_remove) {
     throw invalid_argument("Modifier does not exist");
 }
 
+qint16 Item::get_attribute(const QString& name) const{
+    return attributes.value(name);
+}
+
 QDataStream& Item::read_from_stream(QDataStream& ds) {
   ds >> name;
   ds >> modifiers;

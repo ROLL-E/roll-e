@@ -21,6 +21,7 @@ public:
     Ruleset(const Ruleset&);
     QList<Scenario*> get_scenarios() const;
     QList<Skill*> get_skills() const;
+    QList<QString> get_attributes() const;
 
     void add_scenario(Scenario*);
     void add_skill(Skill*);

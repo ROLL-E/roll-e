@@ -22,7 +22,28 @@ void DamageBlock::set_valueblock(ValueBlock* new_block) {
 }
 
 ValueBlock* DamageBlock::get_valueblock() const {
-    return valueblock;
+  return valueblock;
+}
+
+void DamageBlock::set_type(const QString& new_type) {
+  type = new_type;
+}
+
+void DamageBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  next_id = blocks.indexOf(get_next());
+  target_id = chars.indexOf(target);
+  valueblock_id = blocks.indexOf(valueblock);
+  if (get_next() != nullptr)
+    get_next()->populate_id_fields(blocks,chars);
+}
+
+void DamageBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  set_next(blocks.value(next_id));
+  set_target(chars.value(target_id));
+  set_valueblock(dynamic_cast<ValueBlock*>(blocks.value(valueblock_id)));
+  if (get_next() != nullptr) {
+    get_next()->populate_pointer_fields(blocks, chars);
+  }
 }
 
 LogicBlock* DamageBlock::execute() {
@@ -33,3 +54,37 @@ LogicBlock* DamageBlock::execute() {
         return this->get_next();
     }
 }
+
+QDataStream& DamageBlock::write_to_stream(QDataStream& ds) {
+  ds << next_id;
+  ds << get_last();
+
+  ds << type;
+  ds << target_id;
+  ds << valueblock_id;
+
+  return ds;
+}
+
+QDataStream& DamageBlock::read_from_stream(QDataStream& ds) {
+  bool temp_last;
+
+  ds >> next_id;
+  ds >> temp_last;
+
+  set_last(temp_last);
+
+  ds >> type;
+  ds >> target_id;
+  ds >> valueblock_id;
+
+  return ds;
+}
+/*
+QDataStream& operator<<(QDataStream& ds, DamageBlock*& block) {
+  return block->write_to_stream(ds);
+}
+
+QDataStream& operator>>(QDataStream& ds, DamageBlock*& block) {
+  return block->read_from_stream(ds);
+}*/

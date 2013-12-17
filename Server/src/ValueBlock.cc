@@ -1,163 +1,213 @@
 #include "ValueBlock.h"
 #include "Character.h"
+#include "Story.h"
+#include "Item.h"
+#include "Skill.h"
 #include <time.h>
 
 using namespace std;
 
-void ValueBlock::set_intention(char new_intention) {
-    intention = new_intention;
+void ValueBlock::set_intention(QChar new_intention) {
+  intention = new_intention;
 }
 
-char ValueBlock::get_intention() const {
-    return intention;
+QChar ValueBlock::get_intention() const {
+  return intention;
 }
 
 void ValueBlock::set_value(int new_value) {
-    value = new_value;
+  value = new_value;
 }
 
 qint16 ValueBlock::get_value() const {
-    return value;
+  return value;
 }
 
 void ValueBlock::set_sides(int new_sides) {
-    sides = new_sides;
+  sides = new_sides;
 }
 
 int ValueBlock::get_sides() const {
-    return sides;
+  return sides;
 }
 
 void ValueBlock::set_number(int new_number) {
-    number = new_number;
+  number = new_number;
 }
 
 int ValueBlock::get_number() const {
-    return number;
+  return number;
 }
 
 void ValueBlock::set_target(Character* new_target) {
-    target = new_target;
+  target = new_target;
 }
 
 Character* ValueBlock::get_target() const {
-    return target;
+  return target;
 }
 
 QList<QString> ValueBlock::get_attributes() const {
-    return attributes;
+  return attributes;
 }
 
 void ValueBlock::add_to_attributes(const QString& new_attribute) {
-    QList<QString>::iterator it;
-    it = find(attributes.begin(), attributes.end(), new_attribute);
-    if (it == attributes.end())
-        attributes.push_front(new_attribute);
-    else
-        throw logicblock_error("Attribute already exists");
+  if (!attributes.contains(new_attribute))
+    attributes.push_front(new_attribute);
+  else
+    throw logicblock_error("Attribute already exists");
 }
 
 void ValueBlock::remove_attribute(const QString& attribute) {
-    QList<QString>::iterator it;
-    it = find(attributes.begin(), attributes.end(), attribute);
-    if (it != attributes.end())
-        attributes.erase(it);
-    else
-        throw logicblock_error("Can't remove attriubte, it doesn't exist in the list");
+  if (attributes.contains(attribute))
+    attributes.removeOne(attribute);
+  else
+    throw logicblock_error("Can't remove attriubte, it doesn't exist in the list");
 }
 
-QList<QString> ValueBlock::get_applicable_skills() const {
-    return applicable_skills;
+QMap<Skill*, QString> ValueBlock::get_applicable_skills() const {
+  return applicable_skills;
 }
 
-void ValueBlock::add_to_applicable_skills(const QString& name) {
-    QList<QString>::iterator it;
-    it = find(applicable_skills.begin(), applicable_skills.end(), name);
-    if ( it == applicable_skills.end())
-        applicable_skills.push_back(name);
-    else
-        throw logicblock_error("Skill already exsists");
+void ValueBlock::add_to_applicable_skills(Skill* new_skill, QString attribute) {
+    applicable_skills[new_skill] = attribute;
 }
 
-void ValueBlock::remove_applicable_skill(const QString& name) {
-    QList<QString>::iterator it;
-    it = find(applicable_skills.begin(), applicable_skills.end(), name);
-    if (it != applicable_skills.end())
-        applicable_skills.erase(it);
-    else
-        throw logicblock_error("Can't remove skill, it doesn't exist in list");
+void ValueBlock::remove_applicable_skill(Skill* skill) {
+  if (applicable_skills.contains(skill))
+    applicable_skills.remove(skill);
+  else
+    throw logicblock_error("Can't remove skill, it doesn't exist in list");
 }
 
-QList<int> ValueBlock::get_applicable_items() const {
-    return applicable_items;
+QMap<quint16, QString> ValueBlock::get_applicable_items() const {
+  return applicable_items;
 }
 
-void ValueBlock::add_to_applicable_items(int id) {
-    QList<int>::iterator it;
-    it = find(applicable_items.begin(), applicable_items.end(), id);
-    if (it == applicable_items.end())
-        applicable_items.push_back(id);
-    else
-        throw logicblock_error("Item alredy exists");
+void ValueBlock::add_to_applicable_items(quint16 id, QString attribute) {
+    applicable_items[id] = attribute;
 }
 
-void ValueBlock::remove_applicable_item(int id) {
-    QList<int>::iterator it;
-    it = find(applicable_items.begin(), applicable_items.end(), id);
-    if (it != applicable_items.end())
-        applicable_items.erase(it);
-    else
-        throw logicblock_error("Can't remove item, it doesn't exist in list");
+void ValueBlock::remove_applicable_item(quint16 id) {
+  if (applicable_items.contains(id))
+    applicable_items.remove(id);
+  else
+    throw logicblock_error("Can't remove item, it doesn't exist in list");
 }
 
 QMap<QString, bool> ValueBlock::get_flags() const {
-    return flags;
+  return flags;
 }
 
 void ValueBlock::set_flag(const QString& name, bool value) {
-    flags[name] = value;
+  flags[name] = value;
 }
 
 void ValueBlock::remove_flag(const QString& name) {
-    QMap<QString,bool>::iterator it;
-    it = flags.find(name);
-    if (it != flags.end())
-        flags.erase(it);
-    else
-        throw logicblock_error("Can't remove flag, it doesn't exist");
+  if (flags.contains(name))
+    flags.remove(name);
+  else
+    throw logicblock_error("Can't remove flag, it doesn't exist");
+}
+
+void ValueBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  next_id = blocks.indexOf(get_next());
+  target_id = chars.indexOf(target);
+  if (get_next() != nullptr)
+    get_next()->populate_id_fields(blocks, chars);
+}
+
+void ValueBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  set_next(blocks.value(next_id));
+  set_target(chars.value(target_id));
+  if (get_next() != nullptr) {
+    get_next()->populate_pointer_fields(blocks, chars);
+  }
 }
 
 int ValueBlock::roll() const {
-    int temp{0};
-    srand(time_t(NULL));
-    for (int i{0}; i < number ; ++i)
-        temp += (rand() % sides) + 1;
-    return temp;
+  int temp{0};
+  srand(time(NULL));
+  for (int i{0}; i < number ; ++i)
+    temp += (rand() % sides) + 1;
+  return temp;
 }
 
-int ValueBlock::fetch_item_bonus(int id) const {
+int ValueBlock::fetch_item_bonus() const {
     int result{0};
-    //Qmap<int,Item*> items = current_story->get_items();
-    QList<int>::const_iterator it_applicable;
-    for (it_applicable = applicable_items.cbegin(); it_applicable != applicable_items.end(); ++it_applicable) {
-        //if (*it_applicable == id)
-            // result += items.find(*it_applicable)->get_bouns(); //Solve later!!
-    }
+    QMap<quint16, QString>::const_iterator it;
+    for (it = applicable_items.cbegin(); it != applicable_items.cend(); ++it)
+        if (target->has_item(it.key()))
+            result += current_story->get_item(it.key())->get_attribute(it.value());
+    return result;
 }
 
+int ValueBlock::fetch_attributes() const {
+    int result{0};
+    QList<QString>::const_iterator it;
+    for (it = attributes.cbegin(); it != attributes.cend(); ++it)
+      result += target->get_attribute(*it);
+    return result;
+}
+
+int ValueBlock::fetch_skill_bonus() const {
+    int result {0};
+    QMap<Skill*, QString>::const_iterator it;
+    for (it = applicable_skills.cbegin(); it != applicable_skills.cend(); ++it)
+        result += it.key()->get_modifier(it.value());
+    return result;
+}
 
 LogicBlock* ValueBlock::execute() {
-    if (intention == 's')
-        return this->get_next();
-    else if (intention == 'r') {
-        value = roll();
-    }
-    else if (intention == 'a') {
-        QList<QString>::iterator it;
-        for (it = attributes.begin(); it != attributes.end(); ++it)
-            value += target->get_attribute(*it);
+  if (intention == 's')
+    return this->get_next();
+  else if (intention == 'r') {
+    value = roll();
+  }
+  else if (intention == 'a') {
+    value += fetch_attributes();
+    value += fetch_item_bonus();
+    value += fetch_skill_bonus();
+    value += roll();
+  }
+  return this->get_next();
+}
 
-        value += roll();
-    }
-    return this->get_next(); //Not yet implemented
+QDataStream& ValueBlock::write_to_stream(QDataStream & ds) {
+
+  ds << next_id;
+  ds << get_last();
+
+  ds << intention;
+  ds << value;
+  ds << sides;
+  ds << number;
+  ds << attributes;
+  ds << applicable_skills;
+  ds << applicable_items;
+  ds << target_id;
+  ds << flags;
+
+  return ds;
+}
+
+QDataStream& ValueBlock::read_from_stream(QDataStream & ds) {
+  bool temp_last;
+
+  ds >> next_id;
+  ds >> temp_last;
+
+  set_last(temp_last);
+
+  ds >> intention;
+  ds >> value;
+  ds >> sides;
+  ds >> number;
+  ds >> attributes;
+  ds >> applicable_skills;
+  ds >> applicable_items;
+  ds >> target_id;
+  ds >> flags;
+
+  return ds;
 }

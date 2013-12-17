@@ -26,7 +26,7 @@ void Story::add_item(Item* new_item) {
   items.insert(new_item->get_id(), new_item);
 }
 
-QList<Character*> Story::get_characters() const {
+QList<Character*>& Story::get_characters() {
   return characters;
 }
 
@@ -46,11 +46,11 @@ Fight* Story::get_fight() const {
   return current_fight;
 }
 
-QList<Scenario*> Story::get_scenarios()  const {
+QList<Scenario*>& Story::get_scenarios() {
   return current_scenarios;
 }
 
-Ruleset& Story::get_ruleset() const {
+Ruleset& Story::get_ruleset() {
   return ruleset;
 }
 
@@ -77,3 +77,8 @@ void Story::remove_scenario(Scenario* scenario_to_remove) {
 void Story::remove_item(quint16 id_to_remove) {
   items.remove(id_to_remove);
 }
+
+Item* Story::get_item(quint16 id) const {
+    return items.value(id);
+}
+

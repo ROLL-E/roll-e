@@ -21,6 +21,10 @@ QList<Skill*> Ruleset::get_skills() const {
   return allowed_skills;
 }
 
+QList<QString> Ruleset::get_attributes() const {
+  return allowed_attributes;
+}
+
 void Ruleset::add_scenario(Scenario* new_scenario) {
   scenarios.push_back(new_scenario);
 }
