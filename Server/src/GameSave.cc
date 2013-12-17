@@ -16,18 +16,28 @@
 #include "WaitBlock.h"
 
 
-void GameSave::load(QString filename, Story* story) {
+void GameSave::load(QString filename, Story*& story) {
   QFile input_file(filename);
   input_file.open(QIODevice::ReadOnly);
 
   QDataStream in_stream(&input_file);
 
   QString tag;
-  Item* current_item;
-
   in_stream >> tag;
 
+  delete story;
+
   try {
+    if (tag == QString("Rules")) {
+      QList<QString> attr;
+      in_stream >> attr;
+      story = new Story(Ruleset(attr));
+
+      in_stream >> tag;
+    }
+
+    Item* current_item;
+
     while (tag == QString("Item")) {
       quint16 id;
       in_stream >> id;
@@ -60,7 +70,7 @@ void GameSave::load(QString filename, Story* story) {
 
     while (tag == QString("Scen")) {
       in_stream >> current_scenario;
-      story->add_scenario(current_scenario);
+      story->get_ruleset().add_scenario(current_scenario);
 
       current_scenario->set_head(current_scenario->all_blocks.value(current_scenario->head_id));
       current_scenario->set_next_block(current_scenario->all_blocks.value(current_scenario->next_block_id));
@@ -102,6 +112,8 @@ void GameSave::save(Story* story, QString filename) {
   output_file.open(QIODevice::WriteOnly);
   QDataStream out_stream(&output_file);
 
+  out_stream << QString("Rules");
+  out_stream << story->get_ruleset().get_attributes();
 
   for (Item* item : story->get_items())  {
     out_stream << QString("Item");
@@ -120,7 +132,7 @@ void GameSave::save(Story* story, QString filename) {
     out_stream << skill;
   }
 
-  for (Scenario* scenario : story->get_scenarios()) {
+  for (Scenario* scenario : story->get_ruleset().get_scenarios()) {
     out_stream << QString("Scen");
 
     scenario->get_head()->add_to_list(scenario->all_blocks);
@@ -130,11 +142,6 @@ void GameSave::save(Story* story, QString filename) {
     scenario->get_head()->populate_id_fields(scenario->all_blocks, story->get_characters());
     out_stream << scenario;
   }
-
-
-
-  WaitBlock* wblock = new WaitBlock(3);
-  out_stream << wblock;
 
 
   out_stream << QString("End");

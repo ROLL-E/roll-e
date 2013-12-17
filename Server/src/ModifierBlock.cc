@@ -3,7 +3,7 @@
 
 using namespace std;
 
-ModifierBlock::ModifierBlock(ModifierBlock& other) {
+ModifierBlock::ModifierBlock(ModifierBlock& other) : LogicBlock(){
     target = other.target;
     previous_modifier = other.previous_modifier;
     modifiers = other.modifiers;
@@ -69,7 +69,7 @@ QDataStream& ModifierBlock::write_to_stream(QDataStream & ds) {
 
   ds << modifiers;
   ds << target_id;
-  ds << previous_mod_id;
+  //ds << previous_mod_id;
 
   return ds;
 }
@@ -84,7 +84,7 @@ QDataStream& ModifierBlock::read_from_stream(QDataStream& ds) {
 
   ds >> modifiers;
   ds >> target_id;
-  ds >> previous_mod_id;
+  //ds >> previous_mod_id;
 
   return ds;
 }

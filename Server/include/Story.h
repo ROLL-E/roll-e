@@ -2,6 +2,7 @@
 #define STORY_H
 #include <QList>
 #include <QMap>
+#include "Ruleset.h"
 
 class Item;
 class Fight;
@@ -16,14 +17,14 @@ private:
   QList<Character*> characters;
   Fight* current_fight;
   QList<Scenario*> current_scenarios;
-  Ruleset& ruleset;
+  Ruleset ruleset;
   QMap<quint16, Item*> items;
   QList<ClientConnection*> clients;
 
 public:
   QMap<quint16, Scenario*> scenario_id_map;
 
-  Story(Ruleset&);
+  Story(Ruleset);
 
   void add_character(Character*);
   void add_scenario(Scenario*);
@@ -32,8 +33,8 @@ public:
 
   QList<Character*>& get_characters();
   Fight* get_fight() const;
-  QList<Scenario*> get_scenarios() const;
-  Ruleset& get_ruleset() const;
+  QList<Scenario*>& get_scenarios();
+  Ruleset& get_ruleset();
   QMap<quint16, Item*> get_items() const;
   QList<ClientConnection*> get_clientconnections() const;
 

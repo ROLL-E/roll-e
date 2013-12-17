@@ -32,22 +32,22 @@ int main(int argc, char *argv[])
   QList<QString> attr_list{"health", "armor", "strength"};
   Ruleset rs(attr_list);
 
-  Story main_story(rs);
+  Story* main_story = new Story(rs);
 
   QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
-  main_story.add_character(new Character(attr_map, 50, &main_story));
+  main_story->add_character(new Character(attr_map, 50, main_story));
 
-  Character* bob = main_story.get_characters().front();
+  Character* bob = main_story->get_characters().front();
   bob->set_name("BOB!");
 
 
   try {
     Item* hammer1 = new Item("Hammer of doom");
-    main_story.add_item(hammer1);
+    main_story->add_item(hammer1);
     hammer1->set_attribute("Weight", 20);
 
     Item* hammer2 = new Item("nicer hammah");
-    main_story.add_item(hammer2);
+    main_story->add_item(hammer2);
     hammer2->set_attribute("Weight", 20);
 
     bob->add_item(hammer1->get_id());
@@ -56,15 +56,15 @@ int main(int argc, char *argv[])
 
     qDebug() << "Bob's stuff:";
     for (auto item_id : bob->inventory.get_items()) {
-      qDebug() << main_story.get_items().value(item_id)->get_name();
+      qDebug() << main_story->get_items().value(item_id)->get_name();
     }
   }
   catch (const std::out_of_range& e) {
     qDebug() << "out_of_range exception: " << e.what();
   }
 
-  Character* herman = new Character(attr_map, 10, &main_story);
-  main_story.add_character(herman);
+  Character* herman = new Character(attr_map, 10, main_story);
+  main_story->add_character(herman);
   herman->set_name("Herr Man");
 
   rs.add_skill(new Skill("Break those cuffs"));
@@ -78,6 +78,8 @@ int main(int argc, char *argv[])
   qDebug();
 
 
+  //Test program, compares 2 2-sided dice to the number 3 and either waits 3
+  // 3 turns and heals 1 point or deals 6 damage to bob, depending on the outcome.
 
   ValueBlock* b1 = new ValueBlock();
   b1->set_intention('s');
@@ -117,35 +119,44 @@ int main(int argc, char *argv[])
   b6->set_next(b7);
 
   DamageBlock* b8 = new DamageBlock();
-  b8->set_last(true);
+
   b8->set_type("heal");
   b8->set_valueblock(b7);
   b7->set_next(b8);
   b8->set_target(bob);
-  b8->set_next(nullptr);
+
+  b8->set_last(true);
+
+  /* Bugged in saving and loading
+  ModifierBlock* b9 = new ModifierBlock();
+  b9->set_modifier("health", 5);
+  b9->set_target(bob);
+  b9->set_last(true);
+  b9->set_next(nullptr);
+  b8->set_next(b9);
+  */
 
   Scenario* scene1 = new Scenario();
   scene1->set_head(b1);
   scene1->set_next_block(b1);
-  scene1->set_story(&main_story);
+  scene1->set_story(main_story);
 
-  main_story.add_scenario(scene1);
+  main_story->get_ruleset().add_scenario(scene1);
 
-  GameSave::save(&main_story, "bigsave.dat");
+  GameSave::save(main_story, "F:\\Projekt\\bigsave.dat");
 
 
 
   rs = Ruleset(attr_list);
-  Story second{rs};
-  GameSave::load("bigsave.dat", &second);
+  GameSave::load("F:\\Projekt\\bigsave.dat", main_story);
 
-  for (Item* i : second.get_items()) {
+  for (Item* i : main_story->get_items()) {
     qDebug() << i->get_id() << ": " << i->get_name();
   }
 
   qDebug();
 
-  for (Character* c : second.get_characters()) {
+  for (Character* c : main_story->get_characters()) {
     qDebug() << c->get_name();
     qDebug() << c->get_attribute("health");
     for (Skill* s : c->get_skills())
@@ -153,9 +164,9 @@ int main(int argc, char *argv[])
   }
 
 
-  qDebug() << second.get_characters().value(0)->get_attribute("health");
-  second.get_scenarios().front()->run();
-  qDebug() << second.get_characters().value(0)->get_attribute("health");
+  qDebug() << main_story->get_characters().value(0)->get_attribute("health");
+  main_story->get_ruleset().get_scenarios().front()->run();
+  qDebug() << main_story->get_characters().value(0)->get_attribute("health");
 
 
 

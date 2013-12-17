@@ -25,13 +25,7 @@ LogicBlock* CompareBlock::get_alternate() const {
   return alternate_next;
 }
 
-void CompareBlock::add_to_list(QList<LogicBlock*>& blocks) {
-  blocks.append(this);
-  if (get_next() != nullptr){
-    get_next()->add_to_list(blocks);
-    alternate_next->add_to_list(blocks);
-  }
-}
+
 
 void CompareBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars){
   next_id = blocks.indexOf(get_next());

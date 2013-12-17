@@ -3,7 +3,7 @@
 
 using namespace std;
 
-Story::Story(Ruleset& new_ruleset)
+Story::Story(Ruleset new_ruleset)
   : ruleset(new_ruleset) {
 }
 
@@ -27,11 +27,11 @@ Fight* Story::get_fight() const {
   return current_fight;
 }
 
-QList<Scenario*> Story::get_scenarios()  const {
+QList<Scenario*>& Story::get_scenarios() {
   return current_scenarios;
 }
 
-Ruleset& Story::get_ruleset() const {
+Ruleset& Story::get_ruleset() {
   return ruleset;
 }
 
