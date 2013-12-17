@@ -32,8 +32,6 @@ LogicBlock* WaitBlock::execute() {
 
 QDataStream& WaitBlock::write_to_stream(QDataStream & ds) {
   ds << next_id;
-  ds << get_last();
-
   ds << wait_turns;
   ds << wait_counter;
 
@@ -41,13 +39,7 @@ QDataStream& WaitBlock::write_to_stream(QDataStream & ds) {
 }
 
 QDataStream& WaitBlock::read_from_stream(QDataStream & ds) {
-  bool temp_last;
-
   ds >> next_id;
-  ds >> temp_last;
-
-  set_last(temp_last);
-
   ds >> wait_turns;
   ds >> wait_counter;
 

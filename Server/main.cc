@@ -71,6 +71,10 @@ int main(int argc, char *argv[])
 
   rs.add_skill(new Skill("Break those cuffs"));
   rs.add_skill(new Skill("Eat horse"));
+  rs.get_skills().at(0)->set_modifier("int", 10);
+  rs.get_skills().at(0)->set_modifier("str", 11);
+  rs.get_skills().at(1)->set_modifier("int" , 5);
+  rs.get_skills().at(1)->set_modifier("str", 25);
   bob->add_skill(rs.get_skills().at(0));
   bob->add_skill(rs.get_skills().at(1));
 
@@ -79,8 +83,6 @@ int main(int argc, char *argv[])
 
   qDebug() << "Testing saveload";
   qDebug();
-
-
 
   //Test program, compares 2 2-sided dice to the number 3 and either waits 3
   // 3 turns and heals 1 point or deals 6 damage to bob, depending on the outcome.
@@ -101,9 +103,14 @@ int main(int argc, char *argv[])
   b2->set_next(b3);
 
   ValueBlock* b4 = new ValueBlock();
-  b4->set_intention('s');
-  b4->set_value(6);
+  b4->set_intention('a');
+  b4->set_value(0);
   b3->set_alternate(b4);
+  b4->add_to_applicable_skills(rs.get_skills().at(0),"int");
+  b4->add_to_applicable_skills(rs.get_skills().at(1),"int");
+  b4->execute();
+
+  qDebug() << "Value on b4 (should be 15): " << b4->get_value();
 
   DamageBlock* b5 = new DamageBlock();
   b5->set_valueblock(b4);
@@ -129,6 +136,9 @@ int main(int argc, char *argv[])
   b8->set_target(bob);
   b7->set_next(b8);
 
+  ModifierBlock* b10 = new ModifierBlock();
+  b10->set_previous_modifier(b8);
+
   DamageBlock* b9 = new DamageBlock();
   b9->set_type("heal");
   b9->set_valueblock(b7);
@@ -144,12 +154,16 @@ int main(int argc, char *argv[])
 
   main_story->get_ruleset().add_scenario(scene1);
 
-  GameSave::save(main_story, "F:\\Projekt\\bigsave.dat");
+  //GameSave::save(main_story, "F:\\Projekt\\bigsave.dat");
 
 
 
   rs = Ruleset(attr_list);
-  GameSave::load("F:\\Projekt\\bigsave.dat", main_story);
+  //GameSave::load("F:\\Projekt\\bigsave.dat", main_story);
+
+  qDebug() << "HÄR SKA DET STÅ -5!!!!";
+  qDebug() << b10->get_modifier("health");
+  qDebug() << "Slut";
 
   for (Item* i : main_story->get_items()) {
     qDebug() << i->get_id() << ": " << i->get_name();

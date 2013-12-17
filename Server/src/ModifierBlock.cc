@@ -22,8 +22,24 @@ QMap<QString, qint8> ModifierBlock::get_modifiers() const {
     return modifiers;
 }
 
-void ModifierBlock::set_modifier(QString name, int value) {
+qint8 ModifierBlock::get_modifier(const QString& name) const {
+    return modifiers.value(name);
+}
+
+void ModifierBlock::set_modifier(QString name, qint8 value) {
   modifiers[name] = value;
+}
+
+void ModifierBlock::set_previous_modifier(ModifierBlock* other) {
+    previous_modifier = other;
+    target = other->get_target();
+    for (QString key : other->modifiers.keys()) {
+        set_modifier(key,other->get_modifier(key)*-1);
+    }
+}
+
+ModifierBlock* ModifierBlock::get_previous_modifer() const {
+    return previous_modifier;
 }
 
 void ModifierBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
