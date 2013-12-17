@@ -70,9 +70,12 @@ Rectangle {
         }
    }
 
-    // The view:
+
     ListView {
         id: listView
+
+        clip: true
+
         anchors {
             left: parent.left; top: parent.top;
             right: parent.right; bottom: buttons.top;

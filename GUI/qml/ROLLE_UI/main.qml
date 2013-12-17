@@ -551,8 +551,13 @@ Rectangle {
 
             GridView {
                 id: scenarioGridView
-                anchors.fill: parent
-                anchors.topMargin: 20
+
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+
+                anchors.margins: 20
 
                 clip: true
                 cellHeight: 90
@@ -601,6 +606,19 @@ Rectangle {
                     }
                 }
 
+            }
+
+            Button {
+                id: addScenarioButton
+
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+
+                width: parent.height - 40
+
+                anchors.margins: 20
+                label: "+"
             }
         }
 
@@ -656,6 +674,28 @@ Rectangle {
                         anchors.centerIn: parent
                         text: "Start"
                     }
+                }
+
+                ValueBlock {
+                    id: valueblock1
+                    x: 748
+                    y: 33
+                    opacity: 0
+                }
+
+                LogicBlockSlot {
+                    id: logicblockslot1
+                    x: 164
+                    y: 188
+                    opacity: 0
+                }
+
+                CompareBlock {
+                    id: compareBlock1
+                    x: 748
+                    y: 131
+
+                    colorKey: "red"
                 }
 
             }
@@ -924,6 +964,7 @@ Rectangle {
 
             PropertyChanges {
                 target: scenarioContainer
+                color: "#5d5da8"
                 visible: false
             }
 
@@ -976,282 +1017,22 @@ Rectangle {
                 target: fightContainer
                 visible: false
             }
+
+            PropertyChanges {
+                target: valueblock1
+                colorKey: "red"
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: logicblockslot1
+                colorKey: "red"
+                opacity: 1
+            }
+
         }
     ]
 
 
 }
 
-//Rectangle {
-//    id: mainWindow
-//    width: 1024
-//    height: 840
-
-//    color: "black"
-
-
-//    Item {
-//        id: gameContainer
-//        anchors.top: topMenu.bottom
-//        anchors.right: parent.right
-//        anchors.bottom: parent.bottom
-//        anchors.left: parent.left
-//        anchors.topMargin: 0
-
-//        GameMenu {
-//            id: gameMenu
-//            x: 0
-//            y: 0
-
-//            gradient: Gradient {
-//                GradientStop {
-//                    position: 0
-//                    color: "#939393"
-//                }
-
-//                GradientStop {
-//                    position: 1
-//                    color: "#000000"
-//                }
-//            }
-
-//            anchors.top: parent.top
-//            visible: true
-//        }
-
-//        Rectangle {
-//            id: scenario_temp
-//            x: 0
-//            y: 0
-
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            anchors.top: gameMenu.bottom
-//            anchors.bottom: parent.bottom
-
-//            color: "cyan"
-
-//            Text {
-//                id: text1
-//                anchors.centerIn: parent
-//                text: "Här ska det finnas saker sen..."
-//            }
-
-//            LogicBlock {
-//                id: logicblock1
-
-//                colorKey: "red"
-
-//                x: 421
-//                y: 229
-//                opacity: 0
-//            }
-
-//            LogicBlockSlot {
-//                id: logicblockslot1
-
-//                colorKey: "red"
-//                x: 605
-//                y: 226
-//                opacity: 0
-//            }
-
-//            LogicBlock {
-//                id: logicblock2
-
-//                colorKey: "blue"
-//                blockLabel: "OB"
-//                x: 370
-//                y: 344
-//                opacity: 0
-//            }
-
-//            LogicBlockSlot {
-//                id: logicblockslot2
-
-//                colorKey: "blue"
-//                x: 550
-//                y: 344
-//                opacity: 0
-//            }
-
-
-//            visible: false
-
-//        }
-
-//    }
-
-//    Item {
-//        id: characterContainer
-//        x: 388
-//        y: 329
-//        anchors.right: characterList.left
-//        anchors.rightMargin: 0
-//        anchors.left: parent.left
-//        anchors.leftMargin: 0
-//        anchors.bottom: parent.bottom
-//        anchors.bottomMargin: 0
-//        anchors.top: topMenu.bottom
-//        anchors.topMargin: 0
-
-//        CharacterMenu {
-//            id: characterMenu
-//            x: 0
-//            y: 0
-
-
-//            gradient: Gradient {
-//                GradientStop {
-//                    position: 0
-//                    color: "#939393"
-//                }
-
-//                GradientStop {
-//                    position: 1
-//                    color: "#000000"
-//                }
-//            }
-
-//            visible: false
-//            anchors.right: parent.right
-//            anchors.rightMargin: 0
-//            anchors.left: parent.left
-//            anchors.leftMargin: 0
-//            anchors.top: parent.top
-//            anchors.topMargin: 0
-//    }
-
-//        Flickable {
-//            id: characterSheet
-//            width: parent.width
-//            height: parent.height-topMenu.height-gameMenu.height
-//            anchors.topMargin: 0
-//            visible: false
-//            anchors.top: characterMenu.bottom
-
-//            contentWidth: parent.width
-//            contentHeight: pergamentImage.height
-
-
-
-//            Image {
-//                id: pergamentImage
-//                visible: true
-//                anchors.top: parent.top
-
-//                source: "pergament2.png"
-
-//                TextInput {
-//                    id: text_input1
-//                    x: 230
-//                    y: 183
-//                    width: 80
-//                    height: 20
-//                    text: qsTr("Text")
-//                    font.pixelSize: 12
-//                    opacity: 0
-//                }
-
-//                TextInput {
-//                    id: text_input2
-//                    x: 354
-//                    y: 178
-//                    width: 80
-//                    height: 20
-//                    text: qsTr("Text")
-//                    font.pixelSize: 12
-//                    opacity: 0
-//                }
-
-//                Text {
-//                    id: text2
-//                    x: 265
-//                    y: 69
-//                    text: qsTr("Text")
-//                    font.pixelSize: 12
-//                    opacity: 0
-//                }
-
-//                Text {
-//                    id: text3
-//                    x: 220
-//                    y: 336
-//                    text: qsTr("Text")
-//                    font.pixelSize: 12
-//                    opacity: 0
-//                }
-
-//                Text {
-//                    id: text4
-//                    x: 391
-//                    y: 69
-//                    text: qsTr("Text")
-//                    font.pixelSize: 12
-//                    opacity: 0
-//                }
-//            }
-
-//        }
-
-//    }
-
-//    Item {
-//        id: saveLoadContainer
-//        anchors.top: topMenu.bottom
-//        anchors.topMargin: 0
-//        anchors.bottom: parent.bottom
-//        anchors.bottomMargin: 0
-//        anchors.right: parent.right
-//        anchors.rightMargin: 0
-//        anchors.left: parent.left
-//        anchors.leftMargin: 0
-
-//        opacity: 0
-
-//        SaveLoadMenu {
-//            id: saveLoadMenu
-//            x: 0
-//            y: 0
-
-//            gradient: Gradient {
-//                GradientStop {
-//                    position: 0
-//                    color: "#939393"
-//                }
-
-//                GradientStop {
-//                    position: 1
-//                    color: "#000000"
-//                }
-//            }
-
-//            anchors.top: parent.top
-//            visible: false
-//    }
-
-//    }
-
-
-
-//    TopMenu {
-//        id: topMenu
-//        anchors.top: mainWindow.top
-
-
-//    }
-
-//    CharacterList {
-//        id: characterList
-//        anchors.topMargin: 40
-//        width: 300
-//        anchors.right: parent.right
-//        anchors.rightMargin: 0
-
-//        anchors.top: parent.top
-//        anchors.bottom: mainWindow.bottom
-//        anchors.left: characterDrawer.right
-//    }
-
-
-//}

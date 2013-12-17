@@ -1,5 +1,6 @@
 
 import QtQuick 2.0
+import "blockScript.js" as BlockScript
 
 
 Item {
@@ -7,6 +8,10 @@ Item {
 
     property string colorKey
     property string blockLabel: "LB"
+
+    property bool moved: false
+
+    signal newBlock()
 
     width: 64; height: 64
 
@@ -16,12 +21,22 @@ Item {
         width: 64; height: 64
         anchors.centerIn: parent
 
-        drag.target: tile
+        drag.target: block
 
-        onReleased: parent = tile.Drag.target !== null ? tile.Drag.target : root
+        onReleased: {
+            //haxx
+            if(parent !== root) {
+                drag.target = dummy
+            }else {
+                parent = block.Drag.target !== null ? block.Drag.target : root
+                newBlock()
+            }
+
+        }
+
 
         Rectangle {
-            id: tile
+            id: block
 
             width: 64; height: 64
             anchors.verticalCenter: parent.verticalCenter
@@ -45,10 +60,25 @@ Item {
 
             states: State {
                 when: mouseArea.drag.active
-                ParentChange { target: tile; parent: root }
-                AnchorChanges { target: tile; anchors.verticalCenter: undefined; anchors.horizontalCenter: undefined }
+                ParentChange { target: block; parent: root }
+                AnchorChanges { target: block; anchors.verticalCenter: undefined; anchors.horizontalCenter: undefined }
             }
 
+        }
+
+        Item {
+            id:dummy
+            visible: false
+        }
+
+        LogicBlockSlot {
+            visible: mouseArea.parent !== root && !mouseArea.drag.active
+
+            height: block.height
+            width: block.width
+            colorKey: root.colorKey
+            x: block.x + 80
+            y: block.y
         }
     }
 }

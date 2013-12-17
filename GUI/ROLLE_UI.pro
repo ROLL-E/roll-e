@@ -12,6 +12,8 @@ QML_IMPORT_PATH =
 # MOBILITY +=
 
 # The .cpp file which was generated for your project. Feel free to hack it.
+
+
 SOURCES += main.cpp
 
 # Installation path
@@ -34,4 +36,11 @@ OTHER_FILES += \
     qml/ROLLE_UI/CharacterMenu.qml \
     qml/ROLLE_UI/CharacterContainer.qml \
     qml/ROLLE_UI/PopUpqml \
-    qml/ROLLE_UI/PopUp.qml
+    qml/ROLLE_UI/PopUp.qml \
+    qml/ROLLE_UI/ValueBlock.qml \
+    qml/ROLLE_UI/blockScript.js \
+    qml/ROLLE_UI/TempRect.qml \
+    qml/ROLLE_UI/CompareBlock.qml
+
+
+
