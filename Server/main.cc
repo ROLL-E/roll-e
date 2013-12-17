@@ -119,23 +119,20 @@ int main(int argc, char *argv[])
   b7->set_value(-1);
   b6->set_next(b7);
 
-  DamageBlock* b8 = new DamageBlock();
 
-  b8->set_type("heal");
-  b8->set_valueblock(b7);
-  b7->set_next(b8);
+
+  ModifierBlock* b8 = new ModifierBlock();
+  b8->set_modifier("health", 5);
   b8->set_target(bob);
+  b7->set_next(b8);
 
-  b8->set_last(true);
-
-  /* Bugged in saving and loading
-  ModifierBlock* b9 = new ModifierBlock();
-  b9->set_modifier("health", 5);
+  DamageBlock* b9 = new DamageBlock();
+  b9->set_type("heal");
+  b9->set_valueblock(b7);
   b9->set_target(bob);
   b9->set_last(true);
-  b9->set_next(nullptr);
   b8->set_next(b9);
-  */
+
 
   Scenario* scene1 = new Scenario();
   scene1->set_head(b1);

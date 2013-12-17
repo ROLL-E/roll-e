@@ -61,10 +61,7 @@ LogicBlock* ModifierBlock::execute() {
 }
 
 QDataStream& ModifierBlock::write_to_stream(QDataStream & ds) {
-
-
-
-  ds << get_next();
+  ds << next_id;
   ds << get_last();
 
   ds << modifiers;
