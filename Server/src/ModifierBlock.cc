@@ -45,7 +45,7 @@ ModifierBlock* ModifierBlock::get_previous_modifer() const {
 void ModifierBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
   next_id = blocks.indexOf(get_next());
   target_id = chars.indexOf(target);
-  //previous_mod_id = blocks.indexOf(previous_modifier);
+  previous_mod_id = blocks.indexOf(previous_modifier);
   if (get_next() != nullptr)
     get_next()->populate_id_fields(blocks, chars);
 }
@@ -53,7 +53,7 @@ void ModifierBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Charact
 void ModifierBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
   set_next(blocks.value(next_id));
   set_target(chars.value(target_id));
-  //previous_modifier = blocks.value(previous_mod_id);
+  previous_modifier = dynamic_cast<ModifierBlock*>(blocks.value(previous_mod_id));
   if (get_next() != nullptr) {
     get_next()->populate_pointer_fields(blocks, chars);
   }
@@ -80,7 +80,7 @@ QDataStream& ModifierBlock::write_to_stream(QDataStream & ds) {
 
   ds << modifiers;
   ds << target_id;
-  //ds << previous_mod_id;
+  ds << previous_mod_id;
 
   return ds;
 }
@@ -95,7 +95,8 @@ QDataStream& ModifierBlock::read_from_stream(QDataStream& ds) {
 
   ds >> modifiers;
   ds >> target_id;
-  //ds >> previous_mod_id;
+
+  ds >> previous_mod_id;
 
   return ds;
 }
