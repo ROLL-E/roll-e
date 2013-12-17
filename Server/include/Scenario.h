@@ -1,12 +1,12 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
-#include "LogicBlock.h"
 #include <QMap>
 #include <QString>
 #include <QDataStream>
 
 class LogicBlock;
+class Story;
 
 class Scenario {
 
@@ -15,10 +15,13 @@ private:
   QMap<QString, bool> current_flags;
   LogicBlock* head;
   LogicBlock* next_block;
+  Story* parent_story{nullptr};
+
 
 public:
   quint16 head_id;
   quint16 next_block_id;
+  QList<LogicBlock*> all_blocks;
 
   Scenario() = default;
   Scenario(Scenario&);
@@ -32,12 +35,13 @@ public:
   LogicBlock* get_head() const;
   void set_next_block(LogicBlock*);
   LogicBlock* get_next_block() const;
+  void set_story(Story*);
 
   QDataStream& write_to_stream(QDataStream&);
   QDataStream& read_from_stream(QDataStream&);
 };
 
-QDataStream& operator<<(QDataStream&, Scenario*);
-QDataStream& operator>>(QDataStream&, Scenario*);
+QDataStream& operator<<(QDataStream&, Scenario*&);
+QDataStream& operator>>(QDataStream&, Scenario*&);
 
 #endif

@@ -19,7 +19,7 @@ void Story::add_item(Item* new_item) {
   items.insert(new_item->get_id(), new_item);
 }
 
-QList<Character*> Story::get_characters() const {
+QList<Character*>& Story::get_characters() {
   return characters;
 }
 

@@ -4,11 +4,11 @@
 
 using namespace std;
 
-void ValueBlock::set_intention(char new_intention) {
+void ValueBlock::set_intention(QChar new_intention) {
   intention = new_intention;
 }
 
-char ValueBlock::get_intention() const {
+QChar ValueBlock::get_intention() const {
   return intention;
 }
 
@@ -113,6 +113,21 @@ void ValueBlock::remove_flag(const QString& name) {
     throw logicblock_error("Can't remove flag, it doesn't exist");
 }
 
+void ValueBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  next_id = blocks.indexOf(get_next());
+  target_id = chars.indexOf(target);
+  if (get_next() != nullptr)
+    get_next()->populate_id_fields(blocks, chars);
+}
+
+void ValueBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  set_next(blocks.value(next_id));
+  set_target(chars.value(target_id));
+  if (get_next() != nullptr) {
+    get_next()->populate_pointer_fields(blocks, chars);
+  }
+}
+
 int ValueBlock::roll() const {
   int temp{0};
   srand(time(NULL));
@@ -135,4 +150,43 @@ LogicBlock* ValueBlock::execute() {
     value += roll();
   }
   return this->get_next(); //Not yet implemented
+}
+
+QDataStream& ValueBlock::write_to_stream(QDataStream & ds) {
+
+  ds << next_id;
+  ds << get_last();
+
+  ds << intention;
+  ds << value;
+  ds << sides;
+  ds << number;
+  ds << attributes;
+  ds << applicable_skills;
+  ds << applicable_items;
+  ds << target_id;
+  ds << flags;
+
+  return ds;
+}
+
+QDataStream& ValueBlock::read_from_stream(QDataStream & ds) {
+  bool temp_last;
+
+  ds >> next_id;
+  ds >> temp_last;
+
+  set_last(temp_last);
+
+  ds >> intention;
+  ds >> value;
+  ds >> sides;
+  ds >> number;
+  ds >> attributes;
+  ds >> applicable_skills;
+  ds >> applicable_items;
+  ds >> target_id;
+  ds >> flags;
+
+  return ds;
 }

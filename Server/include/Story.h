@@ -30,7 +30,7 @@ public:
   void add_item(Item*);
   void add_clientconnection(ClientConnection*);
 
-  QList<Character*> get_characters() const; //when would this be used?
+  QList<Character*>& get_characters();
   Fight* get_fight() const;
   QList<Scenario*> get_scenarios() const;
   Ruleset& get_ruleset() const;

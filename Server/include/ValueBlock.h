@@ -14,7 +14,7 @@ class Character;
 class ValueBlock : public LogicBlock
 {
 private:
-  char intention;
+  QChar intention;
   int value{0};
   int sides{0};
   int number{0};
@@ -31,18 +31,20 @@ private:
   int modify(int) const;
   
 public:
+  quint16 target_id;
+
   ValueBlock() = default;
   ValueBlock(ValueBlock&);
 
   LogicBlock* execute() override;
-  void set_intention(char);
+  void set_intention(QChar);
   void set_value(int);
   void set_sides(int);
   void set_number(int);
   void set_target(Character*);
   void set_flag(const QString&, bool);
   
-  char get_intention() const;
+  QChar get_intention() const;
   qint16 get_value() const;
   int get_sides() const;
   int get_number() const;
@@ -61,6 +63,9 @@ public:
   void remove_applicable_item(int);
   void remove_flag(const QString&);
   
+  void populate_id_fields(QList<LogicBlock *> &, QList<Character *> &);
+  void populate_pointer_fields(QList<LogicBlock *> &, QList<Character *> &);
+
   QDataStream& write_to_stream(QDataStream&);
   QDataStream& read_from_stream(QDataStream&);
 

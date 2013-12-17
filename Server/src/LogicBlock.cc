@@ -1,8 +1,19 @@
 #include "LogicBlock.h"
+#include "CompareBlock.h"
 
 LogicBlock::LogicBlock(LogicBlock& other) {
     last_block = other.last_block;
     next = other.next;
+}
+
+void LogicBlock::add_to_list(QList<LogicBlock*>& blocks) {
+  blocks.append(this);
+  if (get_next() != nullptr)
+    next->add_to_list(blocks);
+  CompareBlock* cb{dynamic_cast<CompareBlock*>(this)};
+  if (cb != nullptr)
+    cb->get_alternate()->add_to_list(blocks);
+
 }
 
 void LogicBlock::set_next(LogicBlock* new_block) {
