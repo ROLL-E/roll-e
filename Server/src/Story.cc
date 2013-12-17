@@ -37,7 +37,8 @@ Character* Story::get_character(QString name){
     while((*it)->get_name() != name){
         it++;
         if(it == characters.cend()){
-            throw(std::out_of_range("could not find receiver, this should be impossible."));
+            qDebug() << "Character not found";
+            return nullptr;
         }
     }
     return (*it);
@@ -80,7 +81,10 @@ void Story::remove_item(quint16 id_to_remove) {
 }
 
 void Story::redirect_messages(){
+    QMutex mutex;
+    mutex.lock();
     myServer->redirect_messages(this);
+    mutex.unlock();
 }
 
 void Story::push_data(){

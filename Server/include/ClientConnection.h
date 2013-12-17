@@ -13,7 +13,7 @@ struct Message {
   Message() = default;
   Message(const Message&) = default;
   QString sender;
-  QString recevier;
+  QString receiver;
   QString message;
 
 };

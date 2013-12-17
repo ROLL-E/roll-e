@@ -7,7 +7,7 @@
 
 struct Message {
     QString sender;
-    QString recevier;
+    QString receiver;
     QString message;
 };
 

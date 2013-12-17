@@ -55,12 +55,12 @@ void ClientConnection::push_data(){
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {
-  out << msg.sender << msg.recevier << msg.message;
+  out << msg.sender << msg.receiver << msg.message;
   return out;
 }
 
 QDataStream& operator>>(QDataStream& in, Message& msg) {
-  in >> msg.sender >> msg.recevier >> msg.message;
+  in >> msg.sender >> msg.receiver >> msg.message;
   return in;
 }
 

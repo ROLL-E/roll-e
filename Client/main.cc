@@ -12,7 +12,9 @@ int main(int argc, char *argv[])
     ServerConnection testie{};
     testie.join(QHostAddress("192.168.1.35")); // ("192.168.1.35")
     if(testie.clientSocket->isValid()){
-        testie.send_message(Message{"client","server","Hiya!"});
+        testie.send_message(Message{"fredrik","fredrik","Hiy!"});
+        testie.send_message(Message{"fredrik","BOB!","Hay!"});
+        testie.send_message(Message{"fredrik","Herr Man","Hey!"});
         //testie.send_request(Request{"join","fredrik",1});
     }
     return a.exec();

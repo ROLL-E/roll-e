@@ -77,13 +77,17 @@ void Server::redirect_messages(Story* story){
     // This should just redirect the message to intendet reciever based on
     // the reciever-field in msg.
     QMutex servermutex;
-    servermutex.lock();
+    servermutex.lock(); // OBS! This must be unlocked afterwards
     while(!message_buffer.isEmpty()){
         Message* msg = message_buffer.takeFirst();
-        QPointer<ClientConnection> receiver = story->get_character(msg->recevier)->get_connection();
-        if(receiver != nullptr)
-            receiver->send_message(*msg);
-        else
-            qDebug() << msg->sender << " says " << msg->message << " to " << msg->recevier;
+        Character* receiver = story->get_character(msg->receiver);
+        if(receiver != nullptr){
+            QPointer<ClientConnection> reconnection = receiver->get_connection();
+            if(reconnection != nullptr)
+                reconnection->send_message(*msg);
+            else
+                qDebug() << msg->sender << " says " << msg->message << " to " << msg->receiver;
+        }
     }
+    servermutex.unlock();
 }

@@ -55,8 +55,8 @@ void ServerConnection::readyRead(){
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {
-  qDebug() << "sent to server:" << msg.sender << msg.recevier << msg.message;
-  out << msg.sender << msg.recevier << msg.message;
+  qDebug() << "sent to server:" << msg.sender << msg.receiver << msg.message;
+  out << msg.sender << msg.receiver << msg.message;
   return out;
 }
 
@@ -66,8 +66,8 @@ QDataStream& operator<<(QDataStream& out, Request& req) {
 }
 
 QDataStream& operator>>(QDataStream& in, Message& msg) {
-  in >> msg.sender >> msg.recevier >> msg.message;
-  qDebug() << "got from server:" << msg.sender << msg.recevier << msg.message;
+  in >> msg.sender >> msg.receiver >> msg.message;
+  qDebug() << "got from server:" << msg.sender << msg.receiver << msg.message;
   return in;
 }
 

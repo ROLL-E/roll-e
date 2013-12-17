@@ -277,6 +277,8 @@ try {
   Fight* fight1(new Fight);
 
   Character* fredrik(new Character(attr_map, 40, &main_story));
+  main_story.add_character(fredrik);
+  fredrik->set_name("fredrik");
 
   Scenario* scen1(new Scenario);
   Scenario* scen2(new Scenario);
@@ -300,6 +302,8 @@ try {
   scen2->set_next_block(block15);
 
   fight1->run_next_turn();
+
+  qDebug() << fredrik->get_name() << bob->get_name() << herman->get_name();
 
 
   w.show();
