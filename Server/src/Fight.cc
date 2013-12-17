@@ -31,8 +31,10 @@ void Fight::run_next_turn() {
     list<Scenario*> list_to_run = character_scenarios.at(get_current_character());
 
     for (list<Scenario*>::iterator it = list_to_run.begin(); it != list_to_run.end(); ++it) {
-        if ((*it)->empty())
+        if ((*it)->empty() && it != list_to_run.begin())
             character_scenarios.at(get_current_character()).erase(it);
+        else if ((*it)->empty())
+            throw runtime_error("Main scenario was empty when run_next_turn() in Fight was called");
         else
             (*it)->run();
     }
@@ -42,6 +44,7 @@ void Fight::run_next_turn() {
         current_character = 0;
 }
 
+//Will return true if the current character can make a move or not. (True will mean he has to decide what to do next)
 bool Fight::current_char_can_make_move() const {
     return character_scenarios.at(get_current_character()).front()->empty();
 }
