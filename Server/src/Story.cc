@@ -16,7 +16,6 @@ Story::Story(Ruleset& new_ruleset) : ruleset(new_ruleset) {
 
 void Story::add_character(Character* new_character) {
   characters.append(new_character);
-  connect(new_character, SIGNAL(changed()),this, SLOT(push_data()));
 }
 
 void Story::add_scenario(Scenario* new_scenario) {
