@@ -11,6 +11,8 @@ public:
   WaitBlock() = default;
   WaitBlock(int turns) : wait_turns{turns} {};
   WaitBlock(WaitBlock&) = default;
+  ~WaitBlock() = default;
+
   LogicBlock* execute() override;
   void set_wait_turns(int);
   int get_wait_turns() const;

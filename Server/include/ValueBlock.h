@@ -41,6 +41,7 @@ public:
   ValueBlock() = default;
   ValueBlock(Story* new_story) : current_story{new_story} {}
   ValueBlock(ValueBlock&);
+  ~ValueBlock() = default;
 
   LogicBlock* execute() override;
   void set_intention(QChar);

@@ -18,6 +18,8 @@ public:
 
   DamageBlock() = default;
   DamageBlock(DamageBlock&);
+  ~DamageBlock() = default;
+
   LogicBlock* execute() override;
   void set_target(Character*);
   Character* get_target() const;

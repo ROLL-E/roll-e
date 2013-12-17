@@ -18,6 +18,8 @@ public:
 
   CompareBlock() = default;
   CompareBlock(CompareBlock&);
+  ~CompareBlock() {delete alternate_next;};
+
   LogicBlock* execute() override;
   void set_lhs(ValueBlock*);
   void set_rhs(ValueBlock*);
