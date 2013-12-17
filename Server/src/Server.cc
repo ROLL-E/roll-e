@@ -56,12 +56,13 @@ void Server::update_messages_and_requests(ClientConnection* client){
     // If the client has any pending requests, then get them.
     while(0 < client->request_buffer.size()){
         Request* req = client->get_request_from_buffer();
-        if(req != nullptr)
+        if(req != nullptr){
             if(req->type == QString("Join")){
                 join_requests.append(QPair<ClientConnection*, Request*>(client, req));
                 emit got_join_request();
             }else
                 request_buffer.append(req);
+        }
     }
     emit got_request();
 }

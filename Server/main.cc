@@ -121,8 +121,6 @@ int main(int argc, char *argv[])
   b7->set_value(-1);
   b6->set_next(b7);
 
-
-
   ModifierBlock* b8 = new ModifierBlock();
   b8->set_modifier("health", 5);
   b8->set_target(bob);
@@ -145,8 +143,6 @@ int main(int argc, char *argv[])
 
   GameSave::save(main_story, "F:\\Projekt\\bigsave.dat");
 
-
-
   rs = Ruleset(attr_list);
   GameSave::load("F:\\Projekt\\bigsave.dat", main_story);
 
@@ -162,10 +158,6 @@ int main(int argc, char *argv[])
     for (Skill* s : c->get_skills())
       qDebug() << s->get_name();
   }
-
-//  for (Item* i : second.get_items()) {
-//    qDebug() << i->get_id() << ": " << i->get_name();
-//  }
 
   qDebug() << main_story->get_characters().value(0)->get_attribute("health");
   main_story->get_ruleset().get_scenarios().front()->run();
@@ -369,9 +361,9 @@ int main(int argc, char *argv[])
 
   Fight* fight1(new Fight);
 
-  Character* fredrik(new Character(attr_map, 40, &main_story));
+  Character* fredrik(new Character(attr_map, 40, main_story));
   fredrik->set_name("fredrik");
-  main_story.add_character(fredrik);
+  main_story->add_character(fredrik);
 
   Scenario* scen1(new Scenario);
   Scenario* scen2(new Scenario);

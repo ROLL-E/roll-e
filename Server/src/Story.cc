@@ -1,7 +1,7 @@
 #include "Story.h"
 #include "Item.h"
 
-Story::Story(Ruleset& new_ruleset) : ruleset(new_ruleset) {
+Story::Story(Ruleset new_ruleset) : ruleset(new_ruleset) {
   myServer = new Server{this};
   netThread = new QThread;
   myServer->moveToThread(netThread);
