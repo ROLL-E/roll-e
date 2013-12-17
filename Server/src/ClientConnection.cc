@@ -46,13 +46,12 @@ void ClientConnection::connected(){
 void ClientConnection::send_message(Message msg) {
   QDataStream out{clientSocket};
   out << QChar('m') << msg;
-  emit got_something(this);
 }
 
 void ClientConnection::push_data(){
     //behöver veta hur storys och klientens information kommer se ut för att göra klart den här,
     // eg, blir nog bäst att lämna till efter merge.
-  qDebug() << clientSocket->write("push_data() not yet implemented.");
+  qDebug() << "push_data() not yet implemented.";
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {
