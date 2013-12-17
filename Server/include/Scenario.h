@@ -25,6 +25,8 @@ public:
 
   Scenario() = default;
   Scenario(Scenario&);
+  ~Scenario() {delete head;};
+
   void run();
   void wait_turns(int);
   int find_turn_depth() const;

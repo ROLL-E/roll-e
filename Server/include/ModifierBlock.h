@@ -18,6 +18,8 @@ public:
 
   ModifierBlock() = default;
   ModifierBlock(ModifierBlock&);
+  ~ModifierBlock() = default;
+
   LogicBlock* execute() override;
   void set_target(Character*);
   Character* get_target() const;

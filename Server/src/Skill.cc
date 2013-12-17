@@ -4,6 +4,10 @@ QMap<QString,qint8> Skill::get_modifiers() const {
   return modifiers;
 }
 
+qint8 Skill::get_modifier(const QString& name) const {
+    return modifiers.value(name);
+}
+
 QString Skill::get_name() const {
   return name;
 }

@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
   qDebug();
 
 
+
   //Test program, compares 2 2-sided dice to the number 3 and either waits 3
   // 3 turns and heals 1 point or deals 6 damage to bob, depending on the outcome.
 

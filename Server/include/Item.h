@@ -25,6 +25,8 @@ public:
   QMap<QString,qint8> get_modifiers() const;
   quint16 get_id() const;
   QMap<QString,qint16> get_attributes() const;
+  qint16 get_attribute(const QString&) const;
+
 
   void set_name(const QString&);
   void set_modifier(const QString&,qint8);

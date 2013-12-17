@@ -22,6 +22,7 @@ public:
 
   LogicBlock() = default;
   LogicBlock(LogicBlock&);
+  virtual ~LogicBlock() {delete next;};
 
   virtual LogicBlock* execute() = 0;
   virtual QDataStream& write_to_stream(QDataStream&) = 0;
