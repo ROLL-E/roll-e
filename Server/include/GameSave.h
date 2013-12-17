@@ -11,7 +11,7 @@ private:
 
 
 public:
-  static void load(QString, Story*); // Loads the loaded file into a Story
+  static void load(QString, Story*&); // Loads the loaded file into a Story
   static void save(Story*, QString); // Saves the Story to a file.
 
 };

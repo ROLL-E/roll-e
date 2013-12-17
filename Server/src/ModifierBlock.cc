@@ -1,9 +1,10 @@
 #include "ModifierBlock.h"
-#include <iostream>
+#include "Character.h"
+
 
 using namespace std;
 
-ModifierBlock::ModifierBlock(ModifierBlock& other) {
+ModifierBlock::ModifierBlock(ModifierBlock& other) : LogicBlock(){
     target = other.target;
     previous_modifier = other.previous_modifier;
     modifiers = other.modifiers;
@@ -17,27 +18,68 @@ Character* ModifierBlock::get_target() const {
     return target;
 }
 
-map<string, int> ModifierBlock::get_modifiers() const {
+QMap<QString, qint8> ModifierBlock::get_modifiers() const {
     return modifiers;
 }
 
-void ModifierBlock::set_modifier(string name, int value) {
-    modifiers[name] = value;
+void ModifierBlock::set_modifier(QString name, int value) {
+  modifiers[name] = value;
 }
 
-void ModifierBlock::remove_modifier(string name) {
+void ModifierBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  next_id = blocks.indexOf(get_next());
+  target_id = chars.indexOf(target);
+  //previous_mod_id = blocks.indexOf(previous_modifier);
+  if (get_next() != nullptr)
+    get_next()->populate_id_fields(blocks, chars);
+}
+
+void ModifierBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
+  set_next(blocks.value(next_id));
+  set_target(chars.value(target_id));
+  //previous_modifier = blocks.value(previous_mod_id);
+  if (get_next() != nullptr) {
+    get_next()->populate_pointer_fields(blocks, chars);
+  }
+}
+
+void ModifierBlock::remove_modifier(QString name) {
     if (modifiers.find(name) != modifiers.end())
-        modifiers.erase(name);
+        modifiers.remove(name);
     else
         throw logicblock_error("Can't erase modifier, it dosent exist");
 }
 
 LogicBlock* ModifierBlock::execute() {
+  for (auto key : modifiers.keys()) {
+    target->add_to_attribute(key,modifiers.value(key));
+  }
 
-    cout << "Running block" << endl;
+  return this->get_next();
+}
 
-    for (map<string, int>::iterator it = modifiers.begin(); it != modifiers.end(); ++it)
-        target->add_to_attribute(it->first, it->second);
+QDataStream& ModifierBlock::write_to_stream(QDataStream & ds) {
+  ds << next_id;
+  ds << get_last();
 
-    return this->get_next();
+  ds << modifiers;
+  ds << target_id;
+  //ds << previous_mod_id;
+
+  return ds;
+}
+
+QDataStream& ModifierBlock::read_from_stream(QDataStream& ds) {
+  bool temp_last;
+
+  ds >> next_id;
+  ds >> temp_last;
+
+  set_last(temp_last);
+
+  ds >> modifiers;
+  ds >> target_id;
+  //ds >> previous_mod_id;
+
+  return ds;
 }

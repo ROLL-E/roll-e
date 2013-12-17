@@ -1,9 +1,9 @@
 #ifndef ACTIVEITEM_H
 #define ACTIVEITEM_H
 #include "Item.h"
-#include "Scenario.h"
 #include <string>
 
+class Scenario;
 class ActiveItem : public Item
 {
 private:
