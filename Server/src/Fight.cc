@@ -31,12 +31,19 @@ void Fight::run_next_turn() {
     list<Scenario*> list_to_run = character_scenarios.at(get_current_character());
 
     for (list<Scenario*>::iterator it = list_to_run.begin(); it != list_to_run.end(); ++it) {
-        (*it)->run();
+        if ((*it)->empty())
+            character_scenarios.at(get_current_character()).erase(it);
+        else
+            (*it)->run();
     }
     if (current_character < list_of_characters.size() - 1)
         ++current_character;
     else
         current_character = 0;
+}
+
+bool Fight::current_char_can_make_move() const {
+    return character_scenarios.at(get_current_character()).front()->empty();
 }
 
 void Fight::run_next_round() {

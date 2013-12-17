@@ -72,6 +72,10 @@ void Scenario::run() {
     } while (cont && next_block != nullptr);
 }
 
+bool Scenario::empty() const {
+    return (next_block == nullptr);
+}
+
 QDataStream& Scenario::write_to_stream(QDataStream& ds) {
 
 
