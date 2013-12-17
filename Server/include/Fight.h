@@ -1,15 +1,15 @@
 #ifndef FIGHT_H
 #define FIGHT_H
 #include "Character.h"
-#include <list>
-#include <map>
+#include <QList>
+#include <QMap>
 
 class Scenario;
 
 class Fight {
 private:
-    std::list<Character*> list_of_characters;
-    std::map<Character*, std::list<Scenario*>> character_scenarios;
+    QList<Character*> list_of_characters;
+    QMap<Character*, QList<Scenario*>> character_scenarios;
     uint16_t current_character{0};
 
 

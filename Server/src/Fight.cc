@@ -8,31 +8,31 @@ void Fight::add_character(Character* new_char) {
 }
 
 void Fight::remove_character(Character* character) {
-    list_of_characters.remove(character);
-    character_scenarios.erase(character);
+    list_of_characters.removeOne(character);
+    character_scenarios.remove(character);
 }
 
 void Fight::add_scenario(Character* character, Scenario* scenario) {
-    character_scenarios.at(character).push_back(scenario);
+    character_scenarios[character].push_back(scenario);
 }
 
 void Fight::remove_scenario(Character* character, Scenario* scenario) {
-    character_scenarios.at(character).remove(scenario);
+    character_scenarios[character].removeOne(scenario);
 }
 
 void Fight::use_active(Scenario* scenario) {
 
     add_scenario(get_current_character(),scenario); //Adding scenario to current character.
 
-    character_scenarios.at(get_current_character()).front()->wait_turns(scenario->find_turn_depth()); //Adding WaitBlocks to main scenario for the current character.
+    character_scenarios[get_current_character()].front()->wait_turns(scenario->find_turn_depth()); //Adding WaitBlocks to main scenario for the current character.
 }
 
 void Fight::run_next_turn() {
-    list<Scenario*> list_to_run = character_scenarios.at(get_current_character());
+    QList<Scenario*> list_to_run = character_scenarios[get_current_character()];
 
-    for (list<Scenario*>::iterator it = list_to_run.begin(); it != list_to_run.end(); ++it) {
+    for (QList<Scenario*>::iterator it = list_to_run.begin(); it != list_to_run.end(); ++it) {
         if ((*it)->empty() && it != list_to_run.begin())
-            character_scenarios.at(get_current_character()).erase(it);
+            character_scenarios[get_current_character()].erase(it);
         else if ((*it)->empty())
             throw runtime_error("Main scenario was empty when run_next_turn() in Fight was called");
         else
@@ -46,7 +46,7 @@ void Fight::run_next_turn() {
 
 //Will return true if the current character can make a move or not. (True will mean he has to decide what to do next)
 bool Fight::current_char_can_make_move() const {
-    return character_scenarios.at(get_current_character()).front()->empty();
+    return character_scenarios[get_current_character()].front()->empty();
 }
 
 void Fight::run_next_round() {
@@ -55,7 +55,7 @@ void Fight::run_next_round() {
 }
 
 Character* Fight::get_current_character() const{
-    list<Character*>::const_iterator it;
+    QList<Character*>::const_iterator it;
     it = list_of_characters.cbegin();
     advance(it,current_character);
     return *it;
