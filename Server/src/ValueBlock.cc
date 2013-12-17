@@ -138,7 +138,7 @@ int ValueBlock::roll() const {
 int ValueBlock::fetch_item_bonus(int id) const {
     int result{0};
     //Qmap<int,Item*> items = current_story->get_items();
-    list<int>::const_iterator it_applicable;
+    QList<int>::const_iterator it_applicable;
     for (it_applicable = applicable_items.cbegin(); it_applicable != applicable_items.end(); ++it_applicable) {
         //if (*it_applicable == id)
             // result += items.find(*it_applicable)->get_bouns(); //Solve later!!

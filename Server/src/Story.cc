@@ -7,7 +7,6 @@ Story::Story(Ruleset& new_ruleset) : ruleset(new_ruleset) {
   myServer->moveToThread(netThread);
   // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
   connect(myServer, SIGNAL(got_message()), this, SLOT(redirect_messages()));
-  connect(myServer,SIGNAL(got_request()),this, SLOT(push_data()));
   connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
   connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
   connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
@@ -18,6 +17,7 @@ Story::Story(Ruleset& new_ruleset) : ruleset(new_ruleset) {
 
 void Story::add_character(Character* new_character) {
   characters.append(new_character);
+  connect(new_character, SIGNAL(changed()),this, SLOT(push_data()));
 }
 
 void Story::add_scenario(Scenario* new_scenario) {

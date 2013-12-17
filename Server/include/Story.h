@@ -27,9 +27,9 @@ private:
   Ruleset& ruleset;
   QMap<quint16, Item*> items;
   QThread* netThread;
-  Server* myServer;
 
 public:
+  Server* myServer;
   QMap<quint16, Scenario*> scenario_id_map;
   QMap<quint16, Character*> character_id_map;
 

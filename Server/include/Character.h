@@ -5,13 +5,14 @@
 #include <QList>
 #include <QDataStream>
 #include "Inventory.h"
+#include "ClientConnection.h"
 
 
 class Story;
-class ClientConnection;
 class Skill;
 
-class Character {
+class Character : public QObject {
+    Q_OBJECT
 private:
     QString name;
     QPointer<ClientConnection> client;
@@ -34,6 +35,8 @@ public:
     void set_attribute(const QString&, qint16);
     void take_damage(const QString&, qint16);
     QList<Skill*> get_skills() const;
+    QPointer<ClientConnection> get_connection();
+    void set_connection(ClientConnection*);
 
     void add_to_attribute(const QString&, qint16);
 
@@ -46,6 +49,8 @@ public:
 
     QDataStream& write_to_stream(QDataStream&);
     QDataStream& read_from_stream(QDataStream&);
+signals:
+    void changed();
 };
 
 QDataStream& operator<<(QDataStream&, Character*&);

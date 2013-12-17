@@ -43,9 +43,10 @@ void ClientConnection::connected(){
   clientSocket->setSocketOption(QAbstractSocket::LowDelayOption,1);
 }
 
-void ClientConnection::send_message(Message msg) const{
-  QDataStream out_stream(clientSocket);
-  out_stream << QChar('m') << msg;
+void ClientConnection::send_message(Message msg) {
+  QDataStream out{clientSocket};
+  out << QChar('m') << msg;
+  emit got_something(this);
 }
 
 void ClientConnection::push_data(){
@@ -65,7 +66,7 @@ QDataStream& operator>>(QDataStream& in, Message& msg) {
 }
 
 QDataStream& operator>>(QDataStream& in, Request& req) {
-  in >> req.type >> req.id >> req.sender;
+  in >> req.type >> req.intention >> req.id;
   return in;
 }
 

@@ -77,22 +77,22 @@ int main(int argc, char *argv[])
 
   GameSave::save(&main_story, "F:\\Projekt\\bigsave.dat");
 
-  rs = Ruleset(attr_list);
-  Story second{rs};
-  GameSave::load("F:\\Projekt\\bigsave.dat", &second);
+//  rs = Ruleset(attr_list);
+//  Story second{rs};
+//  GameSave::load("F:\\Projekt\\bigsave.dat", &second);
 
-  for (Item* i : second.get_items()) {
-    qDebug() << i->get_id() << ": " << i->get_name();
-  }
+//  for (Item* i : second.get_items()) {
+//    qDebug() << i->get_id() << ": " << i->get_name();
+//  }
 
-  qDebug();
+//  qDebug();
 
-  for (Character* c : second.get_characters()) {
-    qDebug() << c->get_name();
-    qDebug() << c->get_attribute("health");
-    for (Skill* s : c->get_skills())
-      qDebug() << s->get_name();
-  }
+//  for (Character* c : second.get_characters()) {
+//    qDebug() << c->get_name();
+//    qDebug() << c->get_attribute("health");
+//    for (Skill* s : c->get_skills())
+//      qDebug() << s->get_name();
+//  }
   //qDebug() << main_story.get_items().value(0)->get_name().toStdString() <<endl;
 
   WaitBlock* block1(new WaitBlock);
@@ -276,7 +276,7 @@ try {
 
   Fight* fight1(new Fight);
 
-  Character* fredrik(new Character(attr_map, 40));
+  Character* fredrik(new Character(attr_map, 40, &main_story));
 
   Scenario* scen1(new Scenario);
   Scenario* scen2(new Scenario);
@@ -300,6 +300,7 @@ try {
   scen2->set_next_block(block15);
 
   fight1->run_next_turn();
+
 
   w.show();
   return a.exec();

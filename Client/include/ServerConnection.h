@@ -13,7 +13,7 @@ struct Message {
 
 struct Request {
     QString type;
-    QString sender;
+    QString intention;
     quint16 id;
 };
 

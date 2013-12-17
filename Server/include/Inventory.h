@@ -23,12 +23,6 @@ public:
     QList<quint16> get_equipped() const;
     QList<quint16> get_items() const;
     bool has_item(quint16) const;
-
-    int get_weight() const;
-    int get_max_weight() const;
-    QList<int> get_equipped() const;
-    QList<int> get_items() const;
-    bool has_item(int) const;
     void set_max_weight(quint16);
 
     void add_item(quint16);

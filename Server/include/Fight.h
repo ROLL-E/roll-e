@@ -1,6 +1,7 @@
 #ifndef FIGHT_H
 #define FIGHT_H
 #include "Character.h"
+#include "Scenario.h"
 #include <list>
 #include <map>
 

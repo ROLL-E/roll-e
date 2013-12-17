@@ -19,6 +19,14 @@ QString Character::get_name() const {
   return name;
 }
 
+QPointer<ClientConnection> Character::get_connection(){
+    return client;
+}
+
+void Character::set_connection(ClientConnection* connection){
+    client = connection;
+}
+
 void Character::set_name(const QString& new_name) {
   name = new_name;
 }

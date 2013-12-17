@@ -22,7 +22,7 @@ struct Request {
   Request() = default;
   Request(const Request&) = default;
   QString type;
-  QString sender;
+  QString intention;
   quint16 id;
 };
 
@@ -44,12 +44,10 @@ private:
     QList<Message*> message_buffer;
     QList<Request*> request_buffer;
 
-protected:
-    // QString name; to enable private messages?
-    // we need some way for a connection to identify it's corresponding character.
+public:
     QTcpSocket* clientSocket;
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);
-    void send_message(Message) const;
+    void send_message(Message);
     void push_data(); // Send Story* ?
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();

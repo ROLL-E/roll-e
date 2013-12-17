@@ -9,6 +9,7 @@ Server::Server(QObject *parent) : QObject(parent){
 
 void Server::newConnection() {
     //prompt gamemaster for permission?
+    qDebug() << "New connection!";
     clients.prepend(QPair<QPointer<ClientConnection>,QThread*>(new ClientConnection(server->nextPendingConnection()), new QThread(this)));
     clients.first().first->moveToThread(clients.first().second);
     // Meaty because we need the actual pointers of the clientconnection and its thread located in the list to setup the connection.
@@ -75,16 +76,14 @@ void Server::push_data(Story* story){ // Might need story* here.
 void Server::redirect_messages(Story* story){
     // This should just redirect the message to intendet reciever based on
     // the reciever-field in msg.
-    try{
-        while(0 < message_buffer.size()){
-            Message* msg = message_buffer.takeFirst();
-            try{
-
-            }catch(std::out_of_range e){
-
-            }
-        }
-    }catch(std::out_of_range e){
-        std::cout << e.what();
+    QMutex servermutex;
+    servermutex.lock();
+    while(!message_buffer.isEmpty()){
+        Message* msg = message_buffer.takeFirst();
+        QPointer<ClientConnection> receiver = story->get_character(msg->recevier)->get_connection();
+        if(receiver != nullptr)
+            receiver->send_message(*msg);
+        else
+            qDebug() << msg->sender << " says " << msg->message << " to " << msg->recevier;
     }
 }
