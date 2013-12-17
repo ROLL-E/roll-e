@@ -107,10 +107,11 @@ void Server::join_request(){
     while(!join_requests.isEmpty()){
         QPair<ClientConnection*,Request*> joiner = join_requests.takeFirst();
         Character* requested_char = story->get_character(joiner.second->intention);
+        // prompt gamemaster
         if(requested_char != nullptr){
             if(requested_char->get_connection() == nullptr){
                 requested_char->set_connection(joiner.first);
-                joiner.first->send_message(Message{"System","new_player","Welcome!"});
+                requested_char->get_connection()->send_message(Message{"System","new_player","Welcome!"});
                 qDebug()  << "Legion has taken control of " << requested_char->get_name();
             } else
                 joiner.first->send_message(Message{"System","new player", joiner.second->intention + " is not available."});
