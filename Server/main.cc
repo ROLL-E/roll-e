@@ -78,7 +78,6 @@ int main(int argc, char *argv[])
   qDebug();
 
 
-
   ValueBlock* b1 = new ValueBlock();
   b1->set_intention('s');
   b1->set_value(3);

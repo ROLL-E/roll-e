@@ -17,6 +17,7 @@ public:
   Skill() {}
 
   QMap<QString,qint8> get_modifiers() const;
+  qint8 get_modifier(const QString&) const;
   QString get_name() const;
 
 

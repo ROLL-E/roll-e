@@ -35,6 +35,7 @@ public:
   QList<Scenario*> get_scenarios() const;
   Ruleset& get_ruleset() const;
   QMap<quint16, Item*> get_items() const;
+  Item* get_item(quint16) const;
   QList<ClientConnection*> get_clientconnections() const;
 
   void set_fight(Fight*);
