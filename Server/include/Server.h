@@ -18,7 +18,7 @@ friend class Story;
 private:
     QList<Message*> message_buffer;
     QList<Request*> request_buffer;
-    QList<QPair<QPointer<ClientConnection>,Request*>> join_requests;
+    QList<QPair<ClientConnection*,Request*>> join_requests;
     Story* story;
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();
@@ -40,7 +40,7 @@ public slots:
   void newConnection();
   void client_disconnected();
   void start();
-  void update_messages_and_requests(QPointer<ClientConnection>);
+  void update_messages_and_requests(ClientConnection*);
   void join_request();
 
 

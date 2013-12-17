@@ -277,8 +277,8 @@ try {
   Fight* fight1(new Fight);
 
   Character* fredrik(new Character(attr_map, 40, &main_story));
-  main_story.add_character(fredrik);
   fredrik->set_name("fredrik");
+  main_story.add_character(fredrik);
 
   Scenario* scen1(new Scenario);
   Scenario* scen2(new Scenario);

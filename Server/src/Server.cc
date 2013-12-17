@@ -30,20 +30,20 @@ void Server::client_disconnected(){
 
 // Gets the first message from the Servers message_buffer.
 Message* Server::get_message_from_buffer(){
-    if( 0 > message_buffer.size()){
+    if(!message_buffer.isEmpty()){
         return message_buffer.takeFirst();
     }else
         return nullptr;
 }
 // Gets the first request from the Servers request_buffer.
 Request* Server::get_request_from_buffer(){
-    if(0 > message_buffer.size()){
+    if(!message_buffer.isEmpty()){
         return request_buffer.takeFirst();
     }else
         return nullptr;
 }
 
-void Server::update_messages_and_requests(QPointer<ClientConnection> client){
+void Server::update_messages_and_requests(ClientConnection* client){
     // If the client has any messages to get, then get them.
     while(0 < client->message_buffer.size()){
         Message* msg = client->get_message_from_buffer();
@@ -56,7 +56,7 @@ void Server::update_messages_and_requests(QPointer<ClientConnection> client){
         Request* req = client->get_request_from_buffer();
         if(req != nullptr)
             if(req->type == QString("Join")){
-                join_requests.append(QPair<QPointer<ClientConnection>, Request*>(client, req));
+                join_requests.append(QPair<ClientConnection*, Request*>(client, req));
                 emit got_join_request();
             }else
                 request_buffer.append(req);
@@ -89,7 +89,7 @@ void Server::redirect_messages(){
         Message* msg = message_buffer.takeFirst();
         Character* receiver = story->get_character(msg->receiver);
         if(receiver != nullptr){
-            QPointer<ClientConnection> reconnection = receiver->get_connection();
+            ClientConnection* reconnection = receiver->get_connection();
             if(reconnection != nullptr)
                 reconnection->send_message(*msg);
             else
@@ -100,15 +100,18 @@ void Server::redirect_messages(){
 }
 
 void Server::join_request(){
+    QMutex servermutex;
+    servermutex.lock();
     while(!join_requests.isEmpty()){
-        Request* req = join_requests.takeFirst().second;
-        Character* requested_char = story->get_character(req->intention);
-        ClientConnection* joiner = join_requests.takeFirst().first;
+        QPair<ClientConnection*,Request*> joiner = join_requests.takeFirst();
+        Character* requested_char = story->get_character(joiner.second->intention);
         if(requested_char != nullptr){
-            if(requested_char->get_connection() == nullptr)
-                requested_char->set_connection(joiner);
-            else
-                joiner->send_message(Message{"Systen","new player", req->intention + " is not available."});
+            if(requested_char->get_connection() == nullptr){
+                requested_char->set_connection(joiner.first);
+                joiner.first->send_message(Message{"System","new_player","Welcome!"});
+            } else
+                joiner.first->send_message(Message{"System","new player", joiner.second->intention + " is not available."});
         }
     }
+    servermutex.unlock();
 }
