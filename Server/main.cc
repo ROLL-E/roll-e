@@ -141,10 +141,10 @@ int main(int argc, char *argv[])
 
   main_story->get_ruleset().add_scenario(scene1);
 
-  GameSave::save(main_story, "~/bigsave.dat");
+  GameSave::save(main_story, "bigsave.dat");
 
   rs = Ruleset(attr_list);
-  GameSave::load("~/bigsave.dat", main_story);
+  GameSave::load("bigsave.dat", main_story);
 
   qDebug() << "inte load";
 

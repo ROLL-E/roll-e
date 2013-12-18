@@ -77,14 +77,16 @@ bool Character::has_item(quint16 id) const {
 
 QDataStream& Character::write_to_stream(QDataStream& ds) {
 
+  ds << name;
+  ds << attributes;
+
   if (dynamic_cast<QFile*>(ds.device()) != nullptr) {
     ds << skill_ids;
   }
   else {
     ds << skills;
   }
-  ds << name;
-  ds << attributes;
+
   ds << inventory;
 
  return ds;
