@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <QDebug>
+#include <QFile>
 #include "Story.h"
 #include "Item.h"
 using namespace std;
@@ -75,7 +76,15 @@ void Inventory::unequip(quint16 id_to_unequip) {
 }
 
 QDataStream& Inventory::write_to_stream(QDataStream& ds) const {
-  ds << items;
+
+  if (dynamic_cast<QFile*>(ds.device()) != nullptr)
+    ds << items;
+  else {
+    QList<Item*> list_to_send;
+    for (quint16 id : items)
+      list_to_send.push_back(story->get_item(id));
+    ds << list_to_send;
+  }
   ds << max_weight;
   ds << current_weight;
   ds << equipped;
