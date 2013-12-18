@@ -25,5 +25,12 @@ public:
 
   void remove_modifier(const QString&);
 
+  QDataStream& read_from_stream(QDataStream&);
+  QDataStream& write_to_stream(QDataStream&) const;
+
 };
+
+  QDataStream& operator<<(QDataStream&, Skill*&);
+  QDataStream& operator>>(QDataStream&, Skill*&);
+
 #endif
