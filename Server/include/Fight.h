@@ -25,6 +25,7 @@ public:
     void remove_scenario(Character* , Scenario*);
     bool current_char_can_make_move() const;
     Character* get_current_character() const;
+    QList<Character*> get_characters() const;
 };
 
 #endif
