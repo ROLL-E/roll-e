@@ -34,6 +34,15 @@ public:
     void remove_item(int);
     bool has_item(int) const;
 
+    QDataStream& write_to_stream(QDataStream&);
+    QDataStream& read_from_stream(QDataStream&);
+
+signals:
+     void changed();
+
 };
+
+QDataStream& operator<<(QDataStream&, Character*&);
+QDataStream& operator>>(QDataStream&, Character*&);
 
 #endif

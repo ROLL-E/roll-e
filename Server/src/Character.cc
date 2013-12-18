@@ -71,3 +71,29 @@ bool Character::has_item(int id) const {
   return inventory.has_item(id);
 }
 
+QDataStream& Character::write_to_stream(QDataStream& ds) {
+ ds << name;
+ ds << attributes;
+ ds << skill_ids;
+ ds << inventory;
+
+ return ds;
+}
+
+QDataStream& Character::read_from_stream(QDataStream& ds) {
+  ds >> name;
+  ds >> attributes;
+  ds >> skill_ids;
+  ds >> inventory;
+
+  return ds;
+}
+
+QDataStream& operator<<(QDataStream& out_stream, Character*& character) {
+  return character->write_to_stream(out_stream);
+}
+
+QDataStream& operator>>(QDataStream& in_stream, Character*& character) {
+  character = new Character();
+  return character->read_from_stream(in_stream);
+}
