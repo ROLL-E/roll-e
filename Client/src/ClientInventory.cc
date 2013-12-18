@@ -22,7 +22,7 @@ int ClientInventory::get_max_weight() const {
   return max_weight;
 }
 
-list<Item*> ClientInventory::get_equipped() const {
+QList<Item*> ClientInventory::get_equipped() const {
   return equipped;
 }
 
@@ -39,7 +39,7 @@ void ClientInventory::add_item(Item* item_to_add) {
 }
 
 void ClientInventory::remove_item(Item* item_to_remove) {
-  items.remove(item_to_remove);
+  items.removeOne(item_to_remove);
 }
 
 void ClientInventory::equip(Item* item_to_equip){
@@ -47,7 +47,7 @@ void ClientInventory::equip(Item* item_to_equip){
 }
 
 void ClientInventory::unequip(Item* item_to_unequip) {
-  equipped.remove(item_to_unequip);
+  equipped.removeOne(item_to_unequip);
 }
 
 

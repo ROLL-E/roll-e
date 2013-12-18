@@ -1,15 +1,15 @@
 #ifndef CLIENTINVENTORY_H
 #define CLIENTINVENTORY_H
-#include <list>
+#include <QList>
 
 class Item;
 
 class ClientInventory {
 private:
-    std::list<Item*> items;
+    QList<Item*> items;
     int max_weight;
     int current_weight;
-    std::list<Item*> equipped;
+    QList<Item*> equipped;
 
 public:
     ClientInventory(int);
@@ -21,7 +21,7 @@ public:
     int get_weight() const;
     int get_max_weight() const;
     void set_max_weight(int);
-    std::list<Item*> get_equipped() const;
+    QList<Item*> get_equipped() const;
     void equip(Item*);
     void unequip(Item*);
 };
