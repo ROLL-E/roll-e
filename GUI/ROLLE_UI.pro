@@ -14,6 +14,8 @@ QML_IMPORT_PATH =
 # The .cpp file which was generated for your project. Feel free to hack it.
 CONFIG += c++11
 
+QT += declarative
+
 SOURCES += main.cpp \
     ../Server/src/ValueBlock.cc \
     ../Server/src/WaitBlock.cc \
@@ -30,7 +32,8 @@ SOURCES += main.cpp \
     ../Server/src/Fight.cc \
     ../Server/src/DamageBlock.cc \
     ../Server/src/CompareBlock.cc \
-    ../Server/src/Character.cc
+    ../Server/src/Character.cc \
+    ../Server/src/person.cpp
 
 # Installation path
 # target.path =
@@ -56,6 +59,7 @@ OTHER_FILES += \
     qml/ROLLE_UI/ValueBlock.qml \
     qml/ROLLE_UI/TempRect.qml \
     qml/ROLLE_UI/CompareBlock.qml \
+    qml/ROLLE_UI/qmldir \
     qml/ROLLE_UI/blockScript.js
 
 HEADERS += \
@@ -77,7 +81,8 @@ HEADERS += \
     ../Server/include/ClientConnection.h \
     ../Server/include/Character.h \
     ../Server/include/ActiveSkill.h \
-    ../Server/include/ActiveItem.h
+    ../Server/include/ActiveItem.h \
+    ../Server/include/person.h
 
 INCLUDEPATH += ../Server/include
 

@@ -16,6 +16,7 @@ Item {
 
         colorKey: compareBlock.colorKey
         blockLabel: "C"
+        slotType: "compareblock"
 
     }
 

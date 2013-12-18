@@ -22,6 +22,7 @@ QString Character::get_name() const {
 
 void Character::set_name(const QString& new_name) {
   name = new_name;
+  emit nameChanged();
 }
 
 qint16 Character::get_attribute(QString attr_name) const {

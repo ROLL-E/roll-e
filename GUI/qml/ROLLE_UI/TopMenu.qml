@@ -44,6 +44,19 @@ Rectangle {
         }
 
         Button {
+            id: changePersonButton
+
+            labelSize: 6
+            label: "Change"
+
+
+            buttonWidth: 80
+            buttonHeight: 30
+
+            onButtonClicked: character.name = "vaa"
+
+        }
+        Button {
             id: loadMenuButton
 
             labelSize: 6

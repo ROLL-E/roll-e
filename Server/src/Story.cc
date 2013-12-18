@@ -1,5 +1,7 @@
 #include "Story.h"
 #include "Item.h"
+#include "Character.h"
+
 
 using namespace std;
 
@@ -17,6 +19,11 @@ void Story::add_scenario(Scenario* new_scenario) {
 
 void Story::add_item(Item* new_item) {
   items.insert(new_item->get_id(), new_item);
+}
+
+QDeclarativeListProperty<Character> Story::characters_QML()
+{
+   return QDeclarativeListProperty<Character>(this, characters);
 }
 
 QList<Character*>& Story::get_characters() {
