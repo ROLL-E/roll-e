@@ -7,6 +7,8 @@
 #include <QtNetwork>
 #include <QObject>
 
+class Character;
+
 struct Message {
     QString sender;
     QString receiver;
@@ -31,7 +33,7 @@ class ServerConnection : public QObject{
 private:
 
   std::vector<std::string> message_buffer;
-  QString controlledChar{"Legion"};
+  Character* controlledChar;
   bool joined;
 
 public:
@@ -41,6 +43,7 @@ public:
   void send_request(Request) const;
   void join(QString,QString);
   bool has_joined();
+  Character* get_controlledChar();
 
 public slots:
   void connected();
