@@ -3,6 +3,9 @@
 #include <QList>
 #include <QMap>
 #include <QObject>
+
+#include <QDeclarativeListProperty>
+
 #include "Ruleset.h"
 
 class Item;
@@ -12,7 +15,12 @@ class Character;
 class Ruleset;
 class ClientConnection;
 
-class Story : public QObject {
+
+class Story : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(QDeclarativeListProperty<Character> characters READ characters_QML )
+
 
 private:
   QList<Character*> characters;
@@ -32,6 +40,10 @@ public:
   void add_item(Item*);
   void add_clientconnection(ClientConnection*);
 
+  // for QML
+  QDeclarativeListProperty<Character> characters_QML();
+  // for QML
+
   QList<Character*>& get_characters();
   Fight* get_fight() const;
   QList<Scenario*>& get_scenarios();
@@ -47,6 +59,9 @@ public:
   void remove_scenario(Scenario*);
   void remove_item(quint16);
   void remove_clientconnection(ClientConnection*);
+
+signals:
+  void charactersChanged();
 
 };
 

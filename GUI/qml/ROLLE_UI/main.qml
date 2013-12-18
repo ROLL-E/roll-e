@@ -36,7 +36,9 @@ Rectangle {
     FileDialog {
         id: fileDialog
         nameFilters: [ "Text files (*.txt)" ]
+
         onAccepted: {}
+
 
     }
 
@@ -109,13 +111,14 @@ Rectangle {
             anchors.margins: 20
 
             Text {
+                id: text1
                 anchors.centerIn: parent
 
                 font.pointSize: 18
                 font.bold: true
                 font.underline: true
 
-                text: "Player 1"
+                text: "inget just nu"
             }
         }
 
@@ -646,11 +649,27 @@ Rectangle {
 
                 anchors.margins: 10
 
-            }
+                ValueBlock {
+                    id: valueblock1
+                    x: 40
+                    y: 33
+                    opacity: 0
+                }
 
-            Rectangle {
-                id: logicTreeEditor
-                color: "black"
+                CompareBlock {
+                    id: compareBlock1
+                    x: 40
+                    y: 131
+
+                    colorKey: "red"
+                }
+
+            }
+            Flickable {
+                id: logicTreeEditorContainer
+
+                property int editorWidth: 500
+                property int editorHeight: 300
 
                 anchors.top: parent.top
                 anchors.left: parent.left
@@ -659,47 +678,52 @@ Rectangle {
 
                 anchors.margins: 10
 
+                contentHeight: logicTreeEditor.height
+                contentWidth: logicTreeEditor.width
+
+                clip: true
+
                 Rectangle {
-                    id: startBlock
-                    y: 170
-                    width: 100
-                    height: 100
-                    color: "green"
+                    id: logicTreeEditor
+                    color: "black"
 
-                    radius: 50
+                    width: logicTreeEditorContainer.width > logicTreeEditorContainer.editorWidth ? logicTreeEditorContainer.width : logicTreeEditorContainer.editorWidth
+                    height: logicTreeEditorContainer.height > logicTreeEditorContainer.editorHeight ? logicTreeEditorContainer.height : logicTreeEditorContainer.editorHeight
+
+                    anchors.top: parent.top
                     anchors.left: parent.left
-                    anchors.leftMargin: 30
-                    anchors.verticalCenter: parent.verticalCenter
 
-                    Text {
-                        anchors.centerIn: parent
-                        text: "Start"
+                    Rectangle {
+                        id: startBlock
+                        width: 100
+                        height: 100
+                        color: "green"
+
+                        radius: 50
+
+                        anchors.left: parent.left
+                        anchors.leftMargin: 30
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Start"
+                        }
                     }
-                }
 
-                ValueBlock {
-                    id: valueblock1
-                    x: 748
-                    y: 33
-                    opacity: 0
-                }
+                    LogicBlockSlot {
+                        id: logicblockslot1
+                        anchors.left: parent.left
+                        anchors.leftMargin: 150
+                        anchors.verticalCenter: parent.verticalCenter
+                        opacity: 0
+                    }
 
-                LogicBlockSlot {
-                    id: logicblockslot1
-                    x: 164
-                    y: 188
-                    opacity: 0
-                }
-
-                CompareBlock {
-                    id: compareBlock1
-                    x: 748
-                    y: 131
-
-                    colorKey: "red"
                 }
 
             }
+
+
         }
     }
 
@@ -1029,6 +1053,11 @@ Rectangle {
                 target: logicblockslot1
                 colorKey: "red"
                 opacity: 1
+            }
+
+            PropertyChanges {
+                target: logicBlockContainer
+                z: 1
             }
 
         }

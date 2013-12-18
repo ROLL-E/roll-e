@@ -81,7 +81,7 @@ Rectangle {
             right: parent.right; bottom: buttons.top;
             margins: 20
         }
-        model: characterModel
+        model:  characters
         delegate: listDelegate
     }
 

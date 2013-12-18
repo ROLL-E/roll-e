@@ -8,6 +8,7 @@ Item {
 
     property string colorKey
     property string blockLabel: "LB"
+    property string slotType: "default"
 
     property bool moved: false
 
@@ -30,7 +31,17 @@ Item {
             }else {
                 parent = block.Drag.target !== null ? block.Drag.target : root
                 newBlock()
+
+                // resize tree editor
+
+                logicTreeEditorContainer.editorWidth = logicTreeEditorContainer.editorWidth + 64
+
+                if(slotType === "compareblock") {
+                    logicTreeEditorContainer.editorHeight = logicTreeEditorContainer.editorHeight + 80
+                }
+
             }
+
 
         }
 
@@ -72,7 +83,7 @@ Item {
         }
 
         LogicBlockSlot {
-            visible: mouseArea.parent !== root && !mouseArea.drag.active
+            visible: slotType === "default" && mouseArea.parent !== root && !mouseArea.drag.active
 
             height: block.height
             width: block.width
@@ -80,6 +91,28 @@ Item {
             x: block.x + 80
             y: block.y
         }
+
+        LogicBlockSlot {
+            visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
+
+            height: block.height
+            width: block.width
+            colorKey: root.colorKey
+            x: block.x + 80
+            y: block.y + 40
+        }
+
+        LogicBlockSlot {
+            visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
+
+            height: block.height
+            width: block.width
+            colorKey: root.colorKey
+            x: block.x + 80
+            y: block.y - 40
+        }
+
+
     }
 }
 

@@ -4,6 +4,8 @@
 #include <QMap>
 #include <QList>
 #include <QDataStream>
+#include <QObject>
+
 #include "Inventory.h"
 
 
@@ -11,7 +13,12 @@ class Story;
 class ClientConnection;
 class Skill;
 
-class Character {
+class Character : public QObject
+{
+     Q_OBJECT
+     Q_PROPERTY(QString name READ get_name WRITE set_name NOTIFY nameChanged)
+
+
 private:
     QString name;
     ClientConnection* client;
@@ -45,6 +52,8 @@ public:
 
     QDataStream& write_to_stream(QDataStream&);
     QDataStream& read_from_stream(QDataStream&);
+signals:
+    void nameChanged();
 };
 
 QDataStream& operator<<(QDataStream&, Character*&);
