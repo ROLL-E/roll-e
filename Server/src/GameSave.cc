@@ -16,6 +16,7 @@
 #include "WaitBlock.h"
 
 
+
 void GameSave::load(QString filename, Story*& story) {
   QFile input_file(filename);
   input_file.open(QIODevice::ReadOnly);

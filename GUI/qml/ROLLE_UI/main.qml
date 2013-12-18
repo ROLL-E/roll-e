@@ -36,7 +36,8 @@ Rectangle {
     FileDialog {
         id: fileDialog
         nameFilters: [ "Text files (*.txt)" ]
-        onAccepted: openFilePopUp.visible = true
+        onAccepted: {}
+
     }
 
     TopMenu {

@@ -2,6 +2,7 @@
 #define STORY_H
 #include <QList>
 #include <QMap>
+#include <QObject>
 #include "Ruleset.h"
 
 class Item;
@@ -11,7 +12,7 @@ class Character;
 class Ruleset;
 class ClientConnection;
 
-class Story {
+class Story : public QObject {
 
 private:
   QList<Character*> characters;
