@@ -1,66 +1,56 @@
 #include "ClientInventory.h"
-#include <QDebug>
+#include <algorithm>
+#include "Item.h"
 
-Inventory::Inventory(quint16 new_max_weight)
-  : max_weight{new_max_weight},
-    current_weight{0}{
+
+ClientInventory::ClientInventory(int new_max_weight)
+  : max_weight{new_max_weight} {
 }
 
-Inventory::Inventory(const Inventory& other)
+ClientInventory::ClientInventory(const ClientInventory& other)
   : items{other.items},
     max_weight{other.max_weight},
     current_weight{other.current_weight},
-    equipped{other.equipped}{
+    equipped{other.equipped} {
 }
 
-
-quint16 Inventory::get_weight() const {
+int ClientInventory::get_weight() const {
   return current_weight;
 }
 
-quint16 Inventory::get_max_weight() const {
+int ClientInventory::get_max_weight() const {
   return max_weight;
 }
 
-QList<quint16> Inventory::get_equipped() const {
+QList<Item*> ClientInventory::get_equipped() const {
   return equipped;
 }
 
-QList<quint16> Inventory::get_items() const
-{
-  return items;
+bool ClientInventory::has_item(Item* item) const {
+  return (std::find(items.begin(), items.end(), item) != items.end());
 }
 
-bool Inventory::has_item(quint16 id) const {
-  return (std::find(items.begin(), items.end(), id) != items.end());
-}
-
-void Inventory::set_max_weight(quint16 new_max) {
+void ClientInventory::set_max_weight(int new_max) {
   max_weight = new_max;
 }
 
-void Inventory::remove_item(quint16 id_to_remove) {
-  items.removeOne(id_to_remove);
+void ClientInventory::add_item(Item* item_to_add) {
+  items.push_back(item_to_add);
 }
 
-void Inventory::equip(quint16 id_to_equip){
-  equipped.push_back(id_to_equip);
+void ClientInventory::remove_item(Item* item_to_remove) {
+  items.removeOne(item_to_remove);
 }
 
-void Inventory::unequip(quint16 id_to_unequip) {
-  equipped.removeOne(id_to_unequip);
+void ClientInventory::equip(Item* item_to_equip){
+  equipped.push_back(item_to_equip);
 }
 
-QDataStream& Inventory::write_to_stream(QDataStream& ds) const {
-  ds << items;
-  ds << max_weight;
-  ds << current_weight;
-  ds << equipped;
-
-  return ds;
+void ClientInventory::unequip(Item* item_to_unequip) {
+  equipped.removeOne(item_to_unequip);
 }
 
-QDataStream& Inventory::read_from_stream(QDataStream& ds) {
+QDataStream& ClientInventory::read_from_stream(QDataStream& ds) {
   ds >> items;
   ds >> max_weight;
   ds >> current_weight;
@@ -69,11 +59,7 @@ QDataStream& Inventory::read_from_stream(QDataStream& ds) {
   return ds;
 }
 
-QDataStream& operator<<(QDataStream& ds, Inventory& inv) {
-  return inv.write_to_stream(ds);
-}
-
-QDataStream& operator>>(QDataStream& ds, Inventory& inv) {
+QDataStream& operator>>(QDataStream& ds, ClientInventory& inv) {
   return inv.read_from_stream(ds);
 }
 

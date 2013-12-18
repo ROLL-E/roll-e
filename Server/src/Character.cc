@@ -107,7 +107,6 @@ QDataStream& Character::write_to_stream(QDataStream& ds) {
   }
 
   ds << inventory;
-
  return ds;
 }
 

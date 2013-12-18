@@ -55,4 +55,5 @@ signals:
 
 QDataStream& operator<<(QDataStream&, Character*&);
 QDataStream& operator>>(QDataStream&, Character*&);
+
 #endif

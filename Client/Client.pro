@@ -17,9 +17,11 @@ CONFIG += c++11
 SOURCES += main.cc\
         clientwindow.cc \
     src/placeholder.cc \
-    src/ServerConnection.cc
-
-
+    src/ServerConnection.cc \
+    src/Character.cc \
+    src/Item.cc \
+    src/Skill.cc \
+    src/ClientInventory.cc
 
 
 HEADERS  += clientwindow.h \

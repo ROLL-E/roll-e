@@ -27,7 +27,6 @@ void ServerConnection::join(QString address, QString cha){
       qDebug() << "connection timed out!";
   } else {
       send_request(Request{"Join",cha,0});
-      controlledChar = cha;
   }
 
 }
@@ -51,6 +50,7 @@ void ServerConnection::readyRead(){
       in_stream >> msg;
       if(msg.message == QString("Welcome!") and msg.sender == QString("System")){
           joined = true;
+          controlledChar = msg.receiver;
       } else
           qDebug() << msg.message;
     }

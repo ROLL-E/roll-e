@@ -107,10 +107,10 @@ void Server::join_request(){
         if(requested_char != nullptr){
             if(requested_char->get_connection() == nullptr){
                 requested_char->set_connection(joiner.first);
-                requested_char->get_connection()->send_message(Message{"System","new_player","Welcome!"});
+                requested_char->get_connection()->send_message(Message{"System",requested_char->get_name(),"Welcome!"});
                 qDebug()  << "Legion has taken control of " << requested_char->get_name();
             } else
-                joiner.first->send_message(Message{"System","new player", joiner.second->intention + " is not available."});
+                joiner.first->send_message(Message{"System",requested_char->get_name(), " is not available."});
         }
     }
     servermutex.unlock();

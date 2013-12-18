@@ -25,7 +25,7 @@ private:
 
 public:
   explicit Server(Story*, QObject* parent = 0);
-  QTcpServer* server; //private?
+  QTcpServer* server; //private när destruktorn är klar.
   QList<QPair<QPointer<ClientConnection>,QThread*>> clients;
   
 signals:
