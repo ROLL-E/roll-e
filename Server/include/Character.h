@@ -50,7 +50,7 @@ public:
     QDataStream& write_to_stream(QDataStream&);
     QDataStream& read_from_stream(QDataStream&);
 signals:
-    void changed();
+    void changed(Character*);
 };
 
 QDataStream& operator<<(QDataStream&, Character*&);

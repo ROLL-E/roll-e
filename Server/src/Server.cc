@@ -13,7 +13,7 @@ void Server::newConnection() {
     qDebug() << "New connection!";
     clients.prepend(QPair<QPointer<ClientConnection>,QThread*>(new ClientConnection(server->nextPendingConnection()), new QThread(this)));
     clients.first().first->moveToThread(clients.first().second);
-    // Meaty because we need the actual pointers of the clientconnection and its thread located in the list to setup the connection.
+
     // Not sure how QObject sets up the connection, might be possible to clean this up.
     connect(clients.first().first, SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
     connect(this,SIGNAL(got_join_request()),this,SLOT(join_request()));
@@ -76,10 +76,6 @@ void Server::start(){
     } else {
         qDebug() << "Server is listening.";
     }
-}
-
-void Server::push_data(){ // Might need story* here.
-    // we need to implement character and story for this
 }
 
 void Server::redirect_messages(){

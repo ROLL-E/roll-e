@@ -18,19 +18,19 @@ void ClientConnection::readyRead(){
   QDataStream in_stream(clientSocket);
   // Are there more messages to recieve?
   while(!clientSocket->atEnd()){
-  in_stream >> token;
-  // What kind of message did we recieve?
-  // To add a new kind of packet, just add another char.
-  if (token == QChar('m')) {
-      Message msg;
-      in_stream >> msg;
-      message_buffer.push_back(new Message(msg));
-    }
-  else if (token == QChar('r')) {
-      Request req;
-      in_stream >> req;
+      in_stream >> token;
+      // What kind of message did we recieve?
+      // To add a new kind of packet, just add another char.
+      if (token == QChar('m')) {
+          Message msg;
+          in_stream >> msg;
+          message_buffer.push_back(new Message(msg));
+      }
+      else if (token == QChar('r')) {
+          Request req;
+          in_stream >> req;
       request_buffer.push_back(new Request(req));
-    }
+      }
   }
   emit got_something(this);
 }
@@ -48,10 +48,14 @@ void ClientConnection::send_message(Message msg) {
   out << QChar('m') << msg;
 }
 
-void ClientConnection::push_data(){
+void ClientConnection::push_data(Character* cha){
     //behöver veta hur storys och klientens information kommer se ut för att göra klart den här,
     // eg, blir nog bäst att lämna till efter merge.
-  qDebug() << "push_data() not yet implemented.";
+    QMutex mutex;
+    mutex.lock();
+    QDataStream out(clientSocket);
+    out << QChar('p') << cha;
+    mutex.unlock();
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {

@@ -8,6 +8,7 @@
 #include <QPair>
 
 class Story;
+class Character;
 
 struct Message {
   Message() = default;
@@ -48,7 +49,6 @@ public:
     QTcpSocket* clientSocket;
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);
     void send_message(Message);
-    void push_data(); // Send Story* ?
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();
 
@@ -57,6 +57,7 @@ signals:
     void got_something(ClientConnection*);
 
 public slots:
+    void push_data(Character *);
     void connected();
     void remote_disconnected();
     void readyRead();

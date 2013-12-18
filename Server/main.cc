@@ -39,9 +39,9 @@ int main(int argc, char *argv[])
   QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
   main_story->add_character(new Character(attr_map, 50, main_story));
 
+  qDebug() << "Creating Bob.";
   Character* bob = main_story->get_characters().front();
   bob->set_name("BOB!");
-
 
   try {
     Item* hammer1 = new Item("Hammer of doom");
@@ -141,27 +141,30 @@ int main(int argc, char *argv[])
   qDebug() << "scenario 1";
   main_story->get_ruleset().add_scenario(scene1);
   qDebug() << "Save 1";
-  GameSave::save(main_story, "K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat");
-  qDebug() << "Save 2";
-  rs = Ruleset(attr_list);
-  GameSave::load("K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat", main_story);
+//  GameSave::save(main_story, "K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat");
+//  qDebug() << "Save 2";
+//  rs = Ruleset(attr_list);
+//  GameSave::load("K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat", main_story);
   qDebug() << "Load 1";
   for (Item* i : main_story->get_items()) {
     qDebug() << i->get_id() << ": " << i->get_name();
   }
 
   qDebug();
-
+  qDebug() << "stuff 10";
   for (Character* c : main_story->get_characters()) {
     qDebug() << c->get_name();
     qDebug() << c->get_attribute("health");
     for (Skill* s : c->get_skills())
       qDebug() << s->get_name();
   }
-
+  qDebug() << "stuff 11";
   qDebug() << main_story->get_characters().value(0)->get_attribute("health");
+  qDebug() << "stuff 12";
   main_story->get_ruleset().get_scenarios().front()->run();
+  qDebug() << "stuff 13";
   qDebug() << main_story->get_characters().value(0)->get_attribute("health");
+  qDebug() << "stuff 14";
 
 //  for (Character* c : second.get_characters()) {
 //    qDebug() << c->get_name();

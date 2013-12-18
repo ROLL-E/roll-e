@@ -32,7 +32,6 @@ private:
 public:
   Server* myServer;
   QMap<quint16, Scenario*> scenario_id_map;
-
   Story(Ruleset);
 
   void add_character(Character*);
@@ -55,7 +54,6 @@ public:
   void remove_item(quint16);
   void kick_player(QString);
 
-private slots:
 };
 
 #endif

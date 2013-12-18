@@ -25,10 +25,15 @@ QPointer<ClientConnection> Character::get_connection(){
 
 void Character::set_connection(ClientConnection* connection){
     client = connection;
+    if(client != nullptr){
+    connect(this,SIGNAL(changed(Character*)),client,SLOT(push_data(Character*)));
+    emit changed(this);
+    }
 }
 
 void Character::set_name(const QString& new_name) {
-  name = new_name;
+    name = new_name;
+    emit changed(this);
 }
 
 qint16 Character::get_attribute(QString attr_name) const {
@@ -37,10 +42,12 @@ qint16 Character::get_attribute(QString attr_name) const {
 
 void Character::set_attribute(const QString& attr_name, qint16 value) {
   attributes[attr_name] = value;
+  emit changed(this);
 }
 
 void Character::add_to_attribute(const QString& attr_name, qint16 value) {
-        attributes[attr_name] = value + attributes.value(attr_name);
+    attributes[attr_name] = value + attributes.value(attr_name);
+    emit changed(this);
 }
 
 void Character::take_damage(const QString& type, qint16 amount) {
@@ -54,6 +61,7 @@ void Character::take_damage(const QString& type, qint16 amount) {
     else
       attributes["health"] -= amount;
   }
+  emit changed(this);
 }
 
 QList<Skill*> Character::get_skills() const {
@@ -62,18 +70,22 @@ QList<Skill*> Character::get_skills() const {
 
 void Character::add_skill(Skill* new_skill) {
   skills.push_back(new_skill);
+  emit changed(this);
 }
 
 void Character::remove_skill(Skill* skill_to_remove) {
   skills.removeOne(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
+  emit changed(this);
 }
 
 void Character::add_item(quint16 new_id) {
   inventory.add_item(new_id);
+  emit changed(this);
 }
 
 void Character::remove_item(quint16 id_to_remove) {
   inventory.remove_item(id_to_remove);
+  emit changed(this);
 }
 
 bool Character::has_item(quint16 id) const {

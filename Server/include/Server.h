@@ -35,7 +35,6 @@ signals:
   void got_join_request();
 
 public slots:
-  void push_data();
   void redirect_messages();
   void newConnection();
   void client_disconnected();
