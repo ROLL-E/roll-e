@@ -1,5 +1,6 @@
 #include "ClientInventory.h"
 #include <algorithm>
+#include "Item.h"
 
 using namespace std;
 
@@ -48,6 +49,19 @@ void ClientInventory::equip(Item* item_to_equip){
 
 void ClientInventory::unequip(Item* item_to_unequip) {
   equipped.removeOne(item_to_unequip);
+}
+
+QDataStream& ClientInventory::read_from_stream(QDataStream& ds) {
+  ds >> items;
+  ds >> max_weight;
+  ds >> current_weight;
+  ds >> equipped;
+
+  return ds;
+}
+
+QDataStream& operator>>(QDataStream& ds, ClientInventory& inv) {
+  return inv.read_from_stream(ds);
 }
 
 

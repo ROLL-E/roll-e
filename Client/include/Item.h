@@ -35,11 +35,9 @@ public:
   void remove_attribute(const QString&);
 
   QDataStream& read_from_stream(QDataStream&);
-  QDataStream& write_to_stream(QDataStream&) const;
 
 };
 
-QDataStream& operator<<(QDataStream&, Item*&);
 QDataStream& operator>>(QDataStream&, Item*&);
 
 #endif

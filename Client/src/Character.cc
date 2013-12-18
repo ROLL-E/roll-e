@@ -67,4 +67,18 @@ void Character::set_server(ServerConnection* new_server) {
     server = new_server;
 }
 
+QDataStream& Character::read_from_stream(QDataStream& ds) {
+  ds >> name;
+  ds >> attributes;
+  ds >> skills;
+  ds >> inventory;
+
+  return ds;
+}
+
+QDataStream& operator>>(QDataStream& in_stream, Character*& character) {
+  //character = new Character();
+  return character->read_from_stream(in_stream);
+}
+
 

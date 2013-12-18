@@ -24,6 +24,12 @@ public:
     QList<Item*> get_equipped() const;
     void equip(Item*);
     void unequip(Item*);
+
+    QDataStream& read_from_stream(QDataStream&);
+
 };
+
+  QDataStream& operator>>(QDataStream&, ClientInventory&);
+
 
 #endif

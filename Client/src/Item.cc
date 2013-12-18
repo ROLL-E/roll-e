@@ -74,18 +74,6 @@ QDataStream& Item::read_from_stream(QDataStream& ds) {
   return ds;
 }
 
-QDataStream& Item::write_to_stream(QDataStream& ds) const{
-
-  ds << name;
-  ds << modifiers;
-  ds << attributes;
-
-  return ds;
-}
-
-QDataStream& operator<<(QDataStream& ds, Item*& item) {
-  return item->write_to_stream(ds);
-}
 
 QDataStream& operator>>(QDataStream& ds, Item*& item) {
   return item->read_from_stream(ds);

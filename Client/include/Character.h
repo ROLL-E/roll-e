@@ -29,6 +29,9 @@ public:
 
   ServerConnection* get_server() const;
   void set_server(ServerConnection*);
+
+
+  QDataStream& read_from_stream(QDataStream&);
   
 private:
   QString name;
@@ -38,5 +41,7 @@ private:
   ClientInventory inventory;
   
 };
+
+QDataStream& operator>>(QDataStream&, Character*&);
 
 #endif
