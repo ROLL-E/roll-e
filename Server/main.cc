@@ -140,12 +140,14 @@ int main(int argc, char *argv[])
   scene1->set_story(main_story);
   qDebug() << "scenario 1";
   main_story->get_ruleset().add_scenario(scene1);
-  qDebug() << "Save 1";
-//  GameSave::save(main_story, "K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat");
-//  qDebug() << "Save 2";
+
+//  GameSave::save(main_story, "bigsave.dat");
+
 //  rs = Ruleset(attr_list);
-//  GameSave::load("K:\\skola & viktigt stuff\\TDDC76\\roll-e\\bigsave.dat", main_story);
-  qDebug() << "Load 1";
+//  GameSave::load("bigsave.dat", main_story);
+
+//  qDebug() << "inte load";
+
   for (Item* i : main_story->get_items()) {
     qDebug() << i->get_id() << ": " << i->get_name();
   }
