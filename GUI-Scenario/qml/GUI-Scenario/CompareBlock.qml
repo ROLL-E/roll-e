@@ -21,6 +21,8 @@ Item {
         blockLabel: "C"
         slotType: "compareblock"
 
+
+
     }
     PopUp {
 

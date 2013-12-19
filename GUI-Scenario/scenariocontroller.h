@@ -29,10 +29,11 @@ public slots:
     void oklart(QString msg) {qDebug() << msg;}
     void add_block(int number, QString type);
 
-    void set_active_block_number_(int number) {active_block_number_ = number;}
+    void set_active_block_number_(int number) {qDebug() << "active block is set to number " << number; active_block_number_ = number;}
     void set_active_block_side(QString side) { active_block_side_ = side;}
 
     void edit_value_block(QString stat, bool intent, int blocknr);
+    void set_compareblock_value(int blocknr);
 
 private:
     // variables

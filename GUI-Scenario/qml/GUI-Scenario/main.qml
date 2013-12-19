@@ -14,7 +14,9 @@ Rectangle {
     signal add_block(int number, string type)
     signal editValueBlock(string satval, bool intet, int blocknr)
 
-    visible: sController.showEditor
+    signal setCompareBlockValue(int blocknumber)
+
+    //visible: sController.showEditor
 
     onIncrementCounter: counter++
 

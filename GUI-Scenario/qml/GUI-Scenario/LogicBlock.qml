@@ -165,6 +165,12 @@ Item {
             id: lhsValue
             visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
 
+            onEntered: {
+
+                setDropAreaParent(blockNumber)
+                setDropAreaSide("lhs")
+            }
+
             height: 20
             width: 20
 
@@ -173,12 +179,19 @@ Item {
             colorKey: "green"
             x: block.x + block.width/2 - width/2
             y: block.y - 30 - width
+
+
         }
 
         LogicBlockSlot {
             id: rhsValue
             visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
 
+            onEntered: {
+
+                setDropAreaParent(blockNumber)
+                setDropAreaSide("rhs")
+            }
 
             height: 20
             width: 20

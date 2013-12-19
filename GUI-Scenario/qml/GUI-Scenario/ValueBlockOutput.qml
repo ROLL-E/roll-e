@@ -29,6 +29,9 @@ Item {
 
             if (block.Drag.target !== null)
             {
+                //signal c++ to add pointer to valueblock nr blockNumber
+                setCompareBlockValue(blockNumber)
+
                 BlockScript.newValueBlockOutput(colorKey)
                 moved = true
 

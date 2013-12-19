@@ -28,6 +28,8 @@ SOURCES += main.cpp \
     ../Server/src/DamageBlock.cc \
     ../Server/src/CompareBlock.cc \
     ../Server/src/Story.cc \
+    ../Server/src/person.cpp \
+    ../Server/src/controller.cpp \
     ../Server/src/Character.cc \
     ../Server/src/WaitBlock.cc \
     ../Server/src/Scenario.cc \
@@ -54,7 +56,9 @@ HEADERS += \
     ../Server/include/ActiveSkill.h \
     ../Server/include/ActiveItem.h \
     ../Server/include/Story.h \
+    ../Server/include/person.h \
     ../Server/include/gui_interaction.h \
+    ../Server/include/controller.h \
     ../Server/include/Character.h \
     ../Server/include/WaitBlock.h \
     ../Server/include/Scenario.h \
