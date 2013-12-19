@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
     Item* hammer2 = new Item("nicer hammah");
     main_story->add_item(hammer2);
     hammer2->set_attribute("Weight", 20);
+    hammer2->set_modifier("str", -20);
 
     bob->add_item(hammer1->get_id());
     bob->add_item(hammer2->get_id());

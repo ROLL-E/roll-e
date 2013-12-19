@@ -28,11 +28,19 @@ private slots:
 
   void on_pushButton_clicked();
 
+  void on_remove_itemButton_clicked();
+
+  void on_item_listView_clicked(const QModelIndex &index);
+
+  void on_skills_listView_clicked(const QModelIndex &index);
+
+  void on_pushButton_2_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story;
 
-  void update_characters();
+  void update_characters(int row = -1);
 
 };
 

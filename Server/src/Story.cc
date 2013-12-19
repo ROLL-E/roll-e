@@ -60,6 +60,6 @@ void Story::remove_item(quint16 id_to_remove) {
 }
 
 Item* Story::get_item(quint16 id) const {
-    return items.value(id);
+    return items.value(id, nullptr);
 }
 
