@@ -2,6 +2,7 @@
 #define CLIENTCONNECTION_H
 #include <QString>
 #include <vector>
+#include <QtNetwork/QtNetwork>
 
 class Story;
 class Character;
@@ -56,5 +57,13 @@ public slots:
     void readyRead();
 
 };
+
+QDataStream& operator<<(QDataStream& out, Message& msg);
+
+QDataStream& operator>>(QDataStream& in, Message& msg);
+
+QDataStream& operator>>(QDataStream& in, Request& req);
+
+
 
 #endif

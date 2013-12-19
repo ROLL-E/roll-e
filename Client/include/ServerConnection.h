@@ -44,4 +44,13 @@ public slots:
   void readyRead();
 };
 
+QDataStream& operator<<(QDataStream& out, Message& msg);
+
+QDataStream& operator<<(QDataStream& out, Request& req);
+
+QDataStream& operator>>(QDataStream& in, Message& msg);
+
+QDataStream& operator>>(QDataStream& in, Request& req);
+
+
 #endif

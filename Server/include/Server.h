@@ -1,10 +1,10 @@
 #ifndef SERVER_H
 #define SERVER_H
-
 #include "ClientConnection.h"
 #include "Story.h"
 #include <QPointer>
 #include <QList>
+#include <QtNetwork/QtNetwork>
 
 class Client;
 class Story;

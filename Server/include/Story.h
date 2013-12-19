@@ -17,7 +17,9 @@ class Character;
 class Server;
 class Ruleset;
 
-class Story {
+class Story : public QObject {
+
+    Q_OBJECT
 
 private:
   QList<Character*> characters;
