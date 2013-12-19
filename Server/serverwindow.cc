@@ -23,8 +23,8 @@ ServerWindow::ServerWindow(Story* the_story, QWidget *parent) :
 {
   ui->setupUi(this);
 
-  startDialog* dialog = new startDialog(this);
-  dialog->exec();
+  //startDialog* dialog = new startDialog(this);
+  //dialog->exec();
   update_characters();
 }
 
