@@ -2,7 +2,10 @@
 #include "ui_serverwindow.h"
 #include "characterdialog.h"
 #include "itemdialog.h"
+#include "skilldialog.h"
+#include "startdialog.h"
 #include <QStringListModel>
+#include <QFileDialog>
 #include <QAbstractItemModel>
 #include <QDebug>
 
@@ -11,6 +14,7 @@
 #include "skillmodel.h"
 #include "Item.h"
 #include "Skill.h"
+#include "GameSave.h"
 
 ServerWindow::ServerWindow(Story* the_story, QWidget *parent) :
   QMainWindow(parent),
@@ -19,7 +23,8 @@ ServerWindow::ServerWindow(Story* the_story, QWidget *parent) :
 {
   ui->setupUi(this);
 
-
+  startDialog* dialog = new startDialog(this);
+  dialog->exec();
   update_characters();
 }
 
@@ -185,4 +190,16 @@ void ServerWindow::on_pushButton_2_clicked()
   itemDialog dialog(this);
   dialog.exec();
   update_characters();
+}
+
+void ServerWindow::on_pushButton_3_clicked()
+{
+  skillDialog dialog(this);
+  dialog.exec();
+  update_characters();
+}
+
+void ServerWindow::on_pushButton_4_clicked()
+{
+    GameSave::save(story,QFileDialog::getSaveFileName(this));
 }

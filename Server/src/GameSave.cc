@@ -25,7 +25,8 @@ void GameSave::load(QString filename, Story*& story) {
   QString tag;
   in_stream >> tag;
 
-  delete story;
+  if (story != nullptr)
+    delete story;
 
   try {
     if (tag == QString("Rules")) {

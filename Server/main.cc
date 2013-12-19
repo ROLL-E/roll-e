@@ -27,7 +27,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
 
-
+/*
   QList<QString> attr_list{"health", "armor", "strength"};
   Ruleset* rs = new Ruleset(attr_list);
 
@@ -215,12 +215,11 @@ int main(int argc, char *argv[])
   scen1->set_next_block(block14);
   scen2->set_next_block(block15);
 
-  fight1->run_next_turn();
+  fight1->run_next_turn();*/
 
   QApplication a(argc, argv);
-  ServerWindow w(main_story);
+  ServerWindow w(nullptr);
   w.show();
-  main_story->get_ruleset()->add_skill(new Skill("Hest"));
 
 
 

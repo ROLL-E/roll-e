@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>itemDialog</class>
- <widget class="QDialog" name="itemDialog">
+ <class>skillDialog</class>
+ <widget class="QDialog" name="skillDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>376</height>
+    <width>481</width>
+    <height>455</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>330</y>
+     <x>50</x>
+     <y>370</y>
      <width>341</width>
      <height>32</height>
     </rect>
@@ -29,44 +29,11 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>70</y>
-     <width>281</width>
-     <height>241</height>
-    </rect>
-   </property>
-   <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>138</number>
-   </attribute>
-   <column>
-    <property name="text">
-     <string>Attribute</string>
-    </property>
-   </column>
-   <column>
-    <property name="text">
-     <string> Value</string>
-    </property>
-   </column>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>20</y>
-     <width>113</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>20</y>
+     <x>40</x>
+     <y>10</y>
      <width>62</width>
      <height>19</height>
     </rect>
@@ -75,26 +42,23 @@
     <string>Name</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>310</y>
-     <width>115</width>
-     <height>32</height>
+     <x>120</x>
+     <y>10</y>
+     <width>113</width>
+     <height>21</height>
     </rect>
    </property>
-   <property name="text">
-    <string>Add attribute</string>
-   </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget_2">
+  <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>70</x>
      <y>70</y>
-     <width>261</width>
-     <height>241</height>
+     <width>256</width>
+     <height>192</height>
     </rect>
    </property>
    <column>
@@ -108,17 +72,17 @@
     </property>
    </column>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>320</y>
+     <x>70</x>
+     <y>280</y>
      <width>115</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
-    <string>Add modifier</string>
+    <string>Add Modifier</string>
    </property>
   </widget>
  </widget>
@@ -127,7 +91,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>itemDialog</receiver>
+   <receiver>skillDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -143,7 +107,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>itemDialog</receiver>
+   <receiver>skillDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

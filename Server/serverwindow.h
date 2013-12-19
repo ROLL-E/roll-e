@@ -17,6 +17,7 @@ public:
   explicit ServerWindow(Story*, QWidget *parent = 0);
   ~ServerWindow();
   Story* get_story() { return story;}
+  void set_story(Story* new_story) {story = new_story;}
 
 private slots:
   void on_add_charButton_clicked();
@@ -35,6 +36,10 @@ private slots:
   void on_skills_listView_clicked(const QModelIndex &index);
 
   void on_pushButton_2_clicked();
+
+  void on_pushButton_3_clicked();
+
+  void on_pushButton_4_clicked();
 
 private:
   Ui::ServerWindow *ui;

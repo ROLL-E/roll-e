@@ -25,10 +25,20 @@ void itemDialog::on_buttonBox_accepted()
     for(int i{0}; i < ui->tableWidget->rowCount(); ++i) {
       item->set_attribute(ui->tableWidget->item(i, 0)->text(), ui->tableWidget->item(i,1)->text().toInt());
     }
+
+    for(int i{0}; i < ui->tableWidget_2->rowCount(); ++i) {
+      item->set_modifier(ui->tableWidget_2->item(i, 0)->text(), ui->tableWidget_2->item(i,1)->text().toInt());
+    }
+
     story->add_item(item);
 }
 
 void itemDialog::on_pushButton_clicked()
 {
   ui->tableWidget->setRowCount(ui->tableWidget->rowCount()+1);
+}
+
+void itemDialog::on_pushButton_2_clicked()
+{
+    ui->tableWidget_2->setRowCount(ui->tableWidget_2->rowCount()+1);
 }
