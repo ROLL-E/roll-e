@@ -67,6 +67,7 @@ void ServerConnection::readyRead(){
     }
     else if (token == QChar('p')) {
         in_stream >> controlledChar;
+        controlledChar->get_status();
     }
     else
         qDebug() << "Uknown message-type.";
