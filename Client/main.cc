@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     ServerConnection testie{};
     testie.join("192,168.1.37","BOB!"); // ("192.168.1.35")
     testie.clientSocket->waitForConnected();
-    testie.send_message("BOB!","Hej fredrik!");
+    testie.send_message("BOB!","Assuming direct control...");
 
     w.show();
     return a.exec();

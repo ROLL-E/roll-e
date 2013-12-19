@@ -4,6 +4,8 @@
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
     clientSocket = new QTcpSocket{this};
+    //just in case
+    clientSocket->flush();
     controlledChar = new Character(*(new QMap<QString,qint16>),0);
     controlledChar->set_name("Legion");
     joined = false;
