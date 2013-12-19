@@ -22,23 +22,6 @@ int main(int argc, char *argv[])
     testie.clientSocket->waitForConnected();
     testie.send_message("BOB!","Hej fredrik!");
 
-    //    qDebug() << testie.get_controlledChar()->get_name();
-
-    //    qDebug() << testie.get_controlledChar()->get_name() + "'s health" << testie.get_controlledChar()->get_attribute("health");
-
-    //    Item* item1(new Item("Hammer of doom"));
-    //    testie.get_controlledChar()->add_item(item1);
-
-    //    Item* item2(new Item("nicer hammah"));
-    //    testie.get_controlledChar()->add_item(item2);
-
-
-    //    qDebug() << testie.get_controlledChar()->has_item(item1);
-    //    qDebug() << item1->get_name();
-    //    qDebug() << item2->get_name();
-
-    //    qDebug() << testie.has_joined();
-
     w.show();
     return a.exec();
 }

@@ -4,7 +4,7 @@
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
     clientSocket = new QTcpSocket{this};
-    controlledChar = new Character(*(new QMap<QString,qint16>),1024);
+    controlledChar = new Character(*(new QMap<QString,qint16>),0);
     controlledChar->set_name("Legion");
     joined = false;
     connect(clientSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -24,7 +24,6 @@ Character* ServerConnection::get_controlledChar(){
 }
 
 void ServerConnection::send_request(Request req) const {
-    qDebug() << "Sending Request.";
     QDataStream out_stream(clientSocket);
     out_stream << QChar('r') << req;
 }
@@ -33,14 +32,12 @@ void ServerConnection::join(QString address, QString cha){
     qDebug() << "connecting to host...";
     qDebug() << clientSocket->isValid();
     clientSocket->connectToHost(QHostAddress(address),14449);
-    qDebug() << "connectionrequest sent";
     if(!clientSocket->waitForConnected(1000)){
         qDebug() << "connection timed out!";
     } else {
-        qDebug("requesting join");
+        qDebug() << "requesting to join as character: " << cha;
         send_request(Request{"Join",cha,0});
     }
-
 }
 
 void ServerConnection::connected(){
@@ -61,10 +58,7 @@ void ServerConnection::readyRead(){
     if (token == QChar('m')) {
         Message msg;
         in_stream >> msg;
-        if(msg.message == QString("Welcome!") and msg.sender == QString("System")){
-            joined = true;
-        } else
-            qDebug() << msg.message;
+        qDebug() << msg.sender << " says "<< msg.message;
     }
     else if (token == QChar('r')) {
         Request req;
@@ -73,10 +67,9 @@ void ServerConnection::readyRead(){
     }
     else if (token == QChar('p')) {
         in_stream >> controlledChar;
-        controlledChar->get_status();
     }
     else
-        qDebug() << "Fuck all";
+        qDebug() << "Uknown message-type.";
     } while (!in_stream.atEnd());
 }
 
@@ -85,7 +78,6 @@ bool ServerConnection::has_joined(){
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {
-    qDebug() << "sent to server:" << msg.sender << msg.receiver << msg.message;
     out << msg.sender << msg.receiver << msg.message;
     return out;
 }
@@ -97,7 +89,6 @@ QDataStream& operator<<(QDataStream& out, Request& req) {
 
 QDataStream& operator>>(QDataStream& in, Message& msg) {
     in >> msg.sender >> msg.receiver >> msg.message;
-    qDebug() << "got from server:" << msg.sender << msg.receiver << msg.message;
     return in;
 }
 

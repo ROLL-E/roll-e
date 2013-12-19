@@ -19,7 +19,6 @@ void Skill::set_name(const QString& new_name) {
 QDataStream& Skill::read_from_stream(QDataStream& ds) {
   ds >> name;
   ds >> modifiers;
-
   return ds;
 }
 

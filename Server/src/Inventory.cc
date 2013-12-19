@@ -80,27 +80,41 @@ QDataStream& Inventory::write_to_stream(QDataStream& ds) const {
   if (dynamic_cast<QFile*>(ds.device()) != nullptr){
       qDebug() << "Sending Item Id's";
       ds << items;
+      ds << equipped;
   }
   else {
     qDebug() << "sending items";
+    Item* temp_item = new Item(0);
     ds << items.size();
     qDebug() << "Items.size()" << items.size();
     for (quint16 id : items) {
-      ds << story->get_item(id);
+        qDebug() << "sending item: " << story->get_item(id)->get_name();
+      temp_item = new Item(*(story->get_item(id)));
+      ds << temp_item;
+    }
+
+    ds << equipped.size();
+
+    qDebug() << "Equipped.size()" << equipped.size();
+
+    for (quint16 id : equipped) {
+        qDebug() << "in loop on server";
+        temp_item = new Item(*(story->get_item(id)));
+        ds << temp_item;
     }
   }
   ds << max_weight;
+  qDebug() << max_weight;
   ds << current_weight;
-  ds << equipped;
 
   return ds;
 }
 
 QDataStream& Inventory::read_from_stream(QDataStream& ds) {
   ds >> items;
+  ds >> equipped;
   ds >> max_weight;
   ds >> current_weight;
-  ds >> equipped;
 
   return ds;
 }

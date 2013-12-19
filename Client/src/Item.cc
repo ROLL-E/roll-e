@@ -68,7 +68,6 @@ void Item::remove_modifier(const QString& mod_to_remove) {
 }
 
 QDataStream& Item::read_from_stream(QDataStream& ds) {
-    qDebug() << "streaming an item";
   ds >> name;
   ds >> modifiers;
   ds >> attributes;

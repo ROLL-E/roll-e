@@ -13,20 +13,24 @@ Character::Character(const Character& other)
     inventory(other.inventory) {
 }
 
-void Character::get_status(){
-    qDebug() << name;
-    for(auto key : attributes.keys()){
-        qDebug() << key << attributes.value(key);
-    }
-    for(Item* item : inventory.get_items()){
-        qDebug() << item->get_name();
-    }
-    for(Item* item : inventory.get_equipped()){
-        qDebug() << item->get_name();
-    }
-    qDebug() << inventory.get_max_weight();
-    qDebug() << inventory.get_items().size();
-}
+//void Character::get_status(){
+//    qDebug() << name;
+//    for(auto key : attributes.keys()){
+//        qDebug() << key << attributes.value(key);
+//    }
+//    for(Item* item : inventory.get_items()){
+//        qDebug() << item->get_name();
+//    }
+//    for(Item* item : inventory.get_equipped()){
+//        qDebug() << item->get_name();
+//    }
+//    qDebug() << inventory.get_max_weight();
+//    qDebug() << inventory.get_items().size();
+//    qDebug() << inventory.get_weight();
+//    for(Skill* skill : skills){
+//        qDebug() << skill->get_name();
+//    }
+//}
 
 QString Character::get_name() const {
   return name;
@@ -76,9 +80,17 @@ QDataStream& Character::read_from_stream(QDataStream& ds) {
   ds >> name;
   ds >> attributes;
   ds >> inventory;
-  ds >> skills;
 
+  int number_of_skills{0};
+  ds >> number_of_skills;
+  qDebug() << "number of skills " << number_of_skills;
 
+  Skill* temp_skill = new Skill();
+  for (int i{0}; i < number_of_skills; ++i) {
+      ds >> temp_skill;
+      skills.push_back(new Skill(*temp_skill));
+  }
+  temp_skill = nullptr;
   return ds;
 }
 

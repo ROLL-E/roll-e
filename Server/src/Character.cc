@@ -1,4 +1,5 @@
 #include "Character.h"
+#include "Skill.h"
 #include <QFile>
 #include <QDebug>
 
@@ -111,8 +112,14 @@ QDataStream& Character::write_to_stream(QDataStream& ds) {
   }
   else {
       qDebug() << "skills";
-    ds << skills;
-    qDebug() << "after skills";
+      ds << skills.size();
+      qDebug() << "skills.size()" << skills.size();
+
+      for (Skill* ptr : skills){
+          qDebug() << "attempting to write a skill.";
+          ds << ptr;
+      }
+      qDebug() << "after skills";
   }
   qDebug() << "Serializing done!";
  return ds;

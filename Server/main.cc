@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
   Story* main_story = new Story(rs);
 
   QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
-  main_story->add_character(new Character(attr_map, 50, main_story));
+  main_story->add_character(new Character(attr_map, 100, main_story));
 
   qDebug() << "Creating Bob.";
   Character* bob = main_story->get_characters().front();
