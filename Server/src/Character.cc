@@ -96,25 +96,33 @@ bool Character::has_item(quint16 id) const {
 
 QDataStream& Character::write_to_stream(QDataStream& ds) {
 
-  ds << name;
-  ds << attributes;
+    qDebug() << "character name";
+    ds << name;
+    qDebug() << "character attributes";
+    ds << attributes;
+    qDebug() << "dynamic casting";
+  qDebug() << "inventory";
+  ds << inventory;
 
   if (dynamic_cast<QFile*>(ds.device()) != nullptr) {
-    ds << skill_ids;
+    qDebug() << "skill ids";
+      ds << skill_ids;
+      qDebug() << "after skill ids";
   }
   else {
+      qDebug() << "skills";
     ds << skills;
+    qDebug() << "after skills";
   }
-
-  ds << inventory;
+  qDebug() << "Serializing done!";
  return ds;
 }
 
 QDataStream& Character::read_from_stream(QDataStream& ds) {
   ds >> name;
   ds >> attributes;
-  ds >> skill_ids;
   ds >> inventory;
+  ds >> skill_ids;
 
   return ds;
 }

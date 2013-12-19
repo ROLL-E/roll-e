@@ -80,6 +80,7 @@ QDataStream& Item::read_from_stream(QDataStream& ds) {
 
 QDataStream& Item::write_to_stream(QDataStream& ds) const{
 
+    qDebug() << "In item write";
   ds << name;
   ds << modifiers;
   ds << attributes;

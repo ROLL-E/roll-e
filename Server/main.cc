@@ -199,6 +199,7 @@ int main(int argc, char *argv[])
 
   fight1->run_next_turn();
 
+
   qDebug() << fredrik->get_name() << bob->get_name() << herman->get_name();
 
 

@@ -1,6 +1,7 @@
 #include "ClientInventory.h"
 #include <algorithm>
 #include "Item.h"
+#include <QDebug>
 
 
 ClientInventory::ClientInventory(int new_max_weight)
@@ -12,6 +13,10 @@ ClientInventory::ClientInventory(const ClientInventory& other)
     max_weight{other.max_weight},
     current_weight{other.current_weight},
     equipped{other.equipped} {
+}
+
+QList<Item*> ClientInventory::get_items(){
+    return items;
 }
 
 int ClientInventory::get_weight() const {
@@ -51,7 +56,17 @@ void ClientInventory::unequip(Item* item_to_unequip) {
 }
 
 QDataStream& ClientInventory::read_from_stream(QDataStream& ds) {
-  ds >> items;
+
+  int number_of_items{0};
+
+  ds >> number_of_items;
+  qDebug() << "number of items" << number_of_items;
+  Item* temp_item = new Item(1);
+
+  for (int i{0}; i < number_of_items; ++i) {
+      ds >> temp_item;
+      items.push_back(new Item(*temp_item));
+  }
   ds >> max_weight;
   ds >> current_weight;
   ds >> equipped;

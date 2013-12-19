@@ -4,7 +4,7 @@
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
     clientSocket = new QTcpSocket{this};
-    controlledChar = new Character(*(new QMap<QString,qint16>),0);
+    controlledChar = new Character(*(new QMap<QString,qint16>),1024);
     controlledChar->set_name("Legion");
     joined = false;
     connect(clientSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -56,6 +56,7 @@ void ServerConnection::readyRead(){
     qDebug("readyRead called!");
     QChar token;
     QDataStream in_stream(clientSocket);
+    do {
     in_stream >> token;
     if (token == QChar('m')) {
         Message msg;
@@ -72,9 +73,11 @@ void ServerConnection::readyRead(){
     }
     else if (token == QChar('p')) {
         in_stream >> controlledChar;
+        controlledChar->get_status();
     }
     else
         qDebug() << "Fuck all";
+    } while (!in_stream.atEnd());
 }
 
 bool ServerConnection::has_joined(){

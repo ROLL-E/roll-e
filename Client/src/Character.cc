@@ -13,6 +13,21 @@ Character::Character(const Character& other)
     inventory(other.inventory) {
 }
 
+void Character::get_status(){
+    qDebug() << name;
+    for(auto key : attributes.keys()){
+        qDebug() << key << attributes.value(key);
+    }
+    for(Item* item : inventory.get_items()){
+        qDebug() << item->get_name();
+    }
+    for(Item* item : inventory.get_equipped()){
+        qDebug() << item->get_name();
+    }
+    qDebug() << inventory.get_max_weight();
+    qDebug() << inventory.get_items().size();
+}
+
 QString Character::get_name() const {
   return name;
 }
@@ -60,8 +75,9 @@ bool Character::has_item(Item* item) const {
 QDataStream& Character::read_from_stream(QDataStream& ds) {
   ds >> name;
   ds >> attributes;
-  ds >> skills;
   ds >> inventory;
+  ds >> skills;
+
 
   return ds;
 }

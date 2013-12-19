@@ -14,7 +14,7 @@ class Character {
 public:
   Character(QMap<QString,qint16>, quint16);
   Character(const Character&);
-  
+  void get_status();
   QString get_name() const;
   void set_name(const QString&);
   qint16 get_attribute(const QString&) const;

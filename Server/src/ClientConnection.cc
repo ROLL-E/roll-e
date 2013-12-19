@@ -1,4 +1,5 @@
 #include <ClientConnection.h>
+#include "Character.h"
 
 ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QObject(parent) {
   clientSocket = connection;
@@ -51,11 +52,15 @@ void ClientConnection::send_message(Message msg) {
 void ClientConnection::push_data(Character* cha){
     //behöver veta hur storys och klientens information kommer se ut för att göra klart den här,
     // eg, blir nog bäst att lämna till efter merge.
+    qDebug() << "Pushing data!";
     QMutex mutex;
     mutex.lock();
-    QDataStream out(clientSocket);
-    out << QChar('p') << cha;
+    Character* tempChar = new Character{(*cha)};
     mutex.unlock();
+
+    QDataStream out(clientSocket);
+    out << QChar('p') << tempChar;
+    tempChar->deleteLater();
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {

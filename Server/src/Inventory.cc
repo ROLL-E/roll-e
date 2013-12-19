@@ -77,13 +77,17 @@ void Inventory::unequip(quint16 id_to_unequip) {
 
 QDataStream& Inventory::write_to_stream(QDataStream& ds) const {
 
-  if (dynamic_cast<QFile*>(ds.device()) != nullptr)
-    ds << items;
+  if (dynamic_cast<QFile*>(ds.device()) != nullptr){
+      qDebug() << "Sending Item Id's";
+      ds << items;
+  }
   else {
-    QList<Item*> list_to_send;
-    for (quint16 id : items)
-      list_to_send.push_back(story->get_item(id));
-    ds << list_to_send;
+    qDebug() << "sending items";
+    ds << items.size();
+    qDebug() << "Items.size()" << items.size();
+    for (quint16 id : items) {
+      ds << story->get_item(id);
+    }
   }
   ds << max_weight;
   ds << current_weight;

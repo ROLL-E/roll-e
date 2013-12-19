@@ -14,6 +14,7 @@ private:
 public:
     ClientInventory(int);
     ClientInventory(const ClientInventory&);
+    QList<Item*> get_items();
     void add_item(Item*);
     void remove_item(Item*);
     bool has_item(Item*) const;
