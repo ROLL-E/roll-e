@@ -108,9 +108,6 @@ void Server::join_request(){
             if(requested_char->get_connection() == nullptr){
                 requested_char->set_connection(joiner.first);
                 requested_char->get_connection()->send_message(Message{"System",requested_char->get_name(),"Welcome!"});
-                requested_char->get_connection()->send_message(Message{"System",requested_char->get_name(),"du är ful!"});
-                requested_char->get_connection()->send_message(Message{"System",requested_char->get_name(),"fisk!"});
-                requested_char->get_connection()->send_message(Message{"System",requested_char->get_name(),"HALLO!"});
                 qDebug()  << "Legion has taken control of " << requested_char->get_name();
             } else
                 joiner.first->send_message(Message{"System",requested_char->get_name(), " is not available."});

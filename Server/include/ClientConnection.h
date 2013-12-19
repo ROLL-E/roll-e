@@ -1,11 +1,7 @@
 #ifndef CLIENTCONNECTION_H
 #define CLIENTCONNECTION_H
-#include <string>
+#include <QString>
 #include <vector>
-#include <QDebug>
-#include <QtNetwork/QtNetwork>
-#include <QObject>
-#include <QPair>
 
 class Story;
 class Character;
@@ -27,13 +23,7 @@ struct Request {
   quint16 id;
 };
 
-QDataStream& operator<<(QDataStream&, Message&);
-QDataStream& operator<<(QDataStream&, Request&);
-
-QDataStream& operator>>(QDataStream&, Message&);
-QDataStream& operator>>(QDataStream&, Request&);
-
-
+class Story; //Forward declartion, remember to include in .cc file.
 
 class ClientConnection : public QObject {
 
@@ -42,6 +32,7 @@ class ClientConnection : public QObject {
 friend class Server;
 
 private:
+
     QList<Message*> message_buffer;
     QList<Request*> request_buffer;
 
@@ -49,7 +40,9 @@ public:
     QTcpSocket* clientSocket;
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);
     void send_message(Message);
+
     Message* get_message_from_buffer();
+    void push_data(Story*);
     Request* get_request_from_buffer();
 
 signals:

@@ -1,7 +1,6 @@
 #ifndef SERVERCONNECTION_H
 #define SERVERCONNECTION_H
-#include <string>
-#include <vector>
+
 #include <chrono>
 #include <thread>
 #include <QtNetwork>
@@ -21,18 +20,12 @@ struct Request {
     quint16 id;
 };
 
-QDataStream& operator<<(QDataStream&, Message&);
-QDataStream& operator<<(QDataStream&, Request&);
-
-QDataStream& operator>>(QDataStream&, Message&);
-QDataStream& operator>>(QDataStream&, Request&);
-
 class ServerConnection : public QObject{
 
   Q_OBJECT
+  
 private:
 
-  std::vector<std::string> message_buffer;
   Character* controlledChar;
   bool joined;
 

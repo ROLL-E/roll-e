@@ -3,7 +3,7 @@
 #include "Character.h"
 #include "ValueBlock.h"
 
-DamageBlock::DamageBlock(DamageBlock& other) {
+DamageBlock::DamageBlock(DamageBlock& other) : LogicBlock(){
     target = other.target;
     valueblock = other.valueblock;
     type = other.type;

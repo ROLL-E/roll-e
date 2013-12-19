@@ -17,22 +17,20 @@ class Character;
 class Server;
 class Ruleset;
 
-class Story : public QObject {
-
-  Q_OBJECT
+class Story {
 
 private:
   QList<Character*> characters;
   Fight* current_fight;
   QList<Scenario*> current_scenarios;
-  Ruleset ruleset;
+  Ruleset* ruleset;
   QMap<quint16, Item*> items;
   QThread* netThread;
 
 public:
   Server* myServer;
   QMap<quint16, Scenario*> scenario_id_map;
-  Story(Ruleset);
+  Story(Ruleset*);
 
   void add_character(Character*);
   void add_scenario(Scenario*);
@@ -42,7 +40,7 @@ public:
   Character* get_character(QString);
   Fight* get_fight() const;
   QList<Scenario*>& get_scenarios();
-  Ruleset& get_ruleset();
+  Ruleset* get_ruleset();
   QMap<quint16, Item*> get_items() const;
   Item* get_item(quint16) const;
 
@@ -52,7 +50,7 @@ public:
   void remove_character(Character*);
   void remove_scenario(Scenario*);
   void remove_item(quint16);
-  void kick_player(QString);
+
 
 };
 

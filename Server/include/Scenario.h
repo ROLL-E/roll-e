@@ -25,7 +25,7 @@ public:
 
   Scenario() = default;
   Scenario(Scenario&);
-  ~Scenario() {delete head;};
+  ~Scenario() {delete head;}
 
   void run();
   void wait_turns(int);
@@ -38,6 +38,7 @@ public:
   void set_next_block(LogicBlock*);
   LogicBlock* get_next_block() const;
   void set_story(Story*);
+  bool empty() const;
 
   QDataStream& write_to_stream(QDataStream&);
   QDataStream& read_from_stream(QDataStream&);

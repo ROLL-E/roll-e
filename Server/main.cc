@@ -23,18 +23,17 @@
 #include "Scenario.h"
 #include "Skill.h"
 
-using namespace std;
-
-
 int main(int argc, char *argv[])
 {
-  QApplication a(argc, argv);
-  ServerWindow w;
+
 
   QList<QString> attr_list{"health", "armor", "strength"};
-  Ruleset rs(attr_list);
+  Ruleset* rs = new Ruleset(attr_list);
 
   Story* main_story = new Story(rs);
+
+
+
 
   QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
   main_story->add_character(new Character(attr_map, 100, main_story));
@@ -51,6 +50,7 @@ int main(int argc, char *argv[])
     Item* hammer2 = new Item("nicer hammah");
     main_story->add_item(hammer2);
     hammer2->set_attribute("Weight", 20);
+    hammer2->set_modifier("str", -20);
 
     bob->add_item(hammer1->get_id());
     bob->add_item(hammer2->get_id());
@@ -69,17 +69,19 @@ int main(int argc, char *argv[])
   main_story->add_character(herman);
   herman->set_name("Herr Man");
 
-  rs.add_skill(new Skill("Break those cuffs"));
-  rs.add_skill(new Skill("Eat horse"));
-  bob->add_skill(rs.get_skills().at(0));
-  bob->add_skill(rs.get_skills().at(1));
+  rs->add_skill(new Skill("Break those cuffs"));
+  rs->add_skill(new Skill("Eat horse"));
+  rs->get_skills().at(0)->set_modifier("int", 10);
+  rs->get_skills().at(0)->set_modifier("str", 11);
+  rs->get_skills().at(1)->set_modifier("int" , 5);
+  rs->get_skills().at(1)->set_modifier("str", 25);
+  bob->add_skill(rs->get_skills().at(0));
+  bob->add_skill(rs->get_skills().at(1));
 
-  herman->add_skill(rs.get_skills().at(1));
+  herman->add_skill(rs->get_skills().at(1));
 
   qDebug() << "Testing saveload";
   qDebug();
-
-
 
   //Test program, compares 2 2-sided dice to the number 3 and either waits 3
   // 3 turns and heals 1 point or deals 6 damage to bob, depending on the outcome.
@@ -100,10 +102,14 @@ int main(int argc, char *argv[])
   b2->set_next(b3);
   qDebug() << "Valueblock 4";
   ValueBlock* b4 = new ValueBlock();
-  b4->set_intention('s');
-  b4->set_value(6);
+  b4->set_intention('a');
+  b4->set_value(0);
   b3->set_alternate(b4);
-  qDebug() << "damageblock 5";
+
+  b4->add_to_applicable_skills(rs->get_skills().at(0),"int");
+  b4->add_to_applicable_skills(rs->get_skills().at(1),"int");
+  b4->execute();
+
   DamageBlock* b5 = new DamageBlock();
   b5->set_valueblock(b4);
   b5->set_target(bob);
@@ -126,6 +132,9 @@ int main(int argc, char *argv[])
   b8->set_target(bob);
   b7->set_next(b8);
 
+  ModifierBlock* b10 = new ModifierBlock();
+  b10->set_previous_modifier(b8);
+
   DamageBlock* b9 = new DamageBlock();
   b9->set_type("heal");
   b9->set_valueblock(b7);
@@ -138,15 +147,11 @@ int main(int argc, char *argv[])
   scene1->set_head(b1);
   scene1->set_next_block(b1);
   scene1->set_story(main_story);
-  qDebug() << "scenario 1";
-  main_story->get_ruleset().add_scenario(scene1);
 
-//  GameSave::save(main_story, "bigsave.dat");
 
-//  rs = Ruleset(attr_list);
-//  GameSave::load("bigsave.dat", main_story);
+  main_story->get_ruleset()->add_scenario(scene1);
 
-//  qDebug() << "inte load";
+  //Save-load
 
   for (Item* i : main_story->get_items()) {
     qDebug() << i->get_id() << ": " << i->get_name();
@@ -162,17 +167,22 @@ int main(int argc, char *argv[])
   }
   qDebug() << "stuff 11";
   qDebug() << main_story->get_characters().value(0)->get_attribute("health");
+
   qDebug() << "stuff 12";
   main_story->get_ruleset().get_scenarios().front()->run();
   qDebug() << "stuff 13";
   qDebug() << main_story->get_characters().value(0)->get_attribute("health");
   qDebug() << "stuff 14";
 
+  main_story->get_ruleset()->get_scenarios().front()->run();
+  qDebug() << main_story->get_characters().value(0)->get_attribute("health");
+
   cout << "Testing fight" << endl;
 
   Fight* fight1(new Fight);
 
   Character* fredrik(new Character(attr_map, 40, main_story));
+
   fredrik->set_name("fredrik");
   main_story->add_character(fredrik);
 
@@ -199,10 +209,15 @@ int main(int argc, char *argv[])
 
   fight1->run_next_turn();
 
-
   qDebug() << fredrik->get_name() << bob->get_name() << herman->get_name();
 
-
+  QApplication a(argc, argv);
+  ServerWindow w(main_story);
+  
   w.show();
+  main_story->get_ruleset()->add_skill(new Skill("Hest"));
+
+
+
   return a.exec();
 }

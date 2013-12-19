@@ -1,6 +1,5 @@
 #include "ModifierBlock.h"
 #include "Character.h"
-#include <iostream>
 
 using namespace std;
 
@@ -22,14 +21,30 @@ QMap<QString, qint8> ModifierBlock::get_modifiers() const {
     return modifiers;
 }
 
-void ModifierBlock::set_modifier(QString name, int value) {
+qint8 ModifierBlock::get_modifier(const QString& name) const {
+    return modifiers.value(name);
+}
+
+void ModifierBlock::set_modifier(QString name, qint8 value) {
   modifiers[name] = value;
+}
+
+void ModifierBlock::set_previous_modifier(ModifierBlock* other) {
+    previous_modifier = other;
+    target = other->get_target();
+    for (QString key : other->modifiers.keys()) {
+        set_modifier(key,other->get_modifier(key)*-1);
+    }
+}
+
+ModifierBlock* ModifierBlock::get_previous_modifer() const {
+    return previous_modifier;
 }
 
 void ModifierBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
   next_id = blocks.indexOf(get_next());
   target_id = chars.indexOf(target);
-  //previous_mod_id = blocks.indexOf(previous_modifier);
+  previous_mod_id = blocks.indexOf(previous_modifier);
   if (get_next() != nullptr)
     get_next()->populate_id_fields(blocks, chars);
 }
@@ -37,7 +52,7 @@ void ModifierBlock::populate_id_fields(QList<LogicBlock*>& blocks, QList<Charact
 void ModifierBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Character*>& chars) {
   set_next(blocks.value(next_id));
   set_target(chars.value(target_id));
-  //previous_modifier = blocks.value(previous_mod_id);
+  previous_modifier = dynamic_cast<ModifierBlock*>(blocks.value(previous_mod_id));
   if (get_next() != nullptr) {
     get_next()->populate_pointer_fields(blocks, chars);
   }
@@ -55,10 +70,7 @@ LogicBlock* ModifierBlock::execute() {
   for (auto key : modifiers.keys()) {
     target->add_to_attribute(key,modifiers.value(key));
   }
-    //for (QMap<QString, qint8>::iterator it = modifiers.begin(); it != modifiers.end(); ++it)
-     //   target->add_to_attribute(it->first, it->second);
-
-    return this->get_next();
+  return this->get_next();
 }
 
 QDataStream& ModifierBlock::write_to_stream(QDataStream & ds) {
@@ -67,7 +79,7 @@ QDataStream& ModifierBlock::write_to_stream(QDataStream & ds) {
 
   ds << modifiers;
   ds << target_id;
-  //ds << previous_mod_id;
+  ds << previous_mod_id;
 
   return ds;
 }
@@ -82,7 +94,8 @@ QDataStream& ModifierBlock::read_from_stream(QDataStream& ds) {
 
   ds >> modifiers;
   ds >> target_id;
-  //ds >> previous_mod_id;
+
+  ds >> previous_mod_id;
 
   return ds;
 }

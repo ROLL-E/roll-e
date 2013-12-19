@@ -68,7 +68,7 @@ void Item::remove_modifier(const QString& mod_to_remove) {
 }
 
 qint16 Item::get_attribute(const QString& name) const{
-    return attributes.value(name);
+    return attributes.value(name,0);
 }
 
 QDataStream& Item::read_from_stream(QDataStream& ds) {

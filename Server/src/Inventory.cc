@@ -64,7 +64,8 @@ void Inventory::add_item(quint16 id_to_add) {
 }
 
 void Inventory::remove_item(quint16 id_to_remove) {
-  items.removeOne(id_to_remove);
+    current_weight -= story->get_items().value(id_to_remove)->get_attribute("Weight");
+    items.removeOne(id_to_remove);
 }
 
 void Inventory::equip(quint16 id_to_equip){

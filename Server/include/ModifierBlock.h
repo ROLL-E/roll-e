@@ -24,8 +24,12 @@ public:
   void set_target(Character*);
   Character* get_target() const;
   QMap<QString,qint8> get_modifiers() const;
+  qint8 get_modifier(const QString&) const;
   void remove_modifier(QString);
-  void set_modifier(QString,int);
+  void set_modifier(QString,qint8);
+
+  void set_previous_modifier(ModifierBlock*);
+  ModifierBlock* get_previous_modifer() const;
 
   void populate_id_fields(QList<LogicBlock *> &, QList<Character *> &);
   void populate_pointer_fields(QList<LogicBlock *> &, QList<Character *> &);

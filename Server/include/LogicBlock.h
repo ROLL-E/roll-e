@@ -17,6 +17,8 @@ class LogicBlock
 private:
   LogicBlock* next{nullptr};
   bool last_block{false};
+protected:
+  LogicBlock(bool new_last) : last_block{new_last} {};
 public:
   quint16 next_id;
 
