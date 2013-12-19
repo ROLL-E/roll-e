@@ -26,6 +26,8 @@ private slots:
 
   void on_edit_charButton_clicked();
 
+  void on_pushButton_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story;

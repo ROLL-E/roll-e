@@ -56,7 +56,7 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>31</y>
+     <y>30</y>
      <width>221</width>
      <height>331</height>
     </rect>
@@ -134,45 +134,29 @@
     </rect>
    </property>
   </widget>
-  <widget class="QListView" name="attr_keyView">
+  <widget class="QTableWidget" name="attr_tableWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
-     <width>131</width>
-     <height>211</height>
+     <y>111</y>
+     <width>201</width>
+     <height>201</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QListView" name="attr_valueView">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>100</y>
-     <width>51</width>
-     <height>211</height>
-    </rect>
-   </property>
+   <column>
+    <property name="text">
+     <string>Attribute</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Value</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>characterDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
@@ -185,6 +169,22 @@
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>characterDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
      <y>274</y>
     </hint>
    </hints>
