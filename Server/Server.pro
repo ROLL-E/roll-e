@@ -30,7 +30,10 @@ SOURCES += main.cc\
     src/GameSave.cc \
     src/Fight.cc\
     src/Skill.cc \
-    src/Scenario.cc
+    src/Scenario.cc \
+    characterdialog.cpp \
+    skillmodel.cpp \
+    attributetablemodel.cpp
 
 
 HEADERS  += serverwindow.h \
@@ -52,10 +55,14 @@ HEADERS  += serverwindow.h \
     include/Character.h \
     include/ActiveSkill.h \
     include/ActiveItem.h \
-    include/GameSave.h
+    include/GameSave.h \
+    characterdialog.h \
+    skillmodel.h \
+    attributetablemodel.h
 
 INCLUDEPATH += include
-FORMS    += serverwindow.ui
+FORMS    += serverwindow.ui \
+    characterdialog.ui
 
 OTHER_FILES += \
     src/placeholder.txt

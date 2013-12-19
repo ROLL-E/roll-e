@@ -6,10 +6,10 @@ Ruleset::Ruleset(QList<QString> attributes)
   : allowed_attributes{attributes} {
 }
 
-Ruleset::Ruleset(const Ruleset& other)
-  : allowed_attributes{other.allowed_attributes},
-    allowed_skills{other.allowed_skills},
-    scenarios{other.scenarios} {
+Ruleset::Ruleset(const Ruleset *other)
+  : allowed_attributes{other->allowed_attributes},
+    allowed_skills{other->allowed_skills},
+    scenarios{other->scenarios} {
 
 }
 
@@ -17,7 +17,7 @@ QList<Scenario*> Ruleset::get_scenarios() const {
   return scenarios;
 }
 
-QList<Skill*> Ruleset::get_skills() const {
+QList<Skill *> &Ruleset::get_skills() {
   return allowed_skills;
 }
 
