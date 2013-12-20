@@ -66,7 +66,7 @@ void ScenarioController::add_block(int number, QString type){
 
 }
 
-void ScenarioController::edit_value_block(QString stat, bool intent, int blocknr) {
+void ScenarioController::edit_valueblock(QString stat, bool intent, int blocknr) {
     qDebug() << "Editing valueblock nr: " << blocknr;
 
     dynamic_cast<ValueBlock*>(block_map_[blocknr])->set_intention((intent ? 'r' : 's'));
@@ -75,6 +75,15 @@ void ScenarioController::edit_value_block(QString stat, bool intent, int blocknr
         dynamic_cast<ValueBlock*>(block_map_[blocknr])->set_value(stat.toInt());
     }
 
+}
+
+void ScenarioController::edit_compareblock(QString stat, bool intent, int blocknr) {
+    qDebug() << "Editing compareblock nr: " << blocknr;
+
+}
+
+void ScenarioController::edit_damageblock(QString text, bool check, int blocknr) {
+    qDebug() << "Editing damageeblock nr: " << blocknr;
 }
 
 void ScenarioController::set_compareblock_value(int blocknr){

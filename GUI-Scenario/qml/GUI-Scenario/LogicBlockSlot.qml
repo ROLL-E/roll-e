@@ -7,6 +7,7 @@ DropArea {
     property string colorKey
     property int dropWidth: 64
     property int dropHeight: 64
+
     property bool dropRound: false
 
 
@@ -16,7 +17,7 @@ DropArea {
     Rectangle {
         id: dropRectangle
 
-        radius: dropRound ? height/2 : 0
+        radius: dropRound ? height/2 : 5
 
         anchors.fill: parent
         color: "transparent"

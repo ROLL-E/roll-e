@@ -31,7 +31,11 @@ Item {
 
         drag.target: block
 
-        onClicked: editmode = true
+        onClicked: {
+            if(moved) {
+            editmode = true
+            }
+        }
 
         Item{
             id: dummy
@@ -45,8 +49,9 @@ Item {
                 parent = block.Drag.target !== null ? block.Drag.target : root
             }
 
-            if (block.Drag.target !== null)
+            if (block.Drag.target !== null && moved === false)
             {
+
                 incrementCounter()
 
                 // add block to c++
@@ -77,6 +82,8 @@ Item {
 
 
             width: 64; height: 64
+            radius: 5
+
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -140,7 +147,7 @@ Item {
 
             height: block.height
             width: block.width
-            colorKey: root.colorKey
+            colorKey: (lhsValue.hasValue && rhsValue.hasValue) ? root.colorKey : "purple"
             x: block.x + 80
             y: block.y + 80
         }
@@ -156,17 +163,20 @@ Item {
 
             height: block.height
             width: block.width
-            colorKey: root.colorKey
+            colorKey: (lhsValue.hasValue && rhsValue.hasValue) ? root.colorKey : "purple"
             x: block.x + 80
             y: block.y - 80
         }
 
         LogicBlockSlot {
             id: lhsValue
+
+            //hasValue is true if the slot has any additional children, kind of a hack... there should be some better way of doing this
+            property bool hasValue: children[1] !== undefined
+
             visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
 
             onEntered: {
-
                 setDropAreaParent(blockNumber)
                 setDropAreaSide("lhs")
             }
@@ -185,6 +195,9 @@ Item {
 
         LogicBlockSlot {
             id: rhsValue
+
+            property bool hasValue: children[1] !== undefined
+
             visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
 
             onEntered: {

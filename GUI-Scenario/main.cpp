@@ -23,9 +23,10 @@ int main(int argc, char *argv[])
     QObject::connect((QObject*)viewer.rootObject(), SIGNAL(add_block(int, QString)),&controller, SLOT(add_block(int,QString)));
     QObject::connect((QObject*)viewer.rootObject(), SIGNAL(editValueBlock(QString, bool, int)),&controller, SLOT(edit_valueblock(QString, bool, int)));
     QObject::connect((QObject*)viewer.rootObject(), SIGNAL(setCompareBlockValue(int)),&controller, SLOT(set_compareblock_value(int)));
+    QObject::connect((QObject*)viewer.rootObject(), SIGNAL(editDamageBlock(QString, bool, int)),&controller, SLOT(edit_damageblock(QString, bool, int)));
 
     //TODO: complete signals below
-     //QObject::connect((QObject*)viewer.rootObject(), SIGNAL(editDamageBlock(QString, bool, int)),&controller, SLOT(edit_damageblock(QString, bool, int)));
+    QObject::connect((QObject*)viewer.rootObject(), SIGNAL(editCompareBlock(QString, bool, int)),&controller, SLOT(edit_compareblock(QString, bool, int)));
 
 
 
@@ -33,6 +34,5 @@ int main(int argc, char *argv[])
     // export instance to qml
     QQmlContext *ctxt = viewer.rootContext();
     //ctxt->setContextProperty("sController", &controller);
-
     return app.exec();
 }

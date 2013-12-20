@@ -64,6 +64,7 @@ Item {
                 onClicked: {
 
                     root.editmode = false
+                    editCompareBlock(staticValueInput.text, false, root.blockNumber)
                 }
 
 

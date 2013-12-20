@@ -32,7 +32,10 @@ public slots:
     void set_active_block_number_(int number) {qDebug() << "active block is set to number " << number; active_block_number_ = number;}
     void set_active_block_side(QString side) { active_block_side_ = side;}
 
-    void edit_value_block(QString stat, bool intent, int blocknr);
+    void edit_valueblock(QString stat, bool intent, int blocknr);
+    void edit_damageblock(QString, bool, int);
+    void edit_compareblock(QString, bool, int);
+
     void set_compareblock_value(int blocknr);
 
 private:
