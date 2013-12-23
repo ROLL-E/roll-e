@@ -18,10 +18,10 @@ int main(int argc, char *argv[])
     ClientWindow w;
     w.show();
     ServerConnection testie{};
-    testie.join("192,168.1.37","BOB!"); // ("192.168.1.35")
+    testie.join("192.168.0.29","BOB!"); // ("192.168.1.35")
     testie.clientSocket->waitForConnected();
-    testie.send_message("BOB!","Assuming direct control...");
-
-    w.show();
+    testie.send_message("BOB!","Hey bobo!");
+    testie.send_message("Herr Man","Hey there manly her-man ;)");
+    testie.send_message("System","Hello Servio!");
     return a.exec();
 }
