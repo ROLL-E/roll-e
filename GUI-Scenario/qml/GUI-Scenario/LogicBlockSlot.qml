@@ -10,6 +10,7 @@ DropArea {
 
     property bool dropRound: false
 
+    property bool isDamage: false
 
     width: dropWidth; height: dropHeight
     keys: [ colorKey ]
@@ -35,6 +36,12 @@ DropArea {
                 }
             }
         ]
+    }
+
+    MouseArea {
+        anchors.fill: parent
+
+        onClicked: console.log("slot cliked!!")
     }
 }
 

@@ -3,22 +3,16 @@ import QtQuick 2.0
 Rectangle {
     id: scenarioContainer
 
+    //temp
+
+
+
+
+
     property int counter: 4
 
     signal testSignal(string msg)
     signal incrementCounter()
-
-    signal setDropAreaParent(int blocknumber)
-    signal setDropAreaSide(string side)
-
-    signal add_block(int number, string type)
-
-    signal editValueBlock(string satval, bool intet, int blocknr)
-    signal editDamageBlock(string text, bool check, int blocknr)
-    signal editCompareBlock(string text, bool check, int blocknr)
-
-    signal setCompareBlockValue(int blocknumber)
-
 
     //visible: sController.showEditor
 
@@ -89,6 +83,7 @@ Rectangle {
                         anchors.centerIn: parent
                         text: "Start"
                     }
+
                 }
 
                 LogicBlockSlot {

@@ -54,24 +54,19 @@ Item {
 
                 incrementCounter()
 
-                // add block to c++
-                add_block(blockNumber, blockLabel)
+                // add block to c++ scenario
+                controller.add_block(blockNumber, blockLabel)
 
                 newBlock()
                 mouseArea.drag.target = dummy
                 moved = true
-
-
-                //Create the scenario
-
-
 
                 // resize tree editor
 
                 logicTreeEditorContainer.editorWidth = logicTreeEditorContainer.editorWidth + 64
 
                 if(slotType === "compareblock") {
-                    logicTreeEditorContainer.editorHeight = logicTreeEditorContainer.editorHeight + 80
+                    logicTreeEditorContainer.editorHeight = logicTreeEditorContainer.editorHeight + 140
                 }
             }
         }
@@ -120,12 +115,12 @@ Item {
 
 
         LogicBlockSlot {
-            visible: (slotType === "default" || slotType == "valueblock") && mouseArea.parent !== root && !mouseArea.drag.active
+            visible: (slotType === "default" || slotType == "valueblock" || slotType === "damageblock") && mouseArea.parent !== root && !mouseArea.drag.active
 
             onEntered: {
 
-                setDropAreaParent(blockNumber)
-                setDropAreaSide("none")
+                controller.set_active_block_number(blockNumber)
+                controller.set_active_block_side("none")
             }
 
             height: block.height
@@ -140,8 +135,8 @@ Item {
 
             onEntered: {
 
-                setDropAreaParent(blockNumber)
-                setDropAreaSide("rhs")
+                controller.set_active_block_number(blockNumber)
+                controller.set_active_block_side("rhs")
             }
 
 
@@ -157,8 +152,8 @@ Item {
 
             onEntered: {
 
-                setDropAreaParent(blockNumber)
-                setDropAreaSide("lhs")
+                controller.set_active_block_number(blockNumber)
+                controller.set_active_block_side("lhs")
             }
 
             height: block.height
@@ -172,13 +167,13 @@ Item {
             id: lhsValue
 
             //hasValue is true if the slot has any additional children, kind of a hack... there should be some better way of doing this
-            property bool hasValue: children[1] !== undefined
+            property bool hasValue: children[2] !== undefined
 
             visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
 
             onEntered: {
-                setDropAreaParent(blockNumber)
-                setDropAreaSide("lhs")
+                controller.set_active_block_number(blockNumber)
+                controller.set_active_block_side("lhs")
             }
 
             height: 20
@@ -196,14 +191,14 @@ Item {
         LogicBlockSlot {
             id: rhsValue
 
-            property bool hasValue: children[1] !== undefined
+            property bool hasValue: children[2] !== undefined
 
             visible: slotType === "compareblock" && mouseArea.parent !== root && !mouseArea.drag.active
 
             onEntered: {
 
-                setDropAreaParent(blockNumber)
-                setDropAreaSide("rhs")
+                controller.set_active_block_number(blockNumber)
+                controller.set_active_block_side("rhs")
             }
 
             height: 20
@@ -214,6 +209,33 @@ Item {
             colorKey: "green"
             x: block.x + block.width/2 - width/2
             y: block.y + 30 + block.height
+        }
+
+        LogicBlockSlot {
+            id: damageValue
+
+            isDamage: true
+
+            //hasValue is true if the slot has any additional children, kind of a hack... there should be some better way of doing this
+            property bool hasValue: children[2] !== undefined
+
+            visible: slotType === "damageblock" && mouseArea.parent !== root && !mouseArea.drag.active
+
+            onEntered: {
+                controller.set_active_block_number(blockNumber)
+                controller.set_active_block_side("none")
+            }
+
+            height: 20
+            width: 20
+
+            dropRound: true
+
+            colorKey: "green"
+            x: block.x + block.width/2 - width/2
+            y: block.y - 30 - width
+
+
         }
 
 

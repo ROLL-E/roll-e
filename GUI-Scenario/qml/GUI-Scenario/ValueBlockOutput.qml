@@ -27,10 +27,10 @@ Item {
                 parent = block.Drag.target !== null ? block.Drag.target : valueBlockOutputRoot
             }
 
-            if (block.Drag.target !== null && moved === false)
-            {
+            if (block.Drag.target !== null && moved === false){
                 //signal c++ to add pointer to valueblock nr blockNumber
-                setCompareBlockValue(blockNumber)
+
+                controller.set_block_value(blockNumber)
 
                 BlockScript.newValueBlockOutput(colorKey)
                 moved = true

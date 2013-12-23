@@ -1,0 +1,694 @@
+import QtQuick 2.0
+
+Rectangle {
+    id: valueEditor
+
+    property bool valueVisible: false
+    property int blocknumber: 1
+
+    signal hideEditor()
+
+    anchors.fill: parent
+
+    color: "black"
+
+
+    Rectangle {
+        id: editorTitleBox
+
+        anchors.top : parent.top
+        anchors.left : parent.left
+        anchors.right: parent.right
+        anchors.margins: 10
+
+        height: 50
+
+        radius: 5
+        gradient: Gradient {
+            GradientStop {
+                position: 0.00;
+                color: "white";
+            }
+            GradientStop {
+                position: 1.00;
+                color: "gray";
+            }
+        }
+
+        Text {
+            anchors.centerIn: parent
+            font.pointSize: 20
+            text: "Edit Valueblock"
+        }
+
+    }
+
+    Rectangle {
+        id: intentionContainer
+
+        anchors.top: editorTitleBox.bottom
+        anchors.left: parent.left
+        anchors.margins: 10
+
+        height: 250
+        width: 200
+
+        color: "silver"
+
+        radius: 5
+        z: 1
+
+        Rectangle {
+            id: intentionTitleBox
+
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            anchors.margins: 10
+
+            height: 50
+
+            color: "silver"
+            border.width: 2
+            border.color: "blue"
+
+            radius: 5
+
+            Text {
+                anchors.centerIn: parent
+
+                font.pointSize: 18
+                text: "Intention"
+            }
+
+        }
+
+        Button {
+            id: valueButton
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: intentionTitleBox.bottom
+            anchors.margins: 20
+
+            buttonHeight: 40
+            buttonWidth: 130
+
+            label: "Value"
+
+            onButtonClicked: {
+                valueContainer.visible = true
+                rollContainer.visible = false
+                bonusContainer.visible = false
+
+                valueWindow.width = 430
+
+            }
+
+        }
+        Button {
+            id: rollButton
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: valueButton.bottom
+            anchors.margins: 10
+
+            buttonHeight: 40
+            buttonWidth: 130
+
+            label: "Roll"
+
+            onButtonClicked: {
+                valueContainer.visible = false
+                rollContainer.visible = true
+                bonusContainer.visible = false
+
+                valueWindow.width = 430
+
+            }
+
+        }
+        Button {
+            id: allButton
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: rollButton.bottom
+            anchors.margins: 10
+
+            buttonHeight: 40
+            buttonWidth: 130
+
+            label: "All"
+
+            onButtonClicked: {
+                valueContainer.visible = false
+                rollContainer.visible = true
+                bonusContainer.visible = true
+
+                valueWindow.width = 800
+
+            }
+
+        }
+    }
+
+    Rectangle {
+        id: valueContainer
+        anchors.top: editorTitleBox.bottom
+        anchors.left: intentionContainer.right
+        anchors.bottom: intentionContainer.bottom
+        anchors.margins: 10
+        anchors.bottomMargin: 0
+
+        width: 200
+
+        color: "gray"
+
+        radius: 5
+        anchors.leftMargin: 10
+        visible: false
+
+        Rectangle {
+            id: valueTitleBox
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 10
+
+            height: 50
+
+            color: "silver"
+
+            radius: 5
+
+            Text {
+                anchors.centerIn: parent
+
+                font.pointSize: 18
+
+                text: "Enter value"
+            }
+        }
+
+        Rectangle {
+            anchors.top: valueTitleBox.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.margins: 10
+
+            height: 50
+
+            color: "white"
+
+            radius: 5
+
+            TextInput {
+                id: valueInput
+                anchors.centerIn: parent
+
+                validator: RegExpValidator { regExp: /\d+/ }
+
+                font.pointSize: 18
+
+                text: "0"
+            }
+        }
+
+    }
+
+    Rectangle {
+        id: rollContainer
+        x: 220
+        y: 70
+        anchors.top: editorTitleBox.bottom
+        anchors.left: intentionContainer.right
+        anchors.bottom: intentionContainer.bottom
+        anchors.margins: 10
+        anchors.bottomMargin: 0
+
+        width: 200
+
+        color: "gray"
+        anchors.topMargin: 10
+        visible: false
+        anchors.leftMargin: 10
+
+        radius: 5
+
+
+        Rectangle {
+            id: sidesTitleBox
+
+            anchors.top: rollContainer.top
+            anchors.left: parent.left
+            anchors.right:  parent.right
+            anchors.margins: 10
+
+            height: 50
+
+            color: "silver"
+
+            radius: 5
+
+            Text {
+                id: diceSidesTitle
+
+                anchors.centerIn: parent
+
+                font.pointSize: 18
+
+                text: "Sides"
+            }
+        }
+
+        Button {
+            id: decreseSidesButton
+
+            anchors.left: parent.left
+            anchors.top: sidesTitleBox.bottom
+            anchors.margins: 10
+
+            buttonHeight: 40
+            buttonWidth: 40
+
+            buttonColor: "red"
+
+            label:  "-"
+
+            onButtonClicked: {
+                if (diceSidesText.diceSides > 1) {
+                    diceSidesText.diceSides--
+                }
+            }
+        }
+
+
+        Button {
+            id: increseSidesButton
+
+            anchors.right: parent.right
+            anchors.top: sidesTitleBox.bottom
+            anchors.margins: 10
+
+            buttonHeight: 40
+            buttonWidth: 40
+
+            buttonColor: "green"
+
+            label:  "+"
+
+            onButtonClicked: {
+                diceSidesText.diceSides++
+            }
+        }
+
+        Rectangle {
+
+            anchors.top: sidesTitleBox.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            anchors.margins: 10
+            height: 40
+            width: 40
+
+            radius: 5
+
+            Text {
+                id: diceSidesText
+
+                property int diceSides: 6
+
+                anchors.centerIn: parent
+
+                font.pointSize: 18
+
+                text: diceSides
+            }
+        }
+
+
+        Rectangle {
+            id: numberTitleBox
+
+            anchors.top: increseSidesButton.bottom
+            anchors.left: parent.left
+            anchors.right:  parent.right
+            anchors.margins: 10
+
+            height: 50
+
+            color: "silver"
+
+            radius: 5
+
+            Text {
+                id: diceNumberTitle
+
+                anchors.centerIn: parent
+
+                font.pointSize: 18
+
+                text: "Number"
+            }
+        }
+
+        Button {
+            id: decreseNumberButton
+
+            anchors.left: parent.left
+            anchors.top: numberTitleBox.bottom
+            anchors.margins: 10
+
+            buttonHeight: 40
+            buttonWidth: 40
+
+            buttonColor: "red"
+
+            label:  "-"
+
+            onButtonClicked: {
+                if (diceNumberText.diceNumber > 0) {
+                    diceNumberText.diceNumber--
+                }
+            }
+        }
+
+
+        Button {
+            id: increseNumberButton
+
+            anchors.right: parent.right
+            anchors.top: numberTitleBox.bottom
+            anchors.margins: 10
+
+            buttonHeight: 40
+            buttonWidth: 40
+
+            buttonColor: "green"
+
+            label:  "+"
+
+            onButtonClicked: {
+                diceNumberText.diceNumber++
+            }
+        }
+
+        Rectangle {
+            anchors.top: numberTitleBox.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            anchors.margins: 10
+            height: 40
+            width: 40
+
+            radius: 5
+
+            Text {
+                id: diceNumberText
+
+                property int diceNumber: 1
+
+                anchors.centerIn: parent
+
+                font.pointSize: 18
+
+                text: diceNumber
+            }
+        }
+    }
+
+    Rectangle {
+        id: bonusContainer
+        x: 430
+        y: 70
+        anchors.top: editorTitleBox.bottom
+        anchors.left: valueContainer.right
+        anchors.bottom: intentionContainer.bottom
+        anchors.margins: 10
+        anchors.bottomMargin: 0
+
+        width: 360
+        height: 250
+
+        color: "gray"
+
+        radius: 5
+        visible: false
+        anchors.leftMargin: 10
+        anchors.topMargin: 10
+
+        Rectangle {
+            id: attributeContainer
+
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.margins: 10
+
+            width: 110
+
+            radius: 5
+
+            Text {
+                id: attributeListTitle
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.margins: 10
+
+                font.pointSize: 14
+                font.bold: true
+
+                text: "Attributes"
+            }
+
+            ListView {
+                id: attributeList
+
+                anchors.top: attributeListTitle.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
+
+                clip: true
+
+
+                delegate: Rectangle {
+                    id: listDelegateAttribute
+                    property bool selected: false
+
+                    height: 25
+                    width: 100
+
+                    border.width: 2
+                    border.color: mouseAreaAttribute.pressed ? "black" : "white"
+
+                    color: selected ? "lightgreen" : "white"
+                    Text {
+                        anchors.centerIn: parent
+                        text: modelData
+                    }
+
+                    MouseArea {
+                        id: mouseAreaAttribute
+                        anchors.fill: parent
+                        onClicked: {
+                            listDelegateAttribute.selected = !listDelegateAttribute.selected
+                            if (listDelegateAttribute.selected === true) {
+                                controller.add_attribute_valueblock(modelData, valueEditor.blocknumber)
+                            } else {
+                                controller.remove_attribute_valueblock(modelData, valueEditor.blocknumber)
+                            }
+
+                        }
+
+                    }
+                }
+                model: dataList
+
+
+            }
+        }
+
+        Rectangle {
+            id: skillContainer
+
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.margins: 10
+
+            width: 110
+
+            radius: 5
+
+            Text {
+                id: skillListTitle
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.margins: 10
+
+                font.pointSize: 14
+                font.bold: true
+
+                text: "Skills"
+            }
+
+            ListView {
+                id: skillList
+
+                anchors.top: skillListTitle.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
+
+                clip: true
+
+                delegate: Rectangle {
+                    id: listDelegateSkill
+                    property bool selected: false
+
+                    height: 25
+                    width: 100
+
+                    border.width: 2
+                    border.color: mouseAreaSkill.pressed ? "black" : "white"
+
+                    color: selected ? "lightblue" : "white"
+                    Text {
+                        anchors.centerIn: parent
+                        text: modelData
+                    }
+
+                    MouseArea {
+                        id: mouseAreaSkill
+                        anchors.fill: parent
+
+                        onClicked: {
+                            listDelegateSkill.selected = !listDelegateSkill.selected
+                            if (listDelegateSkill.selected === true) {
+                                controller.add_skill_valueblock(modelData, valueEditor.blocknumber)
+                            } else {
+                                controller.remove_skill_valueblock(modelData, valueEditor.blocknumber)
+                            }
+
+                        }
+
+                    }
+                }
+                model: dataList
+
+
+            }
+
+
+        }
+
+        Rectangle {
+            id: inventoryContainer
+
+            anchors.top: parent.top
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            width: 110
+            anchors.margins: 10
+
+            radius: 5
+
+            Text {
+                id: inventoryListTitle
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.margins: 10
+
+                font.pointSize: 14
+                font.bold: true
+
+                text: "Inventory"
+            }
+
+            ListView {
+                id: inventoryList
+
+                anchors.top: inventoryListTitle.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
+
+                clip: true
+
+                delegate: Rectangle {
+                    id: listDelegateInventory
+                    property bool selected: false
+
+                    height: 25
+                    width: 100
+
+                    border.width: 2
+                    border.color: mouseAreaInventory.pressed ? "black" : "white"
+
+
+
+                    color: selected ? "lightcoral" : "white"
+                    Text {
+                        anchors.centerIn: parent
+                        text: modelData
+                    }
+
+                    MouseArea {
+                        id: mouseAreaInventory
+                        anchors.fill: parent
+
+                        onClicked: {
+                            listDelegateInventory.selected = !listDelegateInventory.selected
+                            if (listDelegateInventory.selected === true) {
+                                controller.add_item_valueblock(modelData, valueEditor.blocknumber)
+                            } else {
+                                controller.remove_item_valueblock(modelData, valueEditor.blocknumber)
+                            }
+
+                        }
+
+                    }
+                }
+                model: dataList
+
+
+            }
+        }
+
+
+    }
+
+    Button{
+        anchors.top: intentionContainer.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: 10
+        height: 50
+
+        radius: 5
+
+        label: "DONE"
+
+        onButtonClicked: {
+            if (valueContainer.visible === true) {
+                controller.set_valueblock_value(valueInput.text, valueEditor.blocknumber)
+            }else if (rollContainer.visible === true) {
+                controller.set_valueblock_roll(diceSidesText.diceSides, diceNumberText.diceNumber, valueEditor.blocknumber)
+            }
+
+            hideEditor()
+
+
+        }
+
+    }
+
+
+
+
+}

@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     ../Server/src/WaitBlock.cc \
     ../Server/src/Scenario.cc \
     ../Server/src/ModifierBlock.cc \
-    ../Server/src/Fight.cc
+    ../Server/src/Fight.cc \
+    itemmodel.cpp
 
 # Installation path
 # target.path =
@@ -44,7 +45,8 @@ qtcAddDeployment()
 OTHER_FILES += \
     qml/GUI-Scenario/WaitBlock.qml \
     qml/GUI-Scenario/ModifierBlock.qml \
-    qml/GUI-Scenario/DamageBlock.qml
+    qml/GUI-Scenario/DamageBlock.qml \
+    qml/GUI-Scenario/EditValue.qml
 
 HEADERS += \
     scenariocontroller.h \
@@ -67,6 +69,7 @@ HEADERS += \
     ../Server/include/Skill.h \
     ../Server/include/Ruleset.h \
     ../Server/include/Item.h \
-    ../Server/include/Inventory.h
+    ../Server/include/Inventory.h \
+    itemmodel.h
 
 INCLUDEPATH += ../Server/include

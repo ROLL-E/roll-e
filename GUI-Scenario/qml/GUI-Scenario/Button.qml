@@ -60,6 +60,6 @@ Rectangle {
     Behavior on color { ColorAnimation { duration: 50 } }
 
     // for 3D effect, scale button down when pressed
-    scale: buttonMouseArea.pressed ? 1.0 : 1.1
+    scale: !buttonMouseArea.pressed ? 1.0 : 0.9
     Behavior on scale { NumberAnimation { duration: 50 } }
 }

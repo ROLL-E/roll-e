@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.0
 
 import "blockScript.js" as BlockScript
 
@@ -20,6 +19,8 @@ Item {
         blockNumber: blockNumberParent
         blockLabel: "D"
 
+        slotType: "damageblock"
+
     }
 
     PopUp {
@@ -27,58 +28,112 @@ Item {
         visible: root.editmode
         id: openDamageEdit
 
-        width: 300
-        height: 150
+        width: 200
+        height: 320
 
         title: "Edit Damage Block"
 
+        color: "black"
+
         Rectangle {
-            color: "grey"
+            id: selectCharacterTitleBox
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
 
-            anchors.fill: parent
+            anchors.margins: 10
 
-            CheckBox {
-                id: enabledCheck
+            height: 40
 
-
-                text: "Extra Bad"
-                checked: true
-                anchors.bottom: staticValue.top
-                anchors.horizontalCenter: parent.horizontalCenter
+            radius: 5
+            gradient: Gradient {
+                GradientStop {
+                    position: 0.00;
+                    color: "white";
+                }
+                GradientStop {
+                    position: 1.00;
+                    color: "gray";
+                }
             }
 
-            Rectangle
-            {
-                id:staticValue
+            Text {
                 anchors.centerIn: parent
-                color: "white"
 
-                height: 50
-                width: 200
+                font.pointSize: 18
 
-                TextInput {
-                    id:staticValueInput
-                    anchors.centerIn: parent
-                    text: "I kill you!"
-                }
+                text: "Select character"
             }
-
-            Button {
-                anchors.horizontalCenter:  parent.horizontalCenter
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 20
-
-                onClicked: {
-
-                    editDamageBlock(staticValueInput.text, enabledCheck.checked, root.blockNumber)
-                    root.editmode = false
-                }
-
-
-            }
-
 
         }
+
+
+        Rectangle {
+            id: selectCharacterListContainer
+             anchors.top: selectCharacterTitleBox.bottom
+             anchors.left: parent.left
+             anchors.right: parent.right
+
+             anchors.margins: 10
+
+             height: 200
+
+             color: "white"
+
+             radius: 5
+
+             Component {
+                 id: contactDelegate
+                 Item {
+                     property string characterName: modelData
+                     width: 180; height: 40
+                     Text {
+                         id: characterText
+                         font.pointSize: 16
+                         anchors.centerIn: parent
+                         text: characterName }
+
+                     MouseArea {
+                         anchors.fill: parent
+                         onClicked: {
+                             parent.ListView.view.currentIndex = index
+                         }
+                     }
+
+                 }
+             }
+
+             ListView {
+                 id: selectCharacterList
+                 anchors.fill: parent
+                 model: controller.all_characters
+                 delegate: contactDelegate
+                 highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+                 focus: true
+                 clip: true
+
+             }
+         }
+
+        Button {
+            anchors.top: selectCharacterListContainer.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+
+            anchors.margins: 10
+
+            buttonHeight: 40
+
+            label: "DONE"
+
+            onButtonClicked: {
+                controller.set_damegeblock_target(selectCharacterList.currentItem.characterName, root.blockNumber)
+                root.editmode = false
+            }
+
+        }
+
+
 
 
     }
