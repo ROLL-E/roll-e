@@ -3,36 +3,69 @@ import QtQuick 2.0
 Rectangle {
     id: scenarioContainer
 
+
     property int counter: 4
 
     signal testSignal(string msg)
     signal incrementCounter()
 
-    signal setDropAreaParent(int blocknumber)
-    signal setDropAreaSide(string side)
-
-    signal add_block(int number, string type)
-    signal editValueBlock(string satval, bool intet, int blocknr)
-
-    signal setCompareBlockValue(int blocknumber)
-
     //visible: sController.showEditor
 
     onIncrementCounter: counter++
 
-    color: "blue"
+    color: "black"
 
-    width:  800
-    height: 600
+    width:  500
+    height: 450
+
+    Row {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 20
+        anchors.topMargin: 10
+        anchors.rightMargin: 10
+
+        height: 40
+        spacing: 10
+
+        Button {
+            buttonWidth: parent.width/3 - 10
+            buttonHeight: parent.height
+
+            label: "Save"
+        }
+
+        Button {
+            buttonWidth: parent.width/3 - 10
+            buttonHeight: parent.height
+
+            label: "New"
+
+            // placeholder
+            onButtonClicked: logicblockslot1.visible = false
+        }
+
+        Button {
+            buttonWidth: parent.width/3 - 10
+            buttonHeight: parent.height
+
+            label: "Exit"
+
+            onButtonClicked: Qt.quit()
+        }
+    }
 
     Rectangle {
         id: configureScenarioContainer
 
         color: "lightblue"
         z: 1
-       anchors.fill: parent
-
+        anchors.fill: parent
         anchors.margins: 20
+        anchors.topMargin: 60
+
+        radius: 5
 
         Flickable {
             id: logicTreeEditorContainer
@@ -63,11 +96,15 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.left: parent.left
 
+
                 Rectangle {
                     id: startBlock
                     width: 100
                     height: 100
                     color: "green"
+
+                    border.width: 5
+                    border.color:  Qt.lighter(color)
 
                     radius: 50
 
@@ -79,6 +116,7 @@ Rectangle {
                         anchors.centerIn: parent
                         text: "Start"
                     }
+
                 }
 
                 LogicBlockSlot {
@@ -107,6 +145,8 @@ Rectangle {
 
             anchors.margins: 10
 
+            radius: 5
+
             ValueBlock {
                 id: valueblock
                 x: 40
@@ -132,13 +172,13 @@ Rectangle {
                 colorKey: "red"
             }
 
-            WaitBlock {
-                id: waitblock
-                x: 40
-                y: 328
-                blockNumberParent: 4
-                colorKey: "red"
-            }
+//            WaitBlock {
+//                id: waitblock
+//                x: 40
+//                y: 328
+//                blockNumberParent: 4
+//                colorKey: "red"
+//            }
 
 
         }

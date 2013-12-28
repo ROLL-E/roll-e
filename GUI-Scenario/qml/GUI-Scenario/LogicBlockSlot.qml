@@ -7,8 +7,10 @@ DropArea {
     property string colorKey
     property int dropWidth: 64
     property int dropHeight: 64
+
     property bool dropRound: false
 
+    property bool isDamage: false
 
     width: dropWidth; height: dropHeight
     keys: [ colorKey ]
@@ -16,7 +18,7 @@ DropArea {
     Rectangle {
         id: dropRectangle
 
-        radius: dropRound ? height/2 : 0
+        radius: dropRound ? height/2 : 5
 
         anchors.fill: parent
         color: "transparent"
@@ -34,6 +36,12 @@ DropArea {
                 }
             }
         ]
+    }
+
+    MouseArea {
+        anchors.fill: parent
+
+        onClicked: console.log("slot cliked!!")
     }
 }
 

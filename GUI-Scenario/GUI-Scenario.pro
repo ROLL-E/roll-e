@@ -28,13 +28,13 @@ SOURCES += main.cpp \
     ../Server/src/DamageBlock.cc \
     ../Server/src/CompareBlock.cc \
     ../Server/src/Story.cc \
-    ../Server/src/person.cpp \
-    ../Server/src/controller.cpp \
     ../Server/src/Character.cc \
     ../Server/src/WaitBlock.cc \
     ../Server/src/Scenario.cc \
     ../Server/src/ModifierBlock.cc \
-    ../Server/src/Fight.cc
+    ../Server/src/Fight.cc \
+    itemmodel.cpp \
+    skillmodel.cpp
 
 # Installation path
 # target.path =
@@ -46,7 +46,8 @@ qtcAddDeployment()
 OTHER_FILES += \
     qml/GUI-Scenario/WaitBlock.qml \
     qml/GUI-Scenario/ModifierBlock.qml \
-    qml/GUI-Scenario/DamageBlock.qml
+    qml/GUI-Scenario/DamageBlock.qml \
+    qml/GUI-Scenario/EditValue.qml
 
 HEADERS += \
     scenariocontroller.h \
@@ -56,14 +57,21 @@ HEADERS += \
     ../Server/include/ActiveSkill.h \
     ../Server/include/ActiveItem.h \
     ../Server/include/Story.h \
-    ../Server/include/person.h \
     ../Server/include/gui_interaction.h \
-    ../Server/include/controller.h \
     ../Server/include/Character.h \
     ../Server/include/WaitBlock.h \
     ../Server/include/Scenario.h \
     ../Server/include/ModifierBlock.h \
     ../Server/include/LogicBlock.h \
-    ../Server/include/Fight.h
+    ../Server/include/Fight.h \
+    ../Server/include/GUI.h \
+    ../Server/include/ClientConnection.h \
+    ../Server/include/ValueBlock.h \
+    ../Server/include/Skill.h \
+    ../Server/include/Ruleset.h \
+    ../Server/include/Item.h \
+    ../Server/include/Inventory.h \
+    itemmodel.h \
+    skillmodel.h
 
 INCLUDEPATH += ../Server/include
