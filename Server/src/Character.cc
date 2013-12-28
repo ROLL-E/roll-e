@@ -25,7 +25,12 @@ void Character::set_name(const QString& new_name) {
 }
 
 qint16 Character::get_attribute(QString attr_name) const {
-  return attributes.value(attr_name); // operator[] is not const-safe
+    return attributes.value(attr_name); // operator[] is not const-safe
+}
+
+QMap<QString, qint16> Character::get_attributes() const
+{
+    return attributes;
 }
 
 void Character::set_attribute(const QString& attr_name, qint16 value) {

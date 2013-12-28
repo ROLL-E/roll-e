@@ -25,13 +25,14 @@ void GameSave::load(QString filename, Story*& story) {
   QString tag;
   in_stream >> tag;
 
-  delete story;
+  if (story != nullptr)
+    delete story;
 
   try {
     if (tag == QString("Rules")) {
       QList<QString> attr;
       in_stream >> attr;
-      story = new Story(Ruleset(attr));
+      story = new Story(new Ruleset(attr));
 
       in_stream >> tag;
     }
@@ -61,7 +62,7 @@ void GameSave::load(QString filename, Story*& story) {
 
     while (tag == QString("Skill")) {
       in_stream >> current_skill;
-      story->get_ruleset().add_skill(current_skill);
+      story->get_ruleset()->add_skill(current_skill);
 
       in_stream >> tag;
     }
@@ -70,7 +71,7 @@ void GameSave::load(QString filename, Story*& story) {
 
     while (tag == QString("Scen")) {
       in_stream >> current_scenario;
-      story->get_ruleset().add_scenario(current_scenario);
+      story->get_ruleset()->add_scenario(current_scenario);
 
       current_scenario->set_head(current_scenario->all_blocks.value(current_scenario->head_id));
       current_scenario->set_next_block(current_scenario->all_blocks.value(current_scenario->next_block_id));
@@ -82,7 +83,7 @@ void GameSave::load(QString filename, Story*& story) {
     for (Character* character : story->get_characters()) {
       for (quint16 i : character->skill_ids) {
         qDebug() << i;
-        character->add_skill(story->get_ruleset().get_skills().at(i));
+        character->add_skill(story->get_ruleset()->get_skills().at(i));
       }
     }
   }
@@ -100,7 +101,7 @@ void GameSave::load(QString filename, Story*& story) {
 void GameSave::save(Story* story, QString filename) {
   quint16 i{0};
 
-  for (Skill* skill : story->get_ruleset().get_skills()) {
+  for (Skill* skill : story->get_ruleset()->get_skills()) {
     for (Character* character : story->get_characters()) {
       if (character->get_skills().indexOf(skill) != -1)
         character->skill_ids.append(i);
@@ -113,7 +114,7 @@ void GameSave::save(Story* story, QString filename) {
   QDataStream out_stream(&output_file);
 
   out_stream << QString("Rules");
-  out_stream << story->get_ruleset().get_attributes();
+  out_stream << story->get_ruleset()->get_attributes();
 
   for (Item* item : story->get_items())  {
     out_stream << QString("Item");
@@ -127,12 +128,12 @@ void GameSave::save(Story* story, QString filename) {
   }
 
 
-  for (Skill* skill : story->get_ruleset().get_skills()) {
+  for (Skill* skill : story->get_ruleset()->get_skills()) {
     out_stream << QString("Skill");
     out_stream << skill;
   }
 
-  for (Scenario* scenario : story->get_ruleset().get_scenarios()) {
+  for (Scenario* scenario : story->get_ruleset()->get_scenarios()) {
     out_stream << QString("Scen");
 
     scenario->get_head()->add_to_list(scenario->all_blocks);
