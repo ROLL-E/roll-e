@@ -3,11 +3,6 @@ import QtQuick 2.0
 Rectangle {
     id: scenarioContainer
 
-    //temp
-
-
-
-
 
     property int counter: 4
 
@@ -21,8 +16,45 @@ Rectangle {
     color: "black"
 
     width:  500
-    height: 400
+    height: 450
 
+    Row {
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: 20
+        anchors.topMargin: 10
+        anchors.rightMargin: 10
+
+        height: 40
+        spacing: 10
+
+        Button {
+            buttonWidth: parent.width/3 - 10
+            buttonHeight: parent.height
+
+            label: "Save"
+        }
+
+        Button {
+            buttonWidth: parent.width/3 - 10
+            buttonHeight: parent.height
+
+            label: "New"
+
+            // placeholder
+            onButtonClicked: logicblockslot1.visible = false
+        }
+
+        Button {
+            buttonWidth: parent.width/3 - 10
+            buttonHeight: parent.height
+
+            label: "Exit"
+
+            onButtonClicked: Qt.quit()
+        }
+    }
 
     Rectangle {
         id: configureScenarioContainer
@@ -31,6 +63,7 @@ Rectangle {
         z: 1
         anchors.fill: parent
         anchors.margins: 20
+        anchors.topMargin: 60
 
         radius: 5
 

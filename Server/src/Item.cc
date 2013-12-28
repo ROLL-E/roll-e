@@ -53,7 +53,7 @@ void Item::set_modifier(const QString& mod_name, qint8 value) {
   modifiers[mod_name] = value;
 }
 
-void Item::set_attribute(const QString& attr_name, qint16 value) {
+void Item::set_attribute(const QString& attr_name, qint16 value ) {
   attributes[attr_name] = value;
 }
 

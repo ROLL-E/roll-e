@@ -1,14 +1,12 @@
 #include "scenariocontroller.h"
-#include "scenario.h"
 #include "ValueBlock.h"
 #include "CompareBlock.h"
 #include "DamageBlock.h"
 #include "WaitBlock.h"
-#include "Skill.h"
-#include "Item.h"
-#include "Character.h"
 
 #include <QDebug>
+#include <QtQml>
+#include "qtquick2applicationviewer.h"
 
 ScenarioController::ScenarioController()
 {
@@ -28,7 +26,7 @@ ScenarioController::ScenarioController(Scenario* newScenario)
     showEditor_ = true;
 }
 
-ScenarioController::ScenarioController(Character *primary_character, QList<Character *> all_characters)
+ScenarioController::ScenarioController(Character *primary_character, QList<Character *> all_characters, QMap<quint16, Item*> items,  QList<Skill*> skills, QList<QString> attributes)
 {
     current_scenario_ = new Scenario;
     active_block_number_ = 0;
@@ -37,9 +35,18 @@ ScenarioController::ScenarioController(Character *primary_character, QList<Chara
     primary_character_ = primary_character;
     all_characters_ = all_characters;
 
+    items_ = items;
+    skills_ = skills;
+    attributes_ = attributes;
+
     showEditor_ = true;
 
     update_characters();
+    update_items();
+    update_skills();
+    update_attributes();
+
+
 }
 
 
@@ -125,6 +132,15 @@ void ScenarioController::set_block_value(int blocknr)
     }
 }
 
+
+void ScenarioController::set_valueblock_intention(QString intention, int blocknr)
+{
+    qDebug() << "Setting intention:" << intention;
+    dynamic_cast<ValueBlock*>(block_map_[blocknr])->set_intention(intention[0]);
+    qDebug() << "from block, intention" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_intention();
+}
+
+
 void ScenarioController::set_valueblock_value(int value,  int blocknr)
 {
     qDebug() << "setting value to " << value << " in block nr."  << blocknr;
@@ -169,13 +185,13 @@ void ScenarioController::remove_attribute_valueblock(QString attribute, int bloc
     qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_attributes();
 }
 
-void ScenarioController::add_skill_valueblock(QString skill, int blocknr)
+void ScenarioController::add_skill_valueblock(int skill, QString modifier, int blocknr)
 {
     qDebug() << "Skill, add" << skill << blocknr;
 
     try {
-        // does not make sense... pointer as key? WHY?
-        dynamic_cast<ValueBlock*>(block_map_[blocknr])->add_to_applicable_skills(new Skill{}, skill);
+
+        dynamic_cast<ValueBlock*>(block_map_[blocknr])->add_to_applicable_skills(skill_map_[skill], modifier);
     }catch (logicblock_error e) {
         qDebug() << e.what();
     }
@@ -183,18 +199,45 @@ void ScenarioController::add_skill_valueblock(QString skill, int blocknr)
     qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_applicable_skills();
 }
 
-void ScenarioController::add_item_valueblock(QString item, int blocknr)
+void ScenarioController::remove_skill_valueblock(int skill, int blocknr)
 {
-    qDebug() << "Item, add" << item << blocknr;
+    qDebug() << "Skill, remove" << skill << blocknr;
 
     try {
-        // does not make sense... int as key? WHY?
-        dynamic_cast<ValueBlock*>(block_map_[blocknr])->add_to_applicable_items(1, item);
+        dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_skill(skill_map_[skill]);
+    }catch (logicblock_error e) {
+        qDebug() << e.what();
+    }
+
+    qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_applicable_skills();
+
+}
+void ScenarioController::add_item_valueblock(int id, QString attribute, int blocknr)
+{
+    qDebug() << "Item, add" << id << blocknr;
+
+    try {
+        dynamic_cast<ValueBlock*>(block_map_[blocknr])->add_to_applicable_items(id, attribute);
     }catch (logicblock_error e) {
         qDebug() << e.what();
     }
 
     qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_applicable_items();
+}
+
+void ScenarioController::remove_item_valueblock(QString item, int id, int blocknr)
+{
+    qDebug() << "Item, remove" << item << blocknr;
+
+    try {
+        // does not make sense... int as key? WHY?
+        dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_item(id);
+    }catch (logicblock_error e) {
+        qDebug() << e.what();
+    }
+
+     qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_applicable_items();
+
 }
 
 void ScenarioController::set_damegeblock_target(QString character, int blocknr)
@@ -230,7 +273,54 @@ void ScenarioController::update_items()
 {
     qDebug() << "Updating Items";
 
+    item_model_.clear();
+    for (Item* item: items_) {
+
+            for (auto attribute : item->get_attributes().keys())
+            {
+                qDebug() << "adding" << item->get_name() << attribute;
+                item_model_.append(new ItemModel{item->get_name(), attribute, item->get_id()});
+
+            }
+    }
+    emit itemsChanged();
+    qDebug() << items_;
+    qDebug() << "update item, from model:" << item_model_;
 
 
+}
 
+void ScenarioController::update_skills()
+{
+    qDebug() << "Updating Skills";
+
+    skill_map_.clear();
+    skill_model_.clear();
+
+    int i{0};
+    for (Skill* skill: skills_) {
+        skill_map_[i] = skill;
+        qDebug() << "setting:" << skill << "to mapnr" << i;
+        for (auto modifier: skill->get_modifiers().keys())
+        {
+            qDebug() << "adding" << skill->get_name() << modifier;
+            skill_model_.append(new SkillModel{skill->get_name(), modifier, i});
+        }
+        i++;
+    }
+    emit skillsChanged();
+
+    qDebug() << "skill map:" << skill_map_;
+}
+
+void ScenarioController::update_attributes()
+{
+    qDebug() << "Updating Attributes";
+
+    attribute_model_.clear();
+    for(auto attribute: attributes_) {
+        attribute_model_.append(attribute);
+    }
+
+    qDebug() << "Model:" << attribute_model_;
 }

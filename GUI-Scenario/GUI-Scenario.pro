@@ -33,7 +33,8 @@ SOURCES += main.cpp \
     ../Server/src/Scenario.cc \
     ../Server/src/ModifierBlock.cc \
     ../Server/src/Fight.cc \
-    itemmodel.cpp
+    itemmodel.cpp \
+    skillmodel.cpp
 
 # Installation path
 # target.path =
@@ -70,6 +71,7 @@ HEADERS += \
     ../Server/include/Ruleset.h \
     ../Server/include/Item.h \
     ../Server/include/Inventory.h \
-    itemmodel.h
+    itemmodel.h \
+    skillmodel.h
 
 INCLUDEPATH += ../Server/include

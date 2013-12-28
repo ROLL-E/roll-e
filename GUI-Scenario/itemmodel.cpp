@@ -4,8 +4,8 @@ ItemModel::ItemModel(QObject* parent) : QObject(parent)
 {
 }
 
-ItemModel::ItemModel(const QString &name, const QString &attribute, QObject *parent)
-    : QObject{parent}, name_{name}, attribute_{attribute}
+ItemModel::ItemModel(const QString &name, const QString &attribute, const int item_id,  QObject *parent)
+    : QObject{parent}, name_{name}, attribute_{attribute}, item_id_{item_id}
 {
 }
 
@@ -35,4 +35,15 @@ void ItemModel::set_attribute(const QString &attribute)
     }
 }
 
+int ItemModel::item_id() const
+{
+    return item_id_;
+}
 
+void ItemModel::set_item_id(const int &item_id)
+{
+    if (item_id != item_id_){
+        item_id_ = item_id;
+        emit itemIdChanged();
+    }
+}

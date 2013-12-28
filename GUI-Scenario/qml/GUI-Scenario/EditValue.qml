@@ -102,6 +102,8 @@ Rectangle {
 
                 valueWindow.width = 430
 
+                controller.set_valueblock_intention("s", valueEditor.blocknumber)
+
             }
 
         }
@@ -123,6 +125,7 @@ Rectangle {
 
                 valueWindow.width = 430
 
+                controller.set_valueblock_intention("r", valueEditor.blocknumber)
             }
 
         }
@@ -143,6 +146,8 @@ Rectangle {
                 bonusContainer.visible = true
 
                 valueWindow.width = 800
+
+                controller.set_valueblock_intention("a", valueEditor.blocknumber)
 
             }
 
@@ -502,7 +507,7 @@ Rectangle {
 
                     }
                 }
-                model: dataList
+                model: controller.attributes
 
 
             }
@@ -548,16 +553,34 @@ Rectangle {
                     id: listDelegateSkill
                     property bool selected: false
 
-                    height: 25
+                    height: 40
                     width: 100
 
                     border.width: 2
                     border.color: mouseAreaSkill.pressed ? "black" : "white"
 
                     color: selected ? "lightblue" : "white"
-                    Text {
-                        anchors.centerIn: parent
-                        text: modelData
+                    Item {
+                        anchors.fill: parent
+                        Text {
+                            id: skillName
+
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 5
+
+                            font.bold: true
+
+                            text: model.modelData.name
+                        }
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: skillName.bottom
+
+                            font.italic: true
+
+                            text:  model.modelData.modifier
+                        }
                     }
 
                     MouseArea {
@@ -567,16 +590,16 @@ Rectangle {
                         onClicked: {
                             listDelegateSkill.selected = !listDelegateSkill.selected
                             if (listDelegateSkill.selected === true) {
-                                controller.add_skill_valueblock(modelData, valueEditor.blocknumber)
+                                controller.add_skill_valueblock(model.modelData.skill ,model.modelData.modifier, valueEditor.blocknumber)
                             } else {
-                                controller.remove_skill_valueblock(modelData, valueEditor.blocknumber)
+                                controller.remove_skill_valueblock(model.modelData.skill, valueEditor.blocknumber)
                             }
 
                         }
 
                     }
                 }
-                model: dataList
+                model: controller.skills
 
 
             }
@@ -605,7 +628,7 @@ Rectangle {
                 font.pointSize: 14
                 font.bold: true
 
-                text: "Inventory"
+                text: "Items"
             }
 
             ListView {
@@ -624,7 +647,7 @@ Rectangle {
                     id: listDelegateInventory
                     property bool selected: false
 
-                    height: 25
+                    height: 40
                     width: 100
 
                     border.width: 2
@@ -633,9 +656,27 @@ Rectangle {
 
 
                     color: selected ? "lightcoral" : "white"
-                    Text {
-                        anchors.centerIn: parent
-                        text: modelData
+                    Item {
+                        anchors.fill: parent
+                        Text {
+                            id: itemName
+
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: parent.top
+                            anchors.topMargin: 5
+
+                            font.bold: true
+
+                            text: model.modelData.name
+                        }
+                        Text {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.top: itemName.bottom
+
+                            font.italic: true
+
+                            text:  model.modelData.attribute
+                        }
                     }
 
                     MouseArea {
@@ -645,16 +686,16 @@ Rectangle {
                         onClicked: {
                             listDelegateInventory.selected = !listDelegateInventory.selected
                             if (listDelegateInventory.selected === true) {
-                                controller.add_item_valueblock(modelData, valueEditor.blocknumber)
+                                controller.add_item_valueblock(model.modelData.item_id, model.modelData.attribute, valueEditor.blocknumber)
                             } else {
-                                controller.remove_item_valueblock(modelData, valueEditor.blocknumber)
+                                controller.remove_item_valueblock(model.modelData.name, model.modelData.item_id, valueEditor.blocknumber)
                             }
 
                         }
 
                     }
                 }
-                model: dataList
+                model: controller.items
 
 
             }

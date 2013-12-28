@@ -10,7 +10,10 @@
 #include "Scenario.h"
 #include "Character.h"
 #include "Item.h"
+#include "Skill.h"
 #include "itemmodel.h"
+#include "skillmodel.h"
+
 
 
 class ScenarioController : public QObject
@@ -18,11 +21,16 @@ class ScenarioController : public QObject
     Q_OBJECT
     Q_PROPERTY(bool showEditor READ showEditor WRITE set_showEditor NOTIFY editorChanged)
     Q_PROPERTY(QVariant all_characters READ all_characters NOTIFY character_list_changed)
+    //TODO: add models for attributes
+    Q_PROPERTY(QVariant items READ items NOTIFY itemsChanged)
+    Q_PROPERTY(QVariant skills READ skills NOTIFY skillsChanged)
+    Q_PROPERTY(QVariant attributes READ attributes NOTIFY attributesChanged)
+
 
 public:
     ScenarioController();
     ScenarioController(Scenario*);
-    ScenarioController(Character* primary_character, QList<Character*> all_characters);
+    ScenarioController(Character* primary_character, QList<Character*> all_characters, QMap<quint16, Item*> items, QList<Skill*> skills, QList<QString> attributes);
 
     Q_INVOKABLE void print(QString msg) {qDebug() << msg;}
 
@@ -41,17 +49,12 @@ public:
 
     // settings for valueblock
 
-    // TODO: implement functionality
+    // we need to decide if one should be able to add more than one "attribute" per skill/item for each value-block
+    Q_INVOKABLE void add_skill_valueblock(int skill, QString modifier, int blocknr);
+    Q_INVOKABLE void remove_skill_valueblock(int skill, int blocknr);
+    Q_INVOKABLE void add_item_valueblock(int id, QString attribute, int blocknr);
+    Q_INVOKABLE void remove_item_valueblock(QString item, int id, int blocknr);
 
-    // don't get why or how the keys for these are used
-    // will probably need access to all skills and items
-    Q_INVOKABLE void add_skill_valueblock(QString skill, int blocknr);
-    Q_INVOKABLE void remove_skill_valueblock(QString skill, int blocknr) {qDebug() << "Skill, remove" << skill << blocknr;}
-    Q_INVOKABLE void add_item_valueblock(QString item, int blocknr);
-    Q_INVOKABLE void remove_item_valueblock(QString item, int blocknr) {qDebug() << "Item, remove" << item << blocknr;}
-
-    // will need access to all characters
-    Q_INVOKABLE void set_damegeblock_target(QString character, int blocknr);
 
     // DONE
     Q_INVOKABLE void set_valueblock_value(int value, int blocknr);
@@ -59,10 +62,15 @@ public:
     Q_INVOKABLE void add_attribute_valueblock(QString attribute, int blocknr);
     Q_INVOKABLE void remove_attribute_valueblock(QString attribute, int blocknr);
 
+    Q_INVOKABLE void set_damegeblock_target(QString character, int blocknr);
+    Q_INVOKABLE void set_valueblock_intention(QString intention, int blocknr);
 
     //QML READ functions
-    bool showEditor() const {return showEditor_;}
-    QVariant all_characters() const { return QVariant::fromValue(character_list_);}
+    bool showEditor() const { return showEditor_; }
+    QVariant all_characters() const { return QVariant::fromValue(character_list_); }
+    QVariant items() const { return QVariant::fromValue(item_model_); }
+    QVariant skills() const { return QVariant::fromValue(skill_model_); }
+    QVariant attributes() const { return QVariant::fromValue(attribute_model_); }
 
     //QML WRITE functions
     void set_showEditor(const bool showEditor) { showEditor_ = showEditor; emit editorChanged();}
@@ -90,17 +98,30 @@ private:
     QStringList character_list_;
     QMap<QString, Character*> character_map_;
 
-    QMap<QString, Item*> item_map_;
-    QList<ItemModel*> item_model_;
+    //QMap<QString, Item*> item_map_;
+    QMap<quint16, Item*> items_;
+    QList<QObject*> item_model_;
 
+
+    QMap<int, Skill*> skill_map_;
+    QList<Skill*> skills_;
+    QList<QObject*> skill_model_;
+
+    QList<QString> attributes_;
+    QStringList attribute_model_;
 
     void update_characters();
     void update_items();
+    void update_skills();
+    void update_attributes();
 
 
 signals:
     void blocknumberChanged();
     void editorChanged();
+    void itemsChanged();
+    void skillsChanged();
+    void attributesChanged();
     void character_list_changed();
 
 };
