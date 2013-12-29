@@ -76,7 +76,16 @@ int main(int argc, char *argv[])
 
   herman->add_skill(rs->get_skills().at(1));
 
+  qDebug() << "testing save-load";
+
+  GameSave* save = new GameSave();
+
+  save->save(main_story,"/home/olgittmar/Documents/TDDC76/roll-e/Savegames");
+
+  save->load("/home/olgittmar/Documents/TDDC76/roll-e/Savegames",main_story);
+  qDebug() << "saving...";
   QApplication a(argc, argv);
+  qDebug() << "loading...";
   ServerWindow w(main_story);
   
   w.show();

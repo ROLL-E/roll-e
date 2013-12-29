@@ -95,6 +95,7 @@ void GameSave::load(QString filename, Story*& story) {
 
 
   input_file.close();
+  qDebug() << "game successfully loaded";
 
 }
 
@@ -147,5 +148,6 @@ void GameSave::save(Story* story, QString filename) {
 
   out_stream << QString("End");
   output_file.close();
+  qDebug() << "The game has been saved.";
 }
 
