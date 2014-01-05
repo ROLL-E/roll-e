@@ -55,12 +55,10 @@ void ClientConnection::push_data(Character* cha){
     qDebug() << "Pushing data!";
     QMutex mutex;
     mutex.lock();
-    Character* tempChar = new Character{(*cha)};
-    mutex.unlock();
 
     QDataStream out(clientSocket);
-    out << QChar('p') << tempChar;
-    tempChar->deleteLater();
+    out << QChar('p') << cha;
+    mutex.unlock();
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {

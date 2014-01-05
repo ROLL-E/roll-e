@@ -11,18 +11,12 @@ Server::Server(Story* main_story, QObject *parent) : QObject(parent){
 void Server::newConnection() {
     //prompt gamemaster for permission?
     qDebug() << "New connection!";
-    clients.prepend(QPair<QPointer<ClientConnection>,QThread*>(new ClientConnection(server->nextPendingConnection()), new QThread(this)));
-    clients.first().first->moveToThread(clients.first().second);
+    clients.prepend(new ClientConnection(server->nextPendingConnection()));
 
-    // Not sure how QObject sets up the connection, might be possible to clean this up.
-    connect(clients.first().first, SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
+    connect(clients.first(), SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
     connect(this,SIGNAL(got_join_request()),this,SLOT(join_request()));
     connect(this, SIGNAL(got_message()),this,SLOT(redirect_messages()));
-    connect(clients.first().first, SIGNAL(disconnected()), this, SLOT(client_disconnected()));
-    connect(clients.first().first,SIGNAL(disconnected()),clients.first().first,SLOT(deleteLater()));
-    connect(clients.first().first,SIGNAL(disconnected()), clients.first().second,SLOT(quit()));
-    connect(clients.first().second,SIGNAL(finished()),clients.first().second,SLOT(deleteLater()));
-    clients.first().second->start();
+    connect(clients.first(), SIGNAL(disconnected()), this, SLOT(client_disconnected()));
 }
 
 void Server::client_disconnected(){
@@ -81,8 +75,6 @@ void Server::start(){
 void Server::redirect_messages(){
     // This should just redirect the message to intendet reciever based on
     // the reciever-field in msg.
-    QMutex servermutex;
-    servermutex.lock(); // OBS! This must be unlocked afterwards
     while(!message_buffer.isEmpty()){
         Message* msg = message_buffer.takeFirst();
         Character* receiver = story->get_character(msg->receiver);
@@ -94,7 +86,6 @@ void Server::redirect_messages(){
                 qDebug() << msg->sender << " says " << msg->message << " to " << msg->receiver;
         }
     }
-    servermutex.unlock();
 }
 
 void Server::join_request(){
