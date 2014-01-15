@@ -49,7 +49,7 @@ void itemDialog::on_buttonBox_accepted()
     }
     else
         item->set_name(ui->lineEdit->text());
-    QTableWidget* wid = ui->modTableWidget;
+
 
 
     for(int i{0}; i < ui->attrTableWidget->rowCount(); ++i) {

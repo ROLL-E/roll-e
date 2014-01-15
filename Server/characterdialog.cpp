@@ -10,7 +10,6 @@
 #include "Story.h"
 #include "Skill.h"
 #include "skillmodel.h"
-#include "attributetablemodel.h"
 
 characterDialog::characterDialog(QWidget *parent) :
   QDialog(parent),

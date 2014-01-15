@@ -1,6 +1,7 @@
 #include "Story.h"
 #include "Item.h"
 #include "Server.h"
+#include "Scenario.h"
 
 Story::Story(Ruleset* new_ruleset) : ruleset(new_ruleset) {
   myServer = new Server{this};
