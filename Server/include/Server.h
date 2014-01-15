@@ -9,7 +9,7 @@
 class Client;
 class Story;
 
-class Server : public QObject
+class Server : public QTcpServer
 {
     Q_OBJECT
 
@@ -19,14 +19,13 @@ private:
     QList<Message*> message_buffer;
     QList<Request*> request_buffer;
     QList<QPair<ClientConnection*,Request*>> join_requests;
-    Story* story;
+    QPointer<Story> story;
     Message* get_message_from_buffer();
     Request* get_request_from_buffer();
 
 public:
-  explicit Server(Story*, QObject* parent = 0);
-  QTcpServer* server; //private när destruktorn är klar.
-  QList<QPointer<ClientConnection>> clients;
+    explicit Server(Story*, QObject* parent = 0);
+    QList<QPointer<ClientConnection>> clients;
   
 signals:
   void finished();
@@ -35,13 +34,13 @@ signals:
   void got_join_request();
 
 public slots:
+  void stopServer();
   void redirect_messages();
   void newConnection();
   void client_disconnected();
   void start();
   void update_messages_and_requests(ClientConnection*);
   void join_request();
-
 };
 
 #endif // SERVER_H

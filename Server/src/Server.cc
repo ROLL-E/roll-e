@@ -2,16 +2,32 @@
 #include <iostream>
 
 
-Server::Server(Story* main_story, QObject *parent) : QObject(parent){
-    server = new QTcpServer(this);
+Server::Server(Story* main_story, QObject *parent) : QTcpServer(parent){
     story = main_story;
-    connect(server,SIGNAL(newConnection()),this,SLOT(newConnection()));
+    connect(this,SIGNAL(newConnection()),this,SLOT(newConnection()));
 }
+
+void Server::stopServer(){
+    for(ClientConnection* client : clients){
+        client->disconnect();
+        client->deleteLater();
+    }
+    close();
+
+    for(Message* msg : message_buffer){
+        delete msg;
+    }
+    for(Request* req: request_buffer){
+        delete req;
+    }
+    emit finished();
+}
+
 
 void Server::newConnection() {
     //prompt gamemaster for permission?
     qDebug() << "New connection!";
-    clients.prepend(new ClientConnection(server->nextPendingConnection()));
+    clients.prepend(new ClientConnection(nextPendingConnection()));
 
     connect(clients.first(), SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
     connect(this,SIGNAL(got_join_request()),this,SLOT(join_request()));
@@ -64,7 +80,7 @@ void Server::update_messages_and_requests(ClientConnection* client){
 
 
 void Server::start(){
-    if(!server->listen(QHostAddress::Any,14449)){
+    if(!listen(QHostAddress::Any,14449)){
         qDebug() << "Server could not listen...";
         throw(std::runtime_error{"Fatal error: could not initiate server."});
     } else {

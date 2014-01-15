@@ -25,11 +25,13 @@
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
 
   QList<QString> attr_list{"health", "armor", "strength"};
   Ruleset* rs = new Ruleset(attr_list);
 
   Story* main_story = new Story(rs);
+  main_story->startServer();
 
   QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
   main_story->add_character(new Character(attr_map, 100, main_story));
@@ -76,18 +78,19 @@ int main(int argc, char *argv[])
 
   herman->add_skill(rs->get_skills().at(1));
 
-//  qDebug() << "testing save-load";
+  qDebug() << "testing save-load";
 
-//  GameSave* save = new GameSave();
+  GameSave* save = new GameSave();
 
-//  qDebug() << "saving...";
-//  save->save(main_story,"/home/olgittmar/Documents/TDDC76/roll-e/Savegames");
-//  qDebug() << "loading...";
-//  save->load("/home/olgittmar/Documents/TDDC76/roll-e/Savegames",main_story);
+  qDebug() << "saving...";
+  save->save(main_story,"/home/olgittmar/Documents/TDDC76/roll-e/Savegames/TestSave.txt");
+  qDebug() << "loading...";
+  save->load("/home/olgittmar/Documents/TDDC76/roll-e/Savegames/TestSave.txt",main_story);
 
-  QApplication a(argc, argv);
+  main_story->startServer();
+
   ServerWindow w(main_story);
-  
+
   w.show();
   return a.exec();
 }

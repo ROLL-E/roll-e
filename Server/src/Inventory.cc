@@ -89,7 +89,8 @@ QDataStream& Inventory::write_to_stream(QDataStream& ds) const {
     ds << items.size();
     qDebug() << "Items.size()" << items.size();
     for (quint16 id : items) {
-        qDebug() << "sending item: " << story->get_item(id)->get_name();
+        qDebug() << "sending item: ";
+        qDebug() << story->get_item(id)->get_name();
       temp_item = new Item(*(story->get_item(id)));
       ds << temp_item;
     }
