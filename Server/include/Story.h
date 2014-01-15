@@ -33,6 +33,7 @@ public:
   Server* myServer;
   QMap<quint16, Scenario*> scenario_id_map;
   Story(Ruleset*);
+  ~Story();
 
   void add_character(Character*);
   void add_scenario(Scenario*);

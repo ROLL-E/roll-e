@@ -4,6 +4,7 @@
 #include <QMap>
 #include <iostream>
 #include <QDebug>
+#include <stdexcept>
 
 #include "Skill.h"
 #include "Story.h"
@@ -16,16 +17,17 @@
 #include "WaitBlock.h"
 
 
-void GameSave::load(QString filename, Story*& story) {
+int GameSave::load(QString filename, Story*& story) {
   QFile input_file(filename);
-  input_file.open(QIODevice::ReadOnly);
+  if (!input_file.open(QIODevice::ReadOnly))
+    return 1;
 
   QDataStream in_stream(&input_file);
 
   QString tag;
   in_stream >> tag;
 
-  story->myServer->deleteLater();
+
   delete story;
 
   try {
@@ -96,10 +98,10 @@ void GameSave::load(QString filename, Story*& story) {
 
   input_file.close();
   qDebug() << "game successfully loaded";
-
+  return 0;
 }
 
-void GameSave::save(Story* story, QString filename) {
+int GameSave::save(Story* story, QString filename) {
   quint16 i{0};
 
   for (Skill* skill : story->get_ruleset()->get_skills()) {
@@ -111,7 +113,8 @@ void GameSave::save(Story* story, QString filename) {
   }
 
   QFile output_file(filename);
-  output_file.open(QIODevice::WriteOnly);
+  if (!output_file.open(QIODevice::WriteOnly))
+    return 1;
   QDataStream out_stream(&output_file);
 
   out_stream << QString("Rules");
@@ -149,5 +152,6 @@ void GameSave::save(Story* story, QString filename) {
   out_stream << QString("End");
   output_file.close();
   qDebug() << "The game has been saved.";
+  return 0;
 }
 

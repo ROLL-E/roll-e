@@ -24,10 +24,12 @@ private slots:
 
   void on_pushButton_clicked();
 
+  void on_mod_addButton_clicked();
+
 private:
   Ui::itemDialog *ui;
   Story* story;
-  Item* item;
+  Item* item{nullptr};
 };
 
 #endif // ITEMDIALOG_H

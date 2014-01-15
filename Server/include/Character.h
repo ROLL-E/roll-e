@@ -27,7 +27,7 @@ public:
 
     Inventory inventory;
     Character(QMap<QString, qint16>, quint16, Story*);
-    Character(const Character&);
+    Character(const Character&, QObject* parent = 0);
     Character() {}
 
     QString get_name() const;

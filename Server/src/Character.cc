@@ -11,8 +11,9 @@ Character::Character(QMap<QString, qint16> new_attributes, quint16 start_max_wei
     inventory{start_max_weight, new_story} {
 }
 
-Character::Character(const Character& other)
-  : name{other.name},
+Character::Character(const Character& other, QObject *parent)
+  : QObject(parent),
+    name{other.name},
     attributes{other.attributes},
     skills{other.skills},
     inventory(other.inventory) {

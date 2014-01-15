@@ -23,6 +23,7 @@ QVariant AttributeTableModel::data(const QModelIndex &index, int role) const{
     else
       return attributes.keys().at(index.row());
   }
+  return QVariant();
 }
 /*
 QVariant AttributeTableModel::headerData(int section, Qt::Orientation orientation, int role) const

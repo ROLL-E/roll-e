@@ -25,7 +25,7 @@
 
 int main(int argc, char *argv[])
 {
-
+  QApplication a(argc, argv);
   QList<QString> attr_list{"health", "armor", "strength"};
   Ruleset* rs = new Ruleset(attr_list);
 
@@ -76,16 +76,76 @@ int main(int argc, char *argv[])
 
   herman->add_skill(rs->get_skills().at(1));
 
-//  qDebug() << "testing save-load";
 
-//  GameSave* save = new GameSave();
+  //Test program, compares 2 2-sided dice to the number 3 and either waits 3
+    // 3 turns and heals 1 point or deals 6 damage to bob, depending on the outcome.
 
-//  qDebug() << "saving...";
-//  save->save(main_story,"/home/olgittmar/Documents/TDDC76/roll-e/Savegames");
-//  qDebug() << "loading...";
-//  save->load("/home/olgittmar/Documents/TDDC76/roll-e/Savegames",main_story);
+    ValueBlock* b1 = new ValueBlock();
+    b1->set_intention('s');
+    b1->set_value(3);
 
-  QApplication a(argc, argv);
+    ValueBlock* b2 = new ValueBlock();
+    b2->set_intention('r');
+    b2->set_sides(2);
+    b2->set_number(2);
+    b1->set_next(b2);
+
+    CompareBlock* b3 = new CompareBlock();
+    b3->set_lhs(b1);
+    b3->set_rhs(b2);
+    b2->set_next(b3);
+
+    ValueBlock* b4 = new ValueBlock();
+    b4->set_intention('s');
+    b4->set_value(6);
+    b3->set_alternate(b4);
+
+    DamageBlock* b5 = new DamageBlock();
+    b5->set_valueblock(b4);
+    b5->set_target(bob);
+    b5->set_type("blunt");
+    b5->set_next(nullptr);
+    b5->set_last(true);
+    b4->set_next(b5);
+
+    WaitBlock* b6 = new WaitBlock();
+    b6->set_wait_turns(3);
+    b3->set_next(b6);
+
+    ValueBlock* b7 = new ValueBlock();
+    b7->set_intention('s');
+    b7->set_value(-1);
+    b6->set_next(b7);
+
+
+
+    ModifierBlock* b8 = new ModifierBlock();
+    b8->set_modifier("health", 5);
+    b8->set_target(bob);
+    b7->set_next(b8);
+
+    DamageBlock* b9 = new DamageBlock();
+    b9->set_type("heal");
+    b9->set_valueblock(b7);
+    b9->set_target(bob);
+    b9->set_last(true);
+    b8->set_next(b9);
+
+
+    Scenario* scene1 = new Scenario();
+    scene1->set_head(b1);
+    scene1->set_next_block(b1);
+    scene1->set_story(main_story);
+
+    main_story->get_ruleset()->add_scenario(scene1);
+
+
+  qDebug() << "saving...";
+  GameSave::save(main_story,"F:\\Projekt\\gamesave");
+  qDebug() << "loading...";
+  GameSave::load("F:\\Projekt\\gamesave",main_story);
+
+
   ServerWindow w(main_story);
   
   w.show();

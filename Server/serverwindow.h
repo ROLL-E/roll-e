@@ -36,6 +36,8 @@ private slots:
 
   void on_pushButton_2_clicked();
 
+  void on_item_modButton_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story;

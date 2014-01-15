@@ -64,7 +64,7 @@ void Server::update_messages_and_requests(ClientConnection* client){
 
 
 void Server::start(){
-    if(!server->listen(QHostAddress::Any,14449)){
+    if(!server->listen(QHostAddress::Any,13337)){
         qDebug() << "Server could not listen...";
         throw(std::runtime_error{"Fatal error: could not initiate server."});
     } else {

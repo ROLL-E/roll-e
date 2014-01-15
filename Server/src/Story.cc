@@ -15,6 +15,19 @@ Story::Story(Ruleset* new_ruleset) : ruleset(new_ruleset) {
   netThread->start();
 }
 
+Story::~Story()
+{
+    for (Character* c : characters)
+        delete c;
+    for (Scenario* scen : current_scenarios)
+        delete scen;
+    delete ruleset;
+    for (quint16 key : items.keys())
+        delete items.value(key);
+    //myServer->deleteLater();
+    //netThread->wait();
+}
+
 void Story::add_character(Character* new_character) {
   characters.append(new_character);
 }
