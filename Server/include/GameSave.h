@@ -1,5 +1,5 @@
 #ifndef GAMESAVE_H
-#define GAMESAVE_H5
+#define GAMESAVE_H
 #include <QString>
 
 class Story;

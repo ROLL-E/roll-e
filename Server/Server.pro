@@ -36,7 +36,6 @@ SOURCES += main.cc\
     src/Scenario.cc \
     characterdialog.cpp \
     skillmodel.cpp \
-    attributetablemodel.cpp \
     itemdialog.cpp
 
 
@@ -63,7 +62,6 @@ HEADERS  += serverwindow.h \
     include/GameSave.h \
     characterdialog.h \
     skillmodel.h \
-    attributetablemodel.h \
     itemdialog.h
 
 
