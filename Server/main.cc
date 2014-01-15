@@ -83,9 +83,9 @@ int main(int argc, char *argv[])
   GameSave* save = new GameSave();
 
   qDebug() << "saving...";
-  save->save(main_story,"/home/olgittmar/Documents/TDDC76/roll-e/Savegames/TestSave.txt");
+  save->save(main_story,"K:/skola & viktigt stuff/TDDC76/roll-e/SaveGames/TestSave.txt");
   qDebug() << "loading...";
-  save->load("/home/olgittmar/Documents/TDDC76/roll-e/Savegames/TestSave.txt",main_story);
+  save->load("K:/skola & viktigt stuff/TDDC76/roll-e/SaveGames/TestSave.txt",main_story);
 
   main_story->startServer();
 

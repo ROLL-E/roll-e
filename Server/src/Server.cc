@@ -13,7 +13,6 @@ void Server::stopServer(){
         client->deleteLater();
     }
     close();
-
     for(Message* msg : message_buffer){
         delete msg;
     }

@@ -25,6 +25,7 @@ void GameSave::load(QString filename, Story*& story) {
   QString tag;
   in_stream >> tag;
 
+  qDebug() << "Shutting down the server.";
   story->stopServer();
   delete story;
 

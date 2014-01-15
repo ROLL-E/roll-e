@@ -55,6 +55,8 @@ public:
   void remove_scenario(Scenario*);
   void remove_item(quint16);
 
+signals:
+  void serverStop();
 };
 
 #endif
