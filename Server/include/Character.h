@@ -39,6 +39,7 @@ public:
     QList<Skill*> get_skills() const;
     QPointer<ClientConnection> get_connection();
     void set_connection(ClientConnection*);
+    void set_story(Story*);
 
     void add_to_attribute(const QString&, qint16);
 

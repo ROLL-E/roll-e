@@ -47,6 +47,11 @@ void Inventory::set_max_weight(quint16 new_max) {
   max_weight = new_max;
 }
 
+void Inventory::set_story(Story* new_story)
+{
+  story = new_story;
+}
+
 void Inventory::add_item(quint16 id_to_add) {
   Item* item{story->get_items().value(id_to_add, nullptr)};
   if (item == nullptr)

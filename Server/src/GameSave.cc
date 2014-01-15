@@ -54,6 +54,7 @@ void GameSave::load(QString filename, Story*& story) {
 
     while (tag == QString("Char")) {
       in_stream >> current_character;
+      current_character->set_story(story);
       story->add_character(current_character);
 
       in_stream >> tag;

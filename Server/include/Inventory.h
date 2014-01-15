@@ -24,6 +24,7 @@ public:
     QList<quint16> get_items() const;
     bool has_item(quint16) const;
     void set_max_weight(quint16);
+    void set_story(Story*);
 
     void add_item(quint16);
     void remove_item(quint16);

@@ -34,6 +34,12 @@ void Character::set_connection(ClientConnection* connection){
     }
 }
 
+void Character::set_story(Story* new_story)
+{
+  story = new_story;
+  inventory.set_story(new_story);
+}
+
 void Character::set_name(const QString& new_name) {
     name = new_name;
     emit changed(this);
