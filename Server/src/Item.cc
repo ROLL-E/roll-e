@@ -62,6 +62,14 @@ void Item::remove_attribute(const QString& attr_to_remove) {
     throw invalid_argument("Attribute does not exist");
 }
 
+void Item::clear_modifiers(){
+  modifiers.clear();
+}
+
+void Item::clear_attributes(){
+  attributes.clear();
+}
+
 void Item::remove_modifier(const QString& mod_to_remove) {
   if (modifiers.remove(mod_to_remove) == 0)
     throw invalid_argument("Modifier does not exist");

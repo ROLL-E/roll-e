@@ -19,8 +19,8 @@ ServerWindow::ServerWindow(Story* the_story, QWidget *parent) :
 {
   ui->setupUi(this);
 
+  refresh_fields();
 
-  update_characters();
 }
 
 
@@ -36,33 +36,41 @@ void ServerWindow::on_add_charButton_clicked()
   charDialog.exec();
 }
 
-void ServerWindow::update_characters(int row) {
-  //QItemSelectionModel* selection = ui->char_listView->selectionModel();
+void ServerWindow::refresh_fields() {
 
   QStringList strList;
-  if (row == -1) {
+  for (quint16 id : story->get_items().keys()) {
+    strList.append(story->get_item(id)->get_name());
+  }
+  ui->item_comboBox->setModel(new QStringListModel(strList));
+
+  QItemSelectionModel* selection = ui->char_listView->selectionModel();
+
+  if (selection == nullptr) {
+    strList.clear();
     for (Character* character : story->get_characters())
       strList.append(character->get_name());
-
 
     ui->char_listView->setModel(new QStringListModel(strList));
     ui->char_listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+    ui->skills_listView->setModel(nullptr);
+    ui->item_listView->setModel(nullptr);
+
+    ui->attr_tableWidget->clear();
+    ui->attr_tableWidget->setRowCount(0);
+    ui->entity_tableWidget->clear();
+    ui->entity_tableWidget->setRowCount(0);
+    ui->tableWidget->clear();
+    ui->tableWidget->setRowCount(0);
   }
-  //ui->char_listView->setSelectionModel(new QItemSelectionModel(selection->model()));
+  else {
 
-
-  if (ui->char_listView->selectionModel()->selectedRows().size() != 0){
-
-
-    Character* character = story->get_characters().at(ui->char_listView->selectionModel()->selectedRows().at(0).row());
+    Character* character{story->get_characters().at(selection->currentIndex().row())};
 
     ui->char_nameLabel->setText(character->get_name());
     ui->max_weightLabel->setText(QString::number(character->inventory.get_max_weight()));
     ui->curr_weightLabel->setText(QString::number(character->inventory.get_weight()));
-
-    SkillModel* skills_model = new SkillModel(character->get_skills());
-    ui->skills_listView->setModel(skills_model);
 
     ui->attr_tableWidget->setRowCount(character->get_attributes().size());
     for (int i{0}; i< character->get_attributes().size(); ++i) {
@@ -71,6 +79,9 @@ void ServerWindow::update_characters(int row) {
     }
     ui->attr_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
+    SkillModel* skills_model = new SkillModel(character->get_skills());
+    ui->skills_listView->setModel(skills_model);
+
     strList.clear();
     for (quint16 id : character->inventory.get_items()) {
       strList.append(story->get_item(id)->get_name());
@@ -78,25 +89,25 @@ void ServerWindow::update_characters(int row) {
     ui->item_listView->setModel(new QStringListModel(strList));
     ui->item_listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    strList.clear();
-    for (quint16 id : story->get_items().keys()) {
-      strList.append(story->get_item(id)->get_name());
-    }
-    ui->item_comboBox->setModel(new QStringListModel(strList));
+    ui->entity_tableWidget->clear();
+    ui->entity_tableWidget->setRowCount(0);
+
+    ui->tableWidget->clear();
+    ui->tableWidget->setRowCount(0);
   }
-
-
 }
+
+
 
 void ServerWindow::on_newCharacter()
 {
-  update_characters();
+  refresh_fields();
 }
 
-void ServerWindow::on_char_listView_clicked(const QModelIndex &index)
+void ServerWindow::on_char_listView_clicked(const QModelIndex&)
 {
 
-  update_characters(index.row());
+  refresh_fields();
 
 }
 
@@ -116,18 +127,18 @@ void ServerWindow::on_pushButton_clicked()
     if (character != nullptr) {
       character->add_item(story->get_items().values().at(ui->item_comboBox->currentIndex())->get_id());
     }
-    update_characters();
+    refresh_fields();
   }
 }
 
 void ServerWindow::on_remove_itemButton_clicked()
 {
-  Character* character = story->get_characters().at(ui->char_listView->selectionModel()->selectedRows().at(0).row());
-  QModelIndexList rows = ui->item_listView->selectionModel()->selectedRows();
-  if (rows.size() != 0) {
-    character->remove_item(story->get_items().values().at(rows.at(0).row())->get_id());
+  Character* character = story->get_characters().at(ui->char_listView->selectionModel()->currentIndex().row());
+  QItemSelectionModel* selection = ui->item_listView->selectionModel();
+  if (selection != nullptr) {
+    character->remove_item(character->inventory.get_items().at(selection->currentIndex().row()));
   }
-  update_characters();
+  refresh_fields();
 }
 
 
@@ -135,9 +146,8 @@ void ServerWindow::on_item_listView_clicked(const QModelIndex &index)
 {
   qDebug() << index.row();
 
-  QList<quint16> inventory_items = story->get_characters().at(ui->
-                                                              char_listView->selectionModel()->
-                                                              selectedRows().at(0).row())->inventory.get_items();
+  QList<quint16> inventory_items = story->get_characters().at(ui->char_listView->selectionModel()
+                                                              ->currentIndex().row())->inventory.get_items();
   if (inventory_items.size() != ui->item_listView->model()->rowCount())
     return;
   Item* item  = story->get_item(inventory_items.at(index.row()));
@@ -157,6 +167,7 @@ void ServerWindow::on_item_listView_clicked(const QModelIndex &index)
     for (QString key : item->get_attributes().keys()) {
       ui->tableWidget->setItem(i,0,new QTableWidgetItem(key));
       ui->tableWidget->setItem(i,1,new QTableWidgetItem(QString::number(item->get_attribute(key))));
+      ++i;
     }
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
@@ -178,13 +189,15 @@ void ServerWindow::on_skills_listView_clicked(const QModelIndex &index)
     }
     ui->entity_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
   }
+  ui->tableWidget->clear();
+  ui->tableWidget->setRowCount(0);
 }
 
 void ServerWindow::on_pushButton_2_clicked()
 {
   itemDialog dialog(this);
   dialog.exec();
-  update_characters();
+  refresh_fields();
 }
 
 void ServerWindow::on_item_modButton_clicked()
@@ -200,6 +213,6 @@ void ServerWindow::on_item_modButton_clicked()
                           this);
     mod_dialog.exec();
 
-    update_characters();
+    refresh_fields();
   }
 }

@@ -19,7 +19,12 @@ void Skill::set_modifier(const QString& mod_name, qint8 value) {
 }
 
 void Skill::set_name(const QString& new_name) {
-    name = new_name;
+  name = new_name;
+}
+
+void Skill::clear_modifiers()
+{
+  modifiers.clear();
 }
 
 QDataStream& Skill::write_to_stream(QDataStream& ds) const {

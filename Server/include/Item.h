@@ -35,6 +35,8 @@ public:
 
   void remove_modifier(const QString&);
   void remove_attribute(const QString&);
+  void clear_modifiers();
+  void clear_attributes();
 
   QDataStream& read_from_stream(QDataStream&);
   QDataStream& write_to_stream(QDataStream&) const;

@@ -50,14 +50,21 @@ void itemDialog::on_buttonBox_accepted()
     else
         item->set_name(ui->lineEdit->text());
 
-
+    item->clear_attributes();
+    item->clear_modifiers();
 
     for(int i{0}; i < ui->attrTableWidget->rowCount(); ++i) {
-        if (ui->attrTableWidget->item(i,0)->text() != "")
-      item->set_attribute(ui->attrTableWidget->item(i, 0)->text(), ui->attrTableWidget->item(i,1)->text().toInt());
+      if (!(!ui->attrTableWidget->item(i,0)
+          || ui->attrTableWidget->item(i,0)->text().isEmpty()
+          || !ui->attrTableWidget->item(i,1)
+          || ui->attrTableWidget->item(i,1)->text().isEmpty())) //an item does not exist until the user has edited it
+        item->set_attribute(ui->attrTableWidget->item(i, 0)->text(), ui->attrTableWidget->item(i,1)->text().toInt());
     }
     for(int i{0}; i < ui->modTableWidget->rowCount(); ++i) {
-        if (ui->modTableWidget->item(i,0)->text() != "")
+        if (!(!ui->modTableWidget->item(i,0)
+            || ui->modTableWidget->item(i,0)->text().isEmpty()
+            || !ui->modTableWidget->item(i,1)
+            || ui->modTableWidget->item(i,1)->text().isEmpty()))
       item->set_modifier(ui->modTableWidget->item(i, 0)->text(), ui->modTableWidget->item(i,1)->text().toInt());
     }
     if (was_empty)

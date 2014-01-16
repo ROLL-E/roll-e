@@ -42,7 +42,7 @@ private:
   Ui::ServerWindow *ui;
   Story* story;
 
-  void update_characters(int row = -1);
+  void refresh_fields();
 
 };
 
