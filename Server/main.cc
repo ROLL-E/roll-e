@@ -25,11 +25,14 @@
 
 int main(int argc, char *argv[])
 {
+
   QApplication a(argc, argv);
+
   QList<QString> attr_list{"health", "armor", "strength"};
   Ruleset* rs = new Ruleset(attr_list);
 
   Story* main_story = new Story(rs);
+  main_story->startServer();
 
   QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
   main_story->add_character(new Character(attr_map, 100, main_story));
@@ -145,9 +148,10 @@ int main(int argc, char *argv[])
   qDebug() << "loading...";
   GameSave::load("F:\\Projekt\\gamesave",main_story);
 
+  main_story->startServer();
 
   ServerWindow w(main_story);
-  
+
   w.show();
   return a.exec();
 }

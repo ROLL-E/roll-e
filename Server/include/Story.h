@@ -30,10 +30,15 @@ private:
   QThread* netThread;
 
 public:
-  Server* myServer;
+  Server* myServer{};
   QMap<quint16, Scenario*> scenario_id_map;
   Story(Ruleset*);
+
   ~Story();
+
+  void startServer();
+  void stopServer();
+
 
   void add_character(Character*);
   void add_scenario(Scenario*);
@@ -54,7 +59,8 @@ public:
   void remove_scenario(Scenario*);
   void remove_item(quint16);
 
-
+signals:
+  void serverStop();
 };
 
 #endif

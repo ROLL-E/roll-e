@@ -4,29 +4,41 @@
 #include "Scenario.h"
 
 Story::Story(Ruleset* new_ruleset) : ruleset(new_ruleset) {
-  myServer = new Server{this};
-  netThread = new QThread;
-  myServer->moveToThread(netThread);
-  // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
-  connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
-  connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
-  connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
-  connect(netThread, SIGNAL(finished()), netThread, SLOT(deleteLater()));
-  // Start the networking
-  netThread->start();
+}
+
+void Story::startServer(){
+    myServer = new Server{this};
+    netThread = new QThread;
+    myServer->moveToThread(netThread);
+    // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
+    connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
+    connect(this,SIGNAL(serverStop()),myServer,SLOT(stopServer()));
+    connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
+    connect(myServer, SIGNAL(finished()), myServer, SLOT(deleteLater()));
+    connect(netThread, SIGNAL(finished()), netThread, SLOT(deleteLater()));
+    // Start the networking
+    netThread->start();
+    netThread->wait(1000);
+}
+
+void Story::stopServer(){
+    if(myServer != nullptr){
+    emit serverStop();
+    netThread->wait(3000);
+    }
 }
 
 Story::~Story()
 {
-    for (Character* c : characters)
-        delete c;
-    for (Scenario* scen : current_scenarios)
-        delete scen;
-    delete ruleset;
-    for (quint16 key : items.keys())
-        delete items.value(key);
-    //myServer->deleteLater();
-    //netThread->wait();
+  emit serverStop();
+  for (Character* c : characters)
+    delete c;
+  for (Scenario* scen : current_scenarios)
+    delete scen;
+  delete ruleset;
+  for (quint16 key : items.keys())
+    delete items.value(key);
+
 }
 
 void Story::add_character(Character* new_character) {

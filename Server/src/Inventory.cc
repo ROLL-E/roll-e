@@ -47,6 +47,11 @@ void Inventory::set_max_weight(quint16 new_max) {
   max_weight = new_max;
 }
 
+void Inventory::set_story(Story* new_story)
+{
+  story = new_story;
+}
+
 void Inventory::add_item(quint16 id_to_add) {
   Item* item{story->get_items().value(id_to_add, nullptr)};
   if (item == nullptr)
@@ -89,7 +94,8 @@ QDataStream& Inventory::write_to_stream(QDataStream& ds) const {
     ds << items.size();
     qDebug() << "Items.size()" << items.size();
     for (quint16 id : items) {
-        qDebug() << "sending item: " << story->get_item(id)->get_name();
+        qDebug() << "sending item: ";
+        qDebug() << story->get_item(id)->get_name();
       temp_item = new Item(*(story->get_item(id)));
       ds << temp_item;
     }

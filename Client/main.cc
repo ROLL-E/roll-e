@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     ClientWindow w;
     w.show();
     ServerConnection testie{};
-    testie.join("192.168.1.37","BOB!"); // ("192.168.1.35")
+    testie.join("192.168.1.36","BOB!"); // ("192.168.1.36")
     testie.clientSocket->waitForConnected();
     testie.send_message("BOB!","Hey bobo!");
     testie.send_message("Herr Man","Hey there manly her-man ;)");
