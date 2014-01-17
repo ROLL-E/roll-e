@@ -36,7 +36,8 @@ SOURCES += main.cc\
     src/Scenario.cc \
     characterdialog.cpp \
     skillmodel.cpp \
-    itemdialog.cpp
+    itemdialog.cpp \
+    startdialog.cc
 
 
 HEADERS  += serverwindow.h \
@@ -62,13 +63,15 @@ HEADERS  += serverwindow.h \
     include/GameSave.h \
     characterdialog.h \
     skillmodel.h \
-    itemdialog.h
+    itemdialog.h \
+    startdialog.h
 
 
 INCLUDEPATH += include
 FORMS    += serverwindow.ui \
     characterdialog.ui \
-    itemdialog.ui
+    itemdialog.ui \
+    startdialog.ui
 
 OTHER_FILES += \
     src/placeholder.txt

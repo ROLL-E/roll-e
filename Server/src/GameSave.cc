@@ -28,7 +28,8 @@ int GameSave::load(QString filename, Story*& story) {
   in_stream >> tag;
 
   qDebug() << "Shutting down the server.";
-  delete story; // emits serverStop
+  if (story != nullptr)
+    delete story; // emits serverStop
 
   try {
     if (tag == QString("Rules")) {

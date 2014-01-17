@@ -5,21 +5,21 @@
 #include <QStringListModel>
 #include <QAbstractItemModel>
 #include <QDebug>
+#include <QFileDialog>
 
 #include "Story.h"
 #include "Character.h"
 #include "skillmodel.h"
 #include "Item.h"
 #include "Skill.h"
+#include "GameSave.h"
+#include "startdialog.h"
 
-ServerWindow::ServerWindow(Story* the_story, QWidget *parent) :
+ServerWindow::ServerWindow( QWidget *parent) :
   QMainWindow(parent),
-  ui(new Ui::ServerWindow),
-  story(the_story)
+  ui(new Ui::ServerWindow)
 {
   ui->setupUi(this);
-
-  refresh_fields();
 
 }
 
@@ -30,10 +30,22 @@ ServerWindow::~ServerWindow()
   delete ui;
 }
 
+void ServerWindow::set_story(Story* new_story)
+{
+  story = new_story;
+}
+
+void ServerWindow::show()
+{
+  QMainWindow::show();
+  refresh_fields();
+}
+
 void ServerWindow::on_add_charButton_clicked()
 {
   characterDialog charDialog(this);
   charDialog.exec();
+  refresh_fields();
 }
 
 void ServerWindow::refresh_fields() {
@@ -46,14 +58,15 @@ void ServerWindow::refresh_fields() {
 
   QItemSelectionModel* selection = ui->char_listView->selectionModel();
 
+  strList.clear();
+  for (Character* character : story->get_characters())
+    strList.append(character->get_name());
+
+  ui->char_listView->setModel(new QStringListModel(strList));
+  ui->char_listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
   if (selection == nullptr) {
-    strList.clear();
-    for (Character* character : story->get_characters())
-      strList.append(character->get_name());
-
-    ui->char_listView->setModel(new QStringListModel(strList));
-    ui->char_listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
     ui->skills_listView->setModel(nullptr);
     ui->item_listView->setModel(nullptr);
 
@@ -64,8 +77,8 @@ void ServerWindow::refresh_fields() {
     ui->tableWidget->clear();
     ui->tableWidget->setRowCount(0);
   }
-  else {
-
+  else if (selection->currentIndex().isValid()) {
+    ui->char_listView->selectionModel()->select(selection->currentIndex(),QItemSelectionModel::Select);
     Character* character{story->get_characters().at(selection->currentIndex().row())};
 
     ui->char_nameLabel->setText(character->get_name());
@@ -113,10 +126,14 @@ void ServerWindow::on_char_listView_clicked(const QModelIndex&)
 
 void ServerWindow::on_edit_charButton_clicked()
 {
-  if(ui->char_listView->currentIndex().isValid()){
-    characterDialog charDialog(story->get_characters().at(ui->char_listView->currentIndex().row()),this);
+  QItemSelectionModel* selection = ui->char_listView->selectionModel();
+
+  if(selection->currentIndex().isValid()){
+    characterDialog charDialog(story->get_characters().at(ui->char_listView->selectionModel()->currentIndex().row()),this);
     charDialog.exec();
   }
+  else
+    qDebug() << "Not valid charindex";
 }
 
 void ServerWindow::on_pushButton_clicked()
@@ -215,4 +232,22 @@ void ServerWindow::on_item_modButton_clicked()
 
     refresh_fields();
   }
+}
+
+void ServerWindow::on_actionSave_story_triggered()
+{
+  GameSave::save(story,QFileDialog::getSaveFileName(this, "Save current story", QString(), QString()));
+}
+
+void ServerWindow::on_actionNew_story_triggered()
+{
+  StartDialog dlg(this, this);
+  dlg.exec();
+}
+
+void ServerWindow::on_actionQuit_triggered()
+{
+  if (story != nullptr)
+    delete story;
+  QApplication::instance()->quit();
 }

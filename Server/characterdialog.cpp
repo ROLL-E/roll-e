@@ -67,7 +67,9 @@ void characterDialog::on_addSkillButton_clicked()
 {
   if (!character->get_skills().contains(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex())))
     character->add_skill(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex()));
-  populate_views();
+
+  SkillModel* char_skills_model = new SkillModel(character->get_skills());
+  ui->skillListView->setModel(char_skills_model);
 }
 
 void characterDialog::populate_views()
