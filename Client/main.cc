@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
     StartDialog* start_window = new StartDialog(main_window);
 
     start_window->exec();
+    if (main_window->get_serverconnection() == nullptr)
+      return 0;
 
     main_window->show();
 

@@ -22,6 +22,12 @@ void ClientWindow::set_serverconnection(ServerConnection* new_connection) {
   connection = new_connection;
 }
 
+ServerConnection*ClientWindow::get_serverconnection()
+{
+  return connection;
+}
+
+
 void ClientWindow::refresh_fields() {
   Character* character = connection->get_controlledChar();
   QStringList strList{};

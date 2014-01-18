@@ -21,7 +21,7 @@ public:
 private:
   Ui::StartDialog *ui;
 
-  ServerConnection* connection;
+  ServerConnection* connection{nullptr};
   ClientWindow* main_window;
 
 private slots:

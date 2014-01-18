@@ -9,6 +9,7 @@ namespace Ui {
   class ClientWindow;
 }
 
+
 class ClientWindow : public QMainWindow
 {
   Q_OBJECT
@@ -19,6 +20,7 @@ public:
 
   void refresh_fields();
   void set_serverconnection(ServerConnection*);
+  ServerConnection* get_serverconnection();
 
 private:
   Ui::ClientWindow *ui;
