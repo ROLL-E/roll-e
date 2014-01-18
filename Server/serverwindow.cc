@@ -62,8 +62,6 @@ void ServerWindow::refresh_fields() {
   }
   ui->item_comboBox->setModel(new QStringListModel(strList));
 
-  if (story->myServer != nullptr)
-    ui->server_IPLabel->setText(story->myServer->serverAddress().toString());
 
   strList.clear();
   for (Skill* skill : story->get_ruleset()->get_skills()) {
@@ -346,7 +344,6 @@ void ServerWindow::on_remove_skillButton_clicked()
 void ServerWindow::on_server_startButton_clicked()
 {
     story->startServer();
-    ui->server_IPLabel->setText(story->myServer->serverAddress().toString());
     ui->server_stopButton->setEnabled(true);
     ui->server_startButton->setEnabled(false);
 }
@@ -354,7 +351,6 @@ void ServerWindow::on_server_startButton_clicked()
 void ServerWindow::on_server_stopButton_clicked()
 {
     story->stopServer();
-    ui->server_IPLabel->clear();
     ui->server_stopButton->setEnabled(false);
     ui->server_startButton->setEnabled(true);
 }
