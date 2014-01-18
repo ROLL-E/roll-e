@@ -7,6 +7,7 @@
 #include <QObject>
 
 class Character;
+class ClientWindow;
 
 struct Message {
     QString sender;
@@ -28,6 +29,7 @@ private:
 
   Character* controlledChar;
   bool joined;
+  ClientWindow* clientwindow;
 
 public:
   QTcpSocket* clientSocket; //private?
@@ -37,6 +39,7 @@ public:
   void join(QString,QString);
   bool has_joined();
   Character* get_controlledChar();
+  void set_clientwindow(ClientWindow*);
 
 public slots:
   void connected();

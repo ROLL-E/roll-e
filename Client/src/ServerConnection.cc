@@ -1,5 +1,6 @@
 #include "ServerConnection.h"
 #include "Character.h"
+#include "clientwindow.h"
 
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
@@ -23,6 +24,10 @@ void ServerConnection::send_message(QString receiver, QString message) const {
 
 Character* ServerConnection::get_controlledChar(){
     return controlledChar;
+}
+
+void ServerConnection::set_clientwindow(ClientWindow* new_window) {
+  clientwindow = new_window;
 }
 
 void ServerConnection::send_request(Request req) const {
@@ -69,11 +74,11 @@ void ServerConnection::readyRead(){
     }
     else if (token == QChar('p')) {
         in_stream >> controlledChar;
-        controlledChar->get_status();
     }
     else
         qDebug() << "Uknown message-type.";
     } while (!in_stream.atEnd());
+    clientwindow->refresh_fields();
 }
 
 bool ServerConnection::has_joined(){

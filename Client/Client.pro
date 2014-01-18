@@ -21,7 +21,8 @@ SOURCES += main.cc\
     src/Item.cc \
     src/Skill.cc \
     src/ClientInventory.cc \
-    src/placeholder.cc
+    src/placeholder.cc \
+    startdialog.cpp
 
 
 HEADERS  += clientwindow.h \
@@ -30,7 +31,9 @@ HEADERS  += clientwindow.h \
     include/Item.h \
     include/GUI.h \
     include/ClientInventory.h \
-    include/Character.h
+    include/Character.h \
+    startdialog.h
 
 INCLUDEPATH += include
-FORMS    += clientwindow.ui
+FORMS    += clientwindow.ui \
+    startdialog.ui
