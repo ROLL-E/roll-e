@@ -158,6 +158,9 @@ int main(int argc, char *argv[])
 
   StartDialog* dlg = new StartDialog(w);
   dlg->exec();
+  if (w->get_story() == nullptr)
+    return 0;
+
 
 
 

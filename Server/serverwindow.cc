@@ -134,21 +134,23 @@ void ServerWindow::on_char_listView_clicked(const QModelIndex&)
 
 void ServerWindow::on_pushButton_clicked()
 {
-  QModelIndexList rows = ui->char_listView->selectionModel()->selectedRows();
-  if (rows.size() != 0) {
-    Character* character = story->get_characters().at(rows.at(0).row());
-    if (character != nullptr) {
-      character->add_item(story->get_items().values().at(ui->item_comboBox->currentIndex())->get_id());
+  if (ui->item_comboBox->model()->rowCount() != 0) {
+    QModelIndexList rows = ui->char_listView->selectionModel()->selectedRows();
+    if (rows.size() != 0) {
+      Character* character = story->get_characters().at(rows.at(0).row());
+      if (character != nullptr) {
+        character->add_item(story->get_items().values().at(ui->item_comboBox->currentIndex())->get_id());
+      }
+      refresh_fields();
     }
-    refresh_fields();
   }
 }
 
 void ServerWindow::on_remove_itemButton_clicked()
 {
-  Character* character = story->get_characters().at(ui->char_listView->selectionModel()->currentIndex().row());
   QItemSelectionModel* selection = ui->item_listView->selectionModel();
   if (selection != nullptr && selection->currentIndex().isValid()) {
+    Character* character = story->get_characters().at(ui->char_listView->selectionModel()->currentIndex().row());
     character->remove_item(character->inventory.get_items().at(selection->currentIndex().row()));
   }
   refresh_fields();
@@ -222,7 +224,7 @@ void ServerWindow::on_pushButton_2_clicked()
 
 void ServerWindow::on_item_modButton_clicked()
 {
-  if (ui->char_listView->currentIndex().isValid() && ui->item_listView->currentIndex().isValid()) {
+  if (ui->char_listView->currentIndex().isValid() && ui->item_comboBox->currentIndex() != -1) {
 
     itemDialog mod_dialog(story->get_items().values().at(ui->item_comboBox->currentIndex()),this);
     mod_dialog.exec();
@@ -240,6 +242,8 @@ void ServerWindow::on_actionNew_story_triggered()
 {
   StartDialog dlg(this, this);
   dlg.exec();
+  update_characters();
+  refresh_fields();
 }
 
 void ServerWindow::on_actionQuit_triggered()
@@ -253,7 +257,7 @@ void ServerWindow::on_remove_charButton_clicked()
 {
   QItemSelectionModel* selection = ui->char_listView->selectionModel();
 
-  if (selection != nullptr) {
+  if (selection != nullptr && selection->currentIndex().isValid()) {
     story->remove_character(story->get_characters().at(selection->currentIndex().row()));
   }
   update_characters();
@@ -264,7 +268,7 @@ void ServerWindow::on_edit_charButton_clicked()
 {
   QItemSelectionModel* selection = ui->char_listView->selectionModel();
 
-  if(selection != nullptr){
+  if(selection != nullptr && selection->currentIndex().isValid()){
     characterDialog charDialog(story->get_characters().at(selection->currentIndex().row()),this);
     charDialog.exec();
   }
