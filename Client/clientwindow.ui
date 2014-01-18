@@ -1,24 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>ClientWindow</class>
- <widget class="QMainWindow" name="ClientWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="ClientWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>717</width>
+    <height>664</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>ClientWindow</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QListView" name="CharNameView">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QListView" name="SkillView">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>100</y>
+      <width>221</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>62</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>80</y>
+      <width>62</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Skills</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>80</y>
+      <width>62</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Inventory</string>
+    </property>
+   </widget>
+   <widget class="QListView" name="InventoryView">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>100</y>
+      <width>221</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>320</y>
+      <width>161</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selected item / skill mods</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>320</y>
+      <width>181</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selected item attributes</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>80</y>
+      <width>71</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Attributes</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="item_tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>340</y>
+      <width>201</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>Attribute</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Value</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTableWidget" name="modifers_tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>340</y>
+      <width>201</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="columnCount">
+     <number>2</number>
+    </property>
+    <column>
+     <property name="text">
+      <string>Modifier</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Value</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QTableWidget" name="attr_tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>100</y>
+      <width>201</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <column>
+     <property name="text">
+      <string>Attribute</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Value</string>
+     </property>
+    </column>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>717</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuRoll_E">
+    <property name="title">
+     <string>Roll-E</string>
+    </property>
+   </widget>
+   <addaction name="menuRoll_E"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>CharNameView</tabstop>
+  <tabstop>SkillView</tabstop>
+  <tabstop>InventoryView</tabstop>
+  <tabstop>attr_tableWidget</tabstop>
+  <tabstop>modifers_tableWidget</tabstop>
+  <tabstop>item_tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
