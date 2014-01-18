@@ -36,8 +36,8 @@ void ServerConnection::send_request(Request req) const {
 }
 
 void ServerConnection::join(QString address, QString cha){
-    //qDebug() << "connecting to host...";
-    //qDebug() << clientSocket->isValid();
+    qDebug() << "connecting to host...";
+    qDebug() << clientSocket->isValid();
     clientSocket->connectToHost(QHostAddress(address),14449);
     if(!clientSocket->waitForConnected(1000)){
         qDebug() << "connection timed out!";
