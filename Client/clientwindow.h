@@ -22,6 +22,11 @@ public:
   void set_serverconnection(ServerConnection*);
   ServerConnection* get_serverconnection();
 
+private slots:
+  void on_SkillView_clicked(const QModelIndex &index);
+
+  void on_InventoryView_clicked(const QModelIndex &index);
+
 private:
   Ui::ClientWindow *ui;
   ServerConnection* connection;

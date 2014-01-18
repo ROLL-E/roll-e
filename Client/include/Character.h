@@ -29,12 +29,14 @@ public:
   bool has_item(Item*) const;
 
   QDataStream& read_from_stream(QDataStream&);
+
+  ClientInventory inventory;
   
 private:
   QString name;
   QMap<QString, qint16> attributes;
   QList<Skill*> skills;
-  ClientInventory inventory;
+
   
 };
 

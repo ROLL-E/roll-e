@@ -22,7 +22,8 @@ SOURCES += main.cc\
     src/Skill.cc \
     src/ClientInventory.cc \
     src/placeholder.cc \
-    startdialog.cpp
+    startdialog.cpp \
+    ../Server/skillmodel.cpp
 
 
 HEADERS  += clientwindow.h \
@@ -32,7 +33,8 @@ HEADERS  += clientwindow.h \
     include/GUI.h \
     include/ClientInventory.h \
     include/Character.h \
-    startdialog.h
+    startdialog.h \
+    ../Server/skillmodel.h
 
 INCLUDEPATH += include
 FORMS    += clientwindow.ui \
