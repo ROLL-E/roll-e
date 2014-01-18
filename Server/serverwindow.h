@@ -49,6 +49,16 @@ private slots:
 
   void on_remove_charButton_clicked();
 
+  void on_remove_char_skillButton_clicked();
+
+  void on_add_skillButton_clicked();
+
+  void on_add_char_skillButton_clicked();
+
+  void on_skill_modButton_clicked();
+
+  void on_remove_skillButton_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story{nullptr};

@@ -15,8 +15,8 @@ class itemDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit itemDialog(QWidget *parent = 0);
-  itemDialog(Item* new_item, QWidget* parent = 0);
+  explicit itemDialog(QWidget *parent);
+  itemDialog(Item* new_item, QWidget* parent);
   ~itemDialog();
 
 private slots:

@@ -37,7 +37,8 @@ SOURCES += main.cc\
     characterdialog.cpp \
     skillmodel.cpp \
     itemdialog.cpp \
-    startdialog.cc
+    startdialog.cc \
+    skilldialog.cc
 
 
 HEADERS  += serverwindow.h \
@@ -64,14 +65,16 @@ HEADERS  += serverwindow.h \
     characterdialog.h \
     skillmodel.h \
     itemdialog.h \
-    startdialog.h
+    startdialog.h \
+    skilldialog.h
 
 
 INCLUDEPATH += include
 FORMS    += serverwindow.ui \
     characterdialog.ui \
     itemdialog.ui \
-    startdialog.ui
+    startdialog.ui \
+    skilldialog.ui
 
 OTHER_FILES += \
     src/placeholder.txt

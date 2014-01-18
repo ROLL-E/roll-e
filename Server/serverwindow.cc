@@ -2,6 +2,8 @@
 #include "ui_serverwindow.h"
 #include "characterdialog.h"
 #include "itemdialog.h"
+#include "startdialog.h"
+#include "skilldialog.h"
 #include <QStringListModel>
 #include <QAbstractItemModel>
 #include <QDebug>
@@ -13,7 +15,8 @@
 #include "Item.h"
 #include "Skill.h"
 #include "GameSave.h"
-#include "startdialog.h"
+
+
 
 ServerWindow::ServerWindow( QWidget *parent) :
   QMainWindow(parent),
@@ -56,6 +59,13 @@ void ServerWindow::refresh_fields() {
     strList.append(story->get_item(id)->get_name());
   }
   ui->item_comboBox->setModel(new QStringListModel(strList));
+
+  strList.clear();
+  for (Skill* skill : story->get_ruleset()->get_skills()) {
+    strList.append(skill->get_name());
+  }
+  ui->skill_comboBox->setModel(new QStringListModel(strList));
+
 
   QItemSelectionModel* selection = ui->char_listView->selectionModel();
 
@@ -138,7 +148,7 @@ void ServerWindow::on_pushButton_clicked()
     QModelIndexList rows = ui->char_listView->selectionModel()->selectedRows();
     if (rows.size() != 0) {
       Character* character = story->get_characters().at(rows.at(0).row());
-      if (character != nullptr) {
+      if (character != nullptr && character->inventory.get_items().indexOf(story->get_items().values().at(ui->item_comboBox->currentIndex())->get_id()) == -1) {
         character->add_item(story->get_items().values().at(ui->item_comboBox->currentIndex())->get_id());
       }
       refresh_fields();
@@ -272,4 +282,51 @@ void ServerWindow::on_edit_charButton_clicked()
     characterDialog charDialog(story->get_characters().at(selection->currentIndex().row()),this);
     charDialog.exec();
   }
+}
+
+void ServerWindow::on_remove_char_skillButton_clicked()
+{
+  QItemSelectionModel* selection = ui->skills_listView->selectionModel();
+  if (selection != nullptr && selection->currentIndex().isValid()) {
+    Character* character = story->get_characters().at(ui->char_listView->selectionModel()->currentIndex().row());
+    character->remove_skill(character->get_skills().at(selection->currentIndex().row()));
+  }
+  refresh_fields();
+}
+
+void ServerWindow::on_add_skillButton_clicked()
+{
+  SkillDialog dlg(this);
+  dlg.exec();
+  refresh_fields();
+}
+
+void ServerWindow::on_add_char_skillButton_clicked()
+{
+  if (ui->skill_comboBox->model()->rowCount() != 0) {
+    QModelIndexList rows = ui->char_listView->selectionModel()->selectedRows();
+    if (rows.size() != 0) {
+      Character* character = story->get_characters().at(rows.at(0).row());
+      if (character != nullptr && character->get_skills().indexOf(story->get_ruleset()->get_skills().at(ui->skill_comboBox->currentIndex())) == -1) {
+        character->add_skill(story->get_ruleset()->get_skills().at(ui->skill_comboBox->currentIndex()));
+      }
+      refresh_fields();
+    }
+  }
+}
+
+void ServerWindow::on_skill_modButton_clicked()
+{
+  if (ui->char_listView->currentIndex().isValid() && ui->skill_comboBox->currentIndex() != -1) {
+
+    SkillDialog mod_dialog(story->get_ruleset()->get_skills().at(ui->skill_comboBox->currentIndex()),this);
+    mod_dialog.exec();
+
+    refresh_fields();
+  }
+}
+
+void ServerWindow::on_remove_skillButton_clicked()
+{
+
 }
