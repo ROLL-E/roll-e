@@ -170,6 +170,8 @@ void ServerWindow::on_item_listView_clicked(const QModelIndex &index)
     return;
   Item* item  = story->get_item(inventory_items.at(index.row()));
 
+  ui->item_comboBox->setCurrentIndex(story->get_items().values().indexOf(item));
+
   if (item != nullptr) {
     int i{0};
     ui->entity_tableWidget->setRowCount(item->get_modifiers().size());
@@ -222,13 +224,7 @@ void ServerWindow::on_item_modButton_clicked()
 {
   if (ui->char_listView->currentIndex().isValid() && ui->item_listView->currentIndex().isValid()) {
 
-
-    itemDialog mod_dialog(story->get_item(
-                            story->get_characters().at(
-                              ui->char_listView->currentIndex().row())
-                            ->inventory.get_items().at(
-                              ui->item_listView->currentIndex().row())),
-                          this);
+    itemDialog mod_dialog(story->get_items().values().at(ui->item_comboBox->currentIndex()),this);
     mod_dialog.exec();
 
     refresh_fields();
