@@ -104,14 +104,15 @@ int GameSave::load(QString filename, Story*& story) {
 }
 
 int GameSave::save(Story* story, QString filename) {
-  quint16 i{0};
 
-  for (Skill* skill : story->get_ruleset()->get_skills()) {
-    for (Character* character : story->get_characters()) {
+  for (Character* character : story->get_characters()) {
+    quint16 i{0};
+    character->skill_ids.clear();
+    for (Skill* skill : story->get_ruleset()->get_skills()) {
       if (character->get_skills().indexOf(skill) != -1)
         character->skill_ids.append(i);
+      ++i;
     }
-    ++i;
   }
 
   QFile output_file(filename);

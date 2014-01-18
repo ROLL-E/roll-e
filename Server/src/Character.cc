@@ -120,6 +120,7 @@ QDataStream& Character::write_to_stream(QDataStream& ds) {
   if (dynamic_cast<QFile*>(ds.device()) != nullptr) {
     qDebug() << "skill ids";
       ds << skill_ids;
+      qDebug() << skill_ids;
       qDebug() << "after skill ids";
   }
   else {

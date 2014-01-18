@@ -47,11 +47,14 @@ private slots:
 
   void on_actionQuit_triggered();
 
+  void on_remove_charButton_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story{nullptr};
 
   void refresh_fields();
+  void update_characters();
 
 };
 
