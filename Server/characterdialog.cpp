@@ -10,7 +10,6 @@
 #include "Story.h"
 #include "Skill.h"
 #include "skillmodel.h"
-#include "attributetablemodel.h"
 
 characterDialog::characterDialog(QWidget *parent) :
   QDialog(parent),
@@ -66,9 +65,13 @@ void characterDialog::on_buttonBox_accepted()
 
 void characterDialog::on_addSkillButton_clicked()
 {
-  if (!character->get_skills().contains(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex())))
-    character->add_skill(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex()));
-  populate_views();
+  if (ui->skillsComboBox->model()->rowCount() != 0) {
+    if (!character->get_skills().contains(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex())))
+      character->add_skill(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex()));
+
+    SkillModel* char_skills_model = new SkillModel(character->get_skills());
+    ui->skillListView->setModel(char_skills_model);
+  }
 }
 
 void characterDialog::populate_views()

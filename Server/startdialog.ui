@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>startDialog</class>
- <widget class="QDialog" name="startDialog">
+ <class>StartDialog</class>
+ <widget class="QDialog" name="StartDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -13,81 +13,39 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
+  <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>240</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="loadButton">
-   <property name="geometry">
-    <rect>
-     <x>230</x>
-     <y>60</y>
+     <x>220</x>
+     <y>80</y>
      <width>131</width>
-     <height>81</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="text">
-    <string>Load from file</string>
+    <string>Load story from file</string>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>250</y>
-     <width>115</width>
-     <height>32</height>
+     <y>260</y>
+     <width>221</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="text">
-    <string>Add attribute</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>10</y>
-     <width>331</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Either enter the allowed attributes for a new story</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_2">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>30</y>
-     <width>181</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>or load a saved game</string>
+    <string>Start new story with selected attribute set</string>
    </property>
   </widget>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>70</y>
-     <width>111</width>
-     <height>171</height>
+     <y>20</y>
+     <width>141</width>
+     <height>192</height>
     </rect>
    </property>
    <column>
@@ -96,40 +54,20 @@
     </property>
    </column>
   </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>101</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Add attribute</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>startDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>startDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

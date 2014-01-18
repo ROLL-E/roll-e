@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>376</height>
+    <width>400</width>
+    <height>452</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>330</y>
-     <width>341</width>
+     <x>200</x>
+     <y>390</y>
+     <width>161</width>
      <height>32</height>
     </rect>
    </property>
@@ -29,13 +29,13 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget">
+  <widget class="QTableWidget" name="attrTableWidget">
    <property name="geometry">
     <rect>
      <x>30</x>
      <y>70</y>
      <width>281</width>
-     <height>241</height>
+     <height>121</height>
     </rect>
    </property>
    <attribute name="horizontalHeaderDefaultSectionSize">
@@ -79,7 +79,7 @@
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>310</y>
+     <y>370</y>
      <width>115</width>
      <height>32</height>
     </rect>
@@ -88,15 +88,18 @@
     <string>Add attribute</string>
    </property>
   </widget>
-  <widget class="QTableWidget" name="tableWidget_2">
+  <widget class="QTableWidget" name="modTableWidget">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>70</y>
-     <width>261</width>
-     <height>241</height>
+     <x>30</x>
+     <y>210</y>
+     <width>281</width>
+     <height>121</height>
     </rect>
    </property>
+   <attribute name="horizontalHeaderDefaultSectionSize">
+    <number>138</number>
+   </attribute>
    <column>
     <property name="text">
      <string>Modifier</string>
@@ -104,15 +107,15 @@
    </column>
    <column>
     <property name="text">
-     <string>Value</string>
+     <string> Value</string>
     </property>
    </column>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
+  <widget class="QPushButton" name="mod_addButton">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>320</y>
+     <x>30</x>
+     <y>410</y>
      <width>115</width>
      <height>32</height>
     </rect>

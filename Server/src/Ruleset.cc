@@ -33,6 +33,7 @@ void Ruleset::add_skill(Skill* new_skill) {
   allowed_skills.push_back(new_skill);
 }
 
+
 void Ruleset::remove_scenario(Scenario* scen_to_remove) {
   scenarios.removeOne(scen_to_remove);
 }

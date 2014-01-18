@@ -1,7 +1,9 @@
 #include "Skill.h"
+#include <QFile>
+#include <QDebug>
 
 QMap<QString,qint8> Skill::get_modifiers() const {
-  return modifiers;
+    return modifiers;
 }
 
 qint8 Skill::get_modifier(const QString& name) const {
@@ -9,37 +11,41 @@ qint8 Skill::get_modifier(const QString& name) const {
 }
 
 QString Skill::get_name() const {
-  return name;
+    return name;
 }
 
 void Skill::set_modifier(const QString& mod_name, qint8 value) {
-  modifiers[mod_name] = value;
+    modifiers[mod_name] = value;
 }
 
 void Skill::set_name(const QString& new_name) {
   name = new_name;
 }
 
-QDataStream& Skill::write_to_stream(QDataStream& ds) const {
-  ds << name;
-  ds << modifiers;
+void Skill::clear_modifiers()
+{
+  modifiers.clear();
+}
 
-  return ds;
+QDataStream& Skill::write_to_stream(QDataStream& ds) const {
+    qDebug() << "Writing skill: " << name;
+    ds << name;
+    ds << modifiers;
+    return ds;
 }
 
 QDataStream& Skill::read_from_stream(QDataStream& ds) {
-  ds >> name;
-  ds >> modifiers;
-
-  return ds;
+    ds >> name;
+    ds >> modifiers;
+    return ds;
 }
 
 QDataStream& operator<<(QDataStream& ds, Skill*& skill) {
-  return skill->write_to_stream(ds);
+    return skill->write_to_stream(ds);
 }
 
 QDataStream& operator>>(QDataStream& ds, Skill*& skill) {
-  skill = new Skill();
-  return skill->read_from_stream(ds);
+    skill = new Skill();
+    return skill->read_from_stream(ds);
 }
 

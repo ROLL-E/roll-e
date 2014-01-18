@@ -34,7 +34,7 @@ private:
   int fetch_attributes() const;
   int fetch_item_bonus() const;
   int fetch_skill_bonus() const;
-
+  
   int modify(int) const;
   
 public:

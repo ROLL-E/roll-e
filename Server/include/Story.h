@@ -1,5 +1,11 @@
 #ifndef STORY_H
 #define STORY_H
+#include "ClientConnection.h"
+#include "Ruleset.h"
+#include "Server.h"
+#include "Character.h"
+#include <QThread>
+#include <QObject>
 #include <QList>
 #include <QMap>
 #include "Ruleset.h"
@@ -8,10 +14,12 @@ class Item;
 class Fight;
 class Scenario;
 class Character;
+class Server;
 class Ruleset;
-class ClientConnection;
 
-class Story {
+class Story : public QObject {
+
+    Q_OBJECT
 
 private:
   QList<Character*> characters;
@@ -19,25 +27,30 @@ private:
   QList<Scenario*> current_scenarios;
   Ruleset* ruleset;
   QMap<quint16, Item*> items;
-  QList<ClientConnection*> clients;
+  QThread* netThread;
 
 public:
+  Server* myServer{};
   QMap<quint16, Scenario*> scenario_id_map;
-
   Story(Ruleset*);
+
+  ~Story();
+
+  void startServer();
+  void stopServer();
+
 
   void add_character(Character*);
   void add_scenario(Scenario*);
   void add_item(Item*);
-  void add_clientconnection(ClientConnection*);
 
   QList<Character*>& get_characters();
+  Character* get_character(QString);
   Fight* get_fight() const;
   QList<Scenario*>& get_scenarios();
   Ruleset* get_ruleset();
   QMap<quint16, Item*> get_items() const;
   Item* get_item(quint16) const;
-  QList<ClientConnection*> get_clientconnections() const;
 
   void set_fight(Fight*);
   void set_items(QMap<quint16, Item*>);
@@ -45,8 +58,9 @@ public:
   void remove_character(Character*);
   void remove_scenario(Scenario*);
   void remove_item(quint16);
-  void remove_clientconnection(ClientConnection*);
 
+signals:
+  void serverStop();
 };
 
 #endif

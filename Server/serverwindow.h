@@ -14,10 +14,12 @@ class ServerWindow : public QMainWindow
   Q_OBJECT
 
 public:
-  explicit ServerWindow(Story*, QWidget *parent = 0);
+  explicit ServerWindow( QWidget *parent = 0);
   ~ServerWindow();
   Story* get_story() { return story;}
-  void set_story(Story* new_story) {story = new_story;}
+  void set_story(Story*);
+public slots:
+  void show();
 
 private slots:
   void on_add_charButton_clicked();
@@ -37,15 +39,32 @@ private slots:
 
   void on_pushButton_2_clicked();
 
-  void on_pushButton_3_clicked();
+  void on_item_modButton_clicked();
 
-  void on_pushButton_4_clicked();
+  void on_actionSave_story_triggered();
+
+  void on_actionNew_story_triggered();
+
+  void on_actionQuit_triggered();
+
+  void on_remove_charButton_clicked();
+
+  void on_remove_char_skillButton_clicked();
+
+  void on_add_skillButton_clicked();
+
+  void on_add_char_skillButton_clicked();
+
+  void on_skill_modButton_clicked();
+
+  void on_remove_skillButton_clicked();
 
 private:
   Ui::ServerWindow *ui;
-  Story* story;
+  Story* story{nullptr};
 
-  void update_characters(int row = -1);
+  void refresh_fields();
+  void update_characters();
 
 };
 

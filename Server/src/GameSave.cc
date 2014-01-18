@@ -4,6 +4,7 @@
 #include <QMap>
 #include <iostream>
 #include <QDebug>
+#include <stdexcept>
 
 #include "Skill.h"
 #include "Story.h"
@@ -16,17 +17,19 @@
 #include "WaitBlock.h"
 
 
-void GameSave::load(QString filename, Story*& story) {
+int GameSave::load(QString filename, Story*& story) {
   QFile input_file(filename);
-  input_file.open(QIODevice::ReadOnly);
+  if (!input_file.open(QIODevice::ReadOnly))
+    return 1;
 
   QDataStream in_stream(&input_file);
 
   QString tag;
   in_stream >> tag;
 
+  qDebug() << "Shutting down the server.";
   if (story != nullptr)
-    delete story;
+    delete story; // emits serverStop
 
   try {
     if (tag == QString("Rules")) {
@@ -53,6 +56,7 @@ void GameSave::load(QString filename, Story*& story) {
 
     while (tag == QString("Char")) {
       in_stream >> current_character;
+      current_character->set_story(story);
       story->add_character(current_character);
 
       in_stream >> tag;
@@ -95,22 +99,25 @@ void GameSave::load(QString filename, Story*& story) {
 
 
   input_file.close();
-
+  qDebug() << "game successfully loaded";
+  return 0;
 }
 
-void GameSave::save(Story* story, QString filename) {
-  quint16 i{0};
+int GameSave::save(Story* story, QString filename) {
 
-  for (Skill* skill : story->get_ruleset()->get_skills()) {
-    for (Character* character : story->get_characters()) {
+  for (Character* character : story->get_characters()) {
+    quint16 i{0};
+    character->skill_ids.clear();
+    for (Skill* skill : story->get_ruleset()->get_skills()) {
       if (character->get_skills().indexOf(skill) != -1)
         character->skill_ids.append(i);
+      ++i;
     }
-    ++i;
   }
 
   QFile output_file(filename);
-  output_file.open(QIODevice::WriteOnly);
+  if (!output_file.open(QIODevice::WriteOnly))
+    return 1;
   QDataStream out_stream(&output_file);
 
   out_stream << QString("Rules");
@@ -147,5 +154,7 @@ void GameSave::save(Story* story, QString filename) {
 
   out_stream << QString("End");
   output_file.close();
+  qDebug() << "The game has been saved.";
+  return 0;
 }
 

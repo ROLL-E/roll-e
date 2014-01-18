@@ -1,7 +1,6 @@
 #include "ModifierBlock.h"
 #include "Character.h"
 
-
 using namespace std;
 
 ModifierBlock::ModifierBlock(ModifierBlock& other) : LogicBlock(){
@@ -67,10 +66,10 @@ void ModifierBlock::remove_modifier(QString name) {
 }
 
 LogicBlock* ModifierBlock::execute() {
+
   for (auto key : modifiers.keys()) {
     target->add_to_attribute(key,modifiers.value(key));
   }
-
   return this->get_next();
 }
 

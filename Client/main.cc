@@ -1,11 +1,27 @@
 #include "clientwindow.h"
+#include "ServerConnection.h"
+#include "Character.h"
+#include "Item.h"
+#include "Skill.h"
+#include "ClientInventory.h"
 #include <QApplication>
+#include <QList>
+#include <QString>
+#include <QMap>
+#include <QDebug>
+#include <chrono>
+#include <thread>
 
 int main(int argc, char *argv[])
 {
-  QApplication a(argc, argv);
-  ClientWindow w;
-  w.show();
-
-  return a.exec();
+    QApplication a(argc, argv);
+    ClientWindow w;
+    w.show();
+    ServerConnection testie{};
+    testie.join("192.168.1.36","BOB!"); // ("192.168.1.36")
+    testie.clientSocket->waitForConnected();
+    testie.send_message("BOB!","Hey bobo!");
+    testie.send_message("Herr Man","Hey there manly her-man ;)");
+    testie.send_message("System","Hello Servio!");
+    return a.exec();
 }

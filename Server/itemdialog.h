@@ -15,8 +15,8 @@ class itemDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit itemDialog(QWidget *parent = 0);
-  itemDialog(Item* new_item, QWidget* parent = 0);
+  explicit itemDialog(QWidget *parent);
+  itemDialog(Item* new_item, QWidget* parent);
   ~itemDialog();
 
 private slots:
@@ -24,12 +24,13 @@ private slots:
 
   void on_pushButton_clicked();
 
-  void on_pushButton_2_clicked();
+  void on_mod_addButton_clicked();
+
 
 private:
   Ui::itemDialog *ui;
   Story* story;
-  Item* item;
+  Item* item{nullptr};
 };
 
 #endif // ITEMDIALOG_H

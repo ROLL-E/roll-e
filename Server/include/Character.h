@@ -5,16 +5,19 @@
 #include <QList>
 #include <QDataStream>
 #include "Inventory.h"
+#include "ClientConnection.h"
 
 
 class Story;
-class ClientConnection;
 class Skill;
 
-class Character {
+class Character : public QObject {
+    Q_OBJECT
 private:
     QString name;
-    ClientConnection* client;
+
+    QPointer<ClientConnection> client;
+
     QMap<QString, qint16> attributes;
     QList<Skill*> skills;
     Story* story;
@@ -24,7 +27,7 @@ public:
 
     Inventory inventory;
     Character(QMap<QString, qint16>, quint16, Story*);
-    Character(const Character&);
+    Character(const Character&, QObject* parent = 0);
     Character() {}
 
     QString get_name() const;
@@ -34,6 +37,9 @@ public:
     void set_attribute(const QString&, qint16);
     void take_damage(const QString&, qint16);
     QList<Skill*> get_skills() const;
+    QPointer<ClientConnection> get_connection();
+    void set_connection(ClientConnection*);
+    void set_story(Story*);
 
     void add_to_attribute(const QString&, qint16);
 
@@ -46,8 +52,11 @@ public:
 
     QDataStream& write_to_stream(QDataStream&);
     QDataStream& read_from_stream(QDataStream&);
+signals:
+    void changed(Character*);
 };
 
 QDataStream& operator<<(QDataStream&, Character*&);
 QDataStream& operator>>(QDataStream&, Character*&);
+
 #endif

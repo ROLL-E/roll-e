@@ -62,21 +62,9 @@ void Item::remove_attribute(const QString& attr_to_remove) {
     throw invalid_argument("Attribute does not exist");
 }
 
-void Item::clear_modifiers(){
-  modifiers.clear();
-}
-
-void Item::clear_attributes(){
-  attributes.clear();
-}
-
 void Item::remove_modifier(const QString& mod_to_remove) {
   if (modifiers.remove(mod_to_remove) == 0)
     throw invalid_argument("Modifier does not exist");
-}
-
-qint16 Item::get_attribute(const QString& name) const{
-    return attributes.value(name,0);
 }
 
 QDataStream& Item::read_from_stream(QDataStream& ds) {
@@ -86,22 +74,7 @@ QDataStream& Item::read_from_stream(QDataStream& ds) {
   return ds;
 }
 
-QDataStream& Item::write_to_stream(QDataStream& ds) const{
-
-    qDebug() << "In item write";
-  ds << name;
-  ds << modifiers;
-  ds << attributes;
-
-  return ds;
-}
-
-QDataStream& operator<<(QDataStream& ds, Item*& item) {
-  return item->write_to_stream(ds);
-}
 
 QDataStream& operator>>(QDataStream& ds, Item*& item) {
   return item->read_from_stream(ds);
 }
-
-

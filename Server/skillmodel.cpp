@@ -7,7 +7,7 @@ SkillModel::SkillModel(QObject *parent) :
 
 }
 
-int SkillModel::rowCount(const QModelIndex &parent) const {
+int SkillModel::rowCount(const QModelIndex &) const {
   return skills.size();
 }
 

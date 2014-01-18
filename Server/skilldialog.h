@@ -3,33 +3,31 @@
 
 #include <QDialog>
 
+namespace Ui {
+  class SkillDialog;
+}
 
 class Skill;
 class Story;
 
-namespace Ui {
-class skillDialog;
-}
-
-class skillDialog : public QDialog
+class SkillDialog : public QDialog
 {
   Q_OBJECT
 
 public:
-  explicit skillDialog(QWidget *parent = 0);
-  skillDialog(Skill* new_skill, QWidget* parent = 0);
-  ~skillDialog();
+  explicit SkillDialog(QWidget *parent);
+  SkillDialog(Skill* new_skill,QWidget *parent);
+  ~SkillDialog();
 
 private slots:
-  void on_pushButton_clicked();
-
   void on_buttonBox_accepted();
 
-private:
-  Ui::skillDialog *ui;
-  Story* story;
-  Skill* skill;
+  void on_pushButton_clicked();
 
+private:
+  Ui::SkillDialog *ui;
+  Skill* skill{nullptr};
+  Story* story{nullptr};
 };
 
 #endif // SKILLDIALOG_H
