@@ -45,6 +45,7 @@ public:
     Message* get_message_from_buffer();
     void push_data(Story*);
     Request* get_request_from_buffer();
+    QHostAddress get_address();
 
 signals:
     void disconnected();

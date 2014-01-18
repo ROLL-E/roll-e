@@ -16,6 +16,7 @@
 #include "Item.h"
 #include "Skill.h"
 #include "GameSave.h"
+#include "ClientConnection.h"
 
 
 
@@ -61,6 +62,9 @@ void ServerWindow::refresh_fields() {
   }
   ui->item_comboBox->setModel(new QStringListModel(strList));
 
+  if (story->myServer != nullptr)
+    ui->server_IPLabel->setText(story->myServer->serverAddress().toString());
+
   strList.clear();
   for (Skill* skill : story->get_ruleset()->get_skills()) {
     strList.append(skill->get_name());
@@ -92,6 +96,11 @@ void ServerWindow::refresh_fields() {
     ui->char_nameLabel->setText(character->get_name());
     ui->max_weightLabel->setText(QString::number(character->inventory.get_max_weight()));
     ui->curr_weightLabel->setText(QString::number(character->inventory.get_weight()));
+
+    if (character->get_connection().isNull())
+      ui->clientIPLabel->setText("Controlled by GM");
+    else
+      ui->clientIPLabel->setText(character->get_connection().data()->get_address().toString());
 
     ui->attr_tableWidget->setRowCount(character->get_attributes().size());
     for (int i{0}; i< character->get_attributes().size(); ++i) {
@@ -332,3 +341,20 @@ void ServerWindow::on_remove_skillButton_clicked()
 
 }
 
+
+
+void ServerWindow::on_server_startButton_clicked()
+{
+    story->startServer();
+    ui->server_IPLabel->setText(story->myServer->serverAddress().toString());
+    ui->server_stopButton->setEnabled(true);
+    ui->server_startButton->setEnabled(false);
+}
+
+void ServerWindow::on_server_stopButton_clicked()
+{
+    story->stopServer();
+    ui->server_IPLabel->clear();
+    ui->server_stopButton->setEnabled(false);
+    ui->server_startButton->setEnabled(true);
+}

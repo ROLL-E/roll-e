@@ -87,5 +87,10 @@ Request* ClientConnection::get_request_from_buffer(){
     if(!request_buffer.empty())
         return request_buffer.takeFirst();
     else
-        return nullptr;
+      return nullptr;
+}
+
+QHostAddress ClientConnection::get_address()
+{
+  return clientSocket->localAddress();
 }
