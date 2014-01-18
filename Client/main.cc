@@ -1,4 +1,5 @@
 #include "clientwindow.h"
+#include "startdialog.h"
 #include "ServerConnection.h"
 #include "Character.h"
 #include "Item.h"
@@ -15,13 +16,15 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    ClientWindow w;
-    w.show();
-    ServerConnection testie{};
-    testie.join("192.168.1.36","BOB!"); // ("192.168.1.36")
-    testie.clientSocket->waitForConnected();
-    testie.send_message("BOB!","Hey bobo!");
-    testie.send_message("Herr Man","Hey there manly her-man ;)");
-    testie.send_message("System","Hello Servio!");
+
+
+    ClientWindow* main_window = new ClientWindow();
+
+    StartDialog* start_window = new StartDialog(main_window);
+
+    start_window->exec();
+
+    main_window->show();
+
     return a.exec();
 }

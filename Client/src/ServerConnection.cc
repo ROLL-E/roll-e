@@ -1,5 +1,6 @@
 #include "ServerConnection.h"
 #include "Character.h"
+#include "clientwindow.h"
 
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
@@ -25,14 +26,18 @@ Character* ServerConnection::get_controlledChar(){
     return controlledChar;
 }
 
+void ServerConnection::set_clientwindow(ClientWindow* new_window) {
+  clientwindow = new_window;
+}
+
 void ServerConnection::send_request(Request req) const {
     QDataStream out_stream(clientSocket);
     out_stream << QChar('r') << req;
 }
 
 void ServerConnection::join(QString address, QString cha){
-    qDebug() << "connecting to host...";
-    qDebug() << clientSocket->isValid();
+    //qDebug() << "connecting to host...";
+    //qDebug() << clientSocket->isValid();
     clientSocket->connectToHost(QHostAddress(address),14449);
     if(!clientSocket->waitForConnected(1000)){
         qDebug() << "connection timed out!";
@@ -69,11 +74,11 @@ void ServerConnection::readyRead(){
     }
     else if (token == QChar('p')) {
         in_stream >> controlledChar;
-        controlledChar->get_status();
     }
     else
         qDebug() << "Uknown message-type.";
     } while (!in_stream.atEnd());
+    clientwindow->refresh_fields();
 }
 
 bool ServerConnection::has_joined(){

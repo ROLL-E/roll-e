@@ -18,6 +18,7 @@ public:
   QString get_name() const;
   void set_name(const QString&);
   qint16 get_attribute(const QString&) const;
+  QMap<QString, qint16> get_attributes() const;
   void set_attribute(const QString&, qint16);
   void add_to_attribute(const QString&, qint16);
   QList<Skill*> get_skills() const;

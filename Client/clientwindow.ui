@@ -14,16 +14,6 @@
    <string>ClientWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QListView" name="CharNameView">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>221</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QListView" name="SkillView">
     <property name="geometry">
      <rect>
@@ -38,13 +28,13 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>10</y>
+      <y>40</y>
       <width>62</width>
       <height>19</height>
      </rect>
     </property>
     <property name="text">
-     <string>Name</string>
+     <string>Name: </string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -185,6 +175,19 @@
      </property>
     </column>
    </widget>
+   <widget class="QLabel" name="name_label">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>40</y>
+      <width>62</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -214,7 +217,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>CharNameView</tabstop>
   <tabstop>SkillView</tabstop>
   <tabstop>InventoryView</tabstop>
   <tabstop>attr_tableWidget</tabstop>
