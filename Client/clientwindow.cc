@@ -20,6 +20,7 @@ ClientWindow::~ClientWindow()
 
 void ClientWindow::set_serverconnection(ServerConnection* new_connection) {
   connection = new_connection;
+  connection->set_clientwindow(this);
 }
 
 ServerConnection*ClientWindow::get_serverconnection()
