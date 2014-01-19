@@ -151,7 +151,6 @@ void ValueBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Chara
 
 int ValueBlock::roll() const {
   int temp{0};
-  //srand(time(NULL));
   for (int i{0}; i < number ; ++i)
     temp += (rand() % sides) + 1;
   qDebug() << temp;
