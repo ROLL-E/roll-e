@@ -26,8 +26,6 @@ signals:
 private slots:
   void on_buttonBox_accepted();
 
-  void on_addSkillButton_clicked();
-
 private:
   Ui::characterDialog *ui;
   Story* story;
