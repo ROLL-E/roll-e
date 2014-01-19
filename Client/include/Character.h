@@ -11,6 +11,10 @@
 #include "ClientInventory.h"
 
 class Character {
+private:
+  QString name;
+  QMap<QString, qint16> attributes;
+  QList<Skill*> skills;
 public:
   Character(QMap<QString,qint16>, quint16);
   Character(const Character&);
@@ -31,11 +35,7 @@ public:
   QDataStream& read_from_stream(QDataStream&);
 
   ClientInventory inventory;
-  
-private:
-  QString name;
-  QMap<QString, qint16> attributes;
-  QList<Skill*> skills;
+
 
   
 };

@@ -5,21 +5,13 @@
 
 ServerConnection::ServerConnection(QObject* parent) : QObject(parent) {
     clientSocket = new QTcpSocket{this};
-    //just in case
+    // Just in case the buffer isn't already empty
     clientSocket->flush();
     controlledChar = new Character(*(new QMap<QString,qint16>),0);
     controlledChar->set_name("Legion");
-    joined = false;
     connect(clientSocket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(clientSocket, SIGNAL(connected()), this, SLOT(connected()));
     connect(clientSocket, SIGNAL(disconnected()), this, SLOT(disconnected()));
-}
-
-void ServerConnection::send_message(QString receiver, QString message) const {
-    QDataStream out_stream(clientSocket);
-    Message msg{controlledChar->get_name(),receiver,message};
-    out_stream << QChar('m') << msg;
-
 }
 
 Character* ServerConnection::get_controlledChar(){
@@ -37,10 +29,9 @@ void ServerConnection::send_request(Request req) const {
 
 void ServerConnection::join(QString address, QString cha){
     qDebug() << "connecting to host...";
-    qDebug() << clientSocket->isValid();
     clientSocket->connectToHost(QHostAddress(address),14449);
     if(!clientSocket->waitForConnected(1000)){
-        qDebug() << "connection timed out!";
+        qDebug() << "connection timed out!"; // error throw?
     } else {
         qDebug() << "requesting to join as character: " << cha;
         send_request(Request{"Join",cha,0});
@@ -57,7 +48,6 @@ void ServerConnection::disconnected(){
 }
 
 void ServerConnection::readyRead(){
-    qDebug("readyRead called!");
     QChar token;
     QDataStream in_stream(clientSocket);
     do {
@@ -76,13 +66,15 @@ void ServerConnection::readyRead(){
         in_stream >> controlledChar;
     }
     else
-        qDebug() << "Uknown message-type.";
+        qDebug() << "Uknown message-type."; // error throw
     } while (!in_stream.atEnd());
     clientwindow->refresh_fields();
 }
 
-bool ServerConnection::has_joined(){
-    return joined;
+void ServerConnection::send_message(QString receiver, QString message) const {
+    QDataStream out_stream(clientSocket);
+    Message msg{controlledChar->get_name(),receiver,message};
+    out_stream << QChar('m') << msg;
 }
 
 QDataStream& operator<<(QDataStream& out, Message& msg) {

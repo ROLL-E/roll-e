@@ -39,6 +39,7 @@ private:
 
 public:
     QTcpSocket* clientSocket;
+    void disconnect();
     explicit ClientConnection(QTcpSocket*,QObject* parent = 0);
     void send_message(Message);
 

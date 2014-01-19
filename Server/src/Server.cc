@@ -34,6 +34,10 @@ void Server::newConnection() {
     connect(clients.first(), SIGNAL(disconnected()), this, SLOT(client_disconnected()));
 }
 
+void Server::closeConnection(ClientConnection* connection){
+    connection->disconnect();
+}
+
 void Server::client_disconnected(){
     qDebug() << "A client has disconnected!";
 }
