@@ -22,12 +22,14 @@ void WaitBlock::populate_pointer_fields(QList<LogicBlock*>& blocks, QList<Charac
 }
 
 LogicBlock* WaitBlock::execute() {
+    return this->get_next();
+    //temporary solution as fight is not fully implemented yet
 
-    if (wait_counter == wait_turns - 1)
-        return this->get_next();
-    else
-        wait_counter++;
-    return this;
+//    if (wait_counter == wait_turns - 1)
+//        return this->get_next();
+//    else
+//        wait_counter++;
+//    return this;
 }
 
 QDataStream& WaitBlock::write_to_stream(QDataStream & ds) {

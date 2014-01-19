@@ -33,8 +33,10 @@ SOURCES += main.cpp \
     ../Server/src/Scenario.cc \
     ../Server/src/ModifierBlock.cc \
     ../Server/src/Fight.cc \
+    ../Server/src/Server.cc \
+    ../Server/src/ClientConnection.cc \
     itemmodel.cpp \
-    skillmodel.cpp
+    skillmodel_QML.cpp
 
 # Installation path
 # target.path =
@@ -71,7 +73,9 @@ HEADERS += \
     ../Server/include/Ruleset.h \
     ../Server/include/Item.h \
     ../Server/include/Inventory.h \
+    ../Server/include/Server.h \
+    ../Server/include/ClientConnection.h \
     itemmodel.h \
-    skillmodel.h
+    skillmodel_QML.h
 
 INCLUDEPATH += ../Server/include

@@ -123,6 +123,7 @@ void Server::join_request(){
                 requested_char->set_connection(joiner.first);
                 requested_char->get_connection()->send_message(Message{"System",requested_char->get_name(),"Welcome!"});
                 qDebug()  << "Legion has taken control of " << requested_char->get_name();
+                emit client_took_control();
             } else
                 joiner.first->send_message(Message{"System",requested_char->get_name(), " is not available."});
         }

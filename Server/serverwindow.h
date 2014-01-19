@@ -2,6 +2,8 @@
 #define SERVERWINDOW_H
 
 #include <QMainWindow>
+#include <QtQml>
+#include "qtquick2applicationviewer.h"
 
 class Story;
 
@@ -20,6 +22,7 @@ public:
   void set_story(Story*);
 public slots:
   void show();
+  void refresh_fields();
 
 private slots:
   void on_add_charButton_clicked();
@@ -65,12 +68,17 @@ private slots:
 
   void on_kick_button_clicked();
 
+  void on_scenario_runButton_clicked();
+
+  void on_scenario_addButton_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story{nullptr};
+  QtQuick2ApplicationViewer viewer;
 
-  void refresh_fields();
   void update_characters();
+
 
 };
 

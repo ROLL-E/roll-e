@@ -4,8 +4,17 @@
 #
 #-------------------------------------------------
 
+# Add more folders to ship with the application, here
+folder_01.source = qml/GUI-Scenario
+folder_01.target = qml
+DEPLOYMENTFOLDERS = folder_01
+
+# Additional import path used to resolve QML modules in Creator's code model
+QML_IMPORT_PATH =
+
 QT       += core gui
 QT       += network
+QT       += qml
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,12 +43,18 @@ SOURCES += main.cc\
     src/GameSave.cc \
     src/Skill.cc \
     src/Scenario.cc \
+    src/scenariocontroller.cpp \
+    src/itemmodel.cpp \
+    src/skillmodel_QML.cpp \
     characterdialog.cpp \
     skillmodel.cpp \
     itemdialog.cpp \
     startdialog.cc \
     skilldialog.cc
 
+# Please do not modify the following two lines. Required for deployment.
+include(qtquick2applicationviewer/qtquick2applicationviewer.pri)
+qtcAddDeployment()
 
 
 HEADERS  += serverwindow.h \
@@ -63,6 +78,9 @@ HEADERS  += serverwindow.h \
     include/ActiveItem.h \
     include/Server.h \
     include/GameSave.h \
+    include/scenariocontroller.h \
+    include/itemmodel.h \
+    include/skillmodel_QML.h \
     characterdialog.h \
     skillmodel.h \
     itemdialog.h \

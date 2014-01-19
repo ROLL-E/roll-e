@@ -76,6 +76,15 @@ bool Scenario::empty() const {
     return (next_block == nullptr);
 }
 
+QString Scenario::get_name()
+{
+    return name;
+}
+
+void Scenario::set_name(QString new_name) {
+    name = new_name;
+}
+
 QDataStream& Scenario::write_to_stream(QDataStream& ds) {
 
 

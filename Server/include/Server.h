@@ -32,6 +32,7 @@ signals:
   void got_message();
   void got_request();
   void got_join_request();
+  void client_took_control();
 
 public slots:
   void closeConnection(ClientConnection*);

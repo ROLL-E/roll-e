@@ -55,7 +55,8 @@ int main(int argc, char *argv[])
     //from other main
 
     QList<QString> attr_list{"health", "armor", "strength"};
-    Ruleset rs(attr_list);
+    Ruleset *rs;
+    rs = new Ruleset(attr_list);
 
     Story* main_story = new Story(rs);
 
@@ -95,21 +96,19 @@ int main(int argc, char *argv[])
     main_story->add_character(herman);
     herman->set_name("Herr Man");
 
-    rs.add_skill(new Skill("Break those cuffs"));
-    rs.add_skill(new Skill("Eat horse"));
-    rs.get_skills().at(0)->set_modifier("int", 10);
-    rs.get_skills().at(0)->set_modifier("str", 11);
-    rs.get_skills().at(1)->set_modifier("int" , 5);
-    rs.get_skills().at(1)->set_modifier("str", 25);
-    bob->add_skill(rs.get_skills().at(0));
-    bob->add_skill(rs.get_skills().at(1));
+    rs->add_skill(new Skill("Break those cuffs"));
+    rs->add_skill(new Skill("Eat horse"));
+    rs->get_skills().at(0)->set_modifier("int", 10);
+    rs->get_skills().at(0)->set_modifier("str", 11);
+    rs->get_skills().at(1)->set_modifier("int" , 5);
+    rs->get_skills().at(1)->set_modifier("str", 25);
+    bob->add_skill(rs->get_skills().at(0));
+    bob->add_skill(rs->get_skills().at(1));
 
 
-    herman->add_skill(rs.get_skills().at(1));
+    herman->add_skill(rs->get_skills().at(1));
 
 
-    // create a controller
-    ScenarioController controller{herman, main_story->get_characters(),main_story->get_items(),rs.get_skills(),rs.get_attributes()};
 
     //connect signals from QML
 
@@ -154,14 +153,14 @@ int main(int argc, char *argv[])
 
     QtQuick2ApplicationViewer viewer;
 
+    // create a controller
+    ScenarioController controller{herman, main_story->get_characters(),main_story->get_items(),rs->get_skills(),rs->get_attributes()};
+
     // export instance to qml
     QQmlContext *ctxt = viewer.rootContext();
     ctxt->setContextProperty("controller", &controller);
-
-
     viewer.setMainQmlFile(QStringLiteral("qml/GUI-Scenario/main.qml"));
     viewer.showExpanded();
-
 
 
 

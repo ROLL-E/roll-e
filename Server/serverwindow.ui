@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
+    <width>995</width>
     <height>704</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>575</width>
+      <width>488</width>
       <height>627</height>
      </rect>
     </property>
@@ -210,6 +210,12 @@
        </item>
        <item>
         <widget class="QTableWidget" name="entity_tableWidget">
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>144</number>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
          <column>
           <property name="text">
            <string>Modifier</string>
@@ -254,6 +260,12 @@
        </item>
        <item>
         <widget class="QTableWidget" name="tableWidget">
+         <attribute name="horizontalHeaderDefaultSectionSize">
+          <number>144</number>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
          <column>
           <property name="text">
            <string>Attribute</string>
@@ -273,10 +285,10 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>50</y>
-      <width>371</width>
-      <height>397</height>
+      <x>510</x>
+      <y>10</y>
+      <width>465</width>
+      <height>466</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -369,7 +381,7 @@
            <item>
             <widget class="QLabel" name="label">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -411,7 +423,7 @@
            <item>
             <widget class="QLabel" name="label_3">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -468,7 +480,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_7">
              <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
@@ -487,6 +499,12 @@
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="text">
               <string>Max weight</string>
              </property>
@@ -505,6 +523,48 @@
        </item>
       </layout>
      </item>
+     <item>
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>Scenario</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="scenario_addButton">
+       <property name="text">
+        <string>Add new scenario</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <widget class="QPushButton" name="scenario_runButton">
+           <property name="text">
+            <string>Run Scenario</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="scenario_editButton">
+           <property name="text">
+            <string>Edit Scenario</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QComboBox" name="scenario_comboBox"/>
+       </item>
+      </layout>
+     </item>
     </layout>
    </widget>
   </widget>
@@ -513,8 +573,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>920</width>
-     <height>22</height>
+     <width>995</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

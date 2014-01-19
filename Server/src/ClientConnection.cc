@@ -95,5 +95,5 @@ Request* ClientConnection::get_request_from_buffer(){
 
 QHostAddress ClientConnection::get_address()
 {
-  return clientSocket->localAddress();
+  return clientSocket->peerAddress();
 }
