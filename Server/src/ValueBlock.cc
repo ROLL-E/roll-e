@@ -154,6 +154,7 @@ int ValueBlock::roll() const {
   //srand(time(NULL));
   for (int i{0}; i < number ; ++i)
     temp += (rand() % sides) + 1;
+  qDebug() << temp;
   return temp;
 }
 
@@ -195,6 +196,7 @@ LogicBlock* ValueBlock::execute() {
     value = roll();
   }
   else if (intention == 'a') {
+    value = 0;
     value += fetch_attributes();
     value += fetch_item_bonus();
     value += fetch_skill_bonus();
