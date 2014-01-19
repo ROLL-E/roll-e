@@ -153,7 +153,6 @@ int ValueBlock::roll() const {
   int temp{0};
   for (int i{0}; i < number ; ++i)
     temp += (rand() % sides) + 1;
-  qDebug() << temp;
   return temp;
 }
 
