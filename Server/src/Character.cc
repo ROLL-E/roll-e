@@ -31,6 +31,7 @@ void Character::set_connection(ClientConnection* connection){
     client = connection;
     if(client != nullptr){
     connect(this,SIGNAL(changed(Character*)),client,SLOT(push_data(Character*)));
+    connect(connection, SIGNAL(disconnected()), this, SLOT(reset_connection()));
     emit changed(this);
     }
 }
@@ -145,6 +146,11 @@ QDataStream& Character::read_from_stream(QDataStream& ds) {
   ds >> skill_ids;
 
   return ds;
+}
+
+void Character::reset_connection()
+{
+   client = nullptr;
 }
 
 QDataStream& operator<<(QDataStream& out_stream, Character*& character) {

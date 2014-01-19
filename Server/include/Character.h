@@ -52,6 +52,9 @@ public:
 
     QDataStream& write_to_stream(QDataStream&);
     QDataStream& read_from_stream(QDataStream&);
+
+public slots:
+    void reset_connection();
 signals:
     void changed(Character*);
 };

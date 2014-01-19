@@ -354,3 +354,12 @@ void ServerWindow::on_server_stopButton_clicked()
     ui->server_stopButton->setEnabled(false);
     ui->server_startButton->setEnabled(true);
 }
+
+void ServerWindow::on_pushButton_4_clicked()
+{
+    QItemSelectionModel* selection = ui->char_listView->selectionModel();
+    if (selection != nullptr && selection->currentIndex().isValid()) {
+         story->myServer->closeConnection(story->myServer->clients.at(selection->currentIndex().row()));
+    }
+    refresh_fields();
+}

@@ -38,7 +38,7 @@ public slots:
   void stopServer();
   void redirect_messages();
   void newConnection();
-  void client_disconnected();
+  void client_disconnected(QPointer<ClientConnection>);
   void start();
   void update_messages_and_requests(ClientConnection*);
   void join_request();

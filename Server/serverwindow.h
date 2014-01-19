@@ -63,6 +63,8 @@ private slots:
 
   void on_server_stopButton_clicked();
 
+  void on_pushButton_4_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story{nullptr};
