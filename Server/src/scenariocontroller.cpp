@@ -204,7 +204,7 @@ void ScenarioController::remove_skill_valueblock(int skill, int blocknr)
     qDebug() << "Skill, remove" << skill << blocknr;
 
     try {
-        dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_skill(skill_map_[skill]);
+        //dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_skill(skill_map_[skill]);
     }catch (logicblock_error e) {
         qDebug() << e.what();
     }
@@ -231,7 +231,7 @@ void ScenarioController::remove_item_valueblock(QString item, int id, int blockn
 
     try {
         // does not make sense... int as key? WHY?
-        dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_item(id);
+        //dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_item(id);
     }catch (logicblock_error e) {
         qDebug() << e.what();
     }
