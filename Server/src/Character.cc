@@ -67,16 +67,7 @@ void Character::add_to_attribute(const QString& attr_name, qint16 value) {
 }
 
 void Character::take_damage(const QString& type, qint16 amount) {
-  //TODO add the handling
-  // placeholder for testing:
-  if (attributes.count("health") == 1) {
-    if (type == "blunt") {
-      if (attributes.count("armor") == 1)
-        attributes["health"] -= amount - attributes["armor"];
-    }
-    else
-      attributes["health"] -= amount;
-  }
+  attributes["health"] -= amount;
   emit changed(this);
 }
 

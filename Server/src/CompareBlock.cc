@@ -81,11 +81,3 @@ QDataStream& CompareBlock::read_from_stream(QDataStream& ds) {
   ds >> rhs_id;
   return ds;
 }
-
-//QDataStream& operator<<(QDataStream& ds, CompareBlock*& block) {
-//  return block->write_to_stream(ds);
-//}
-
-//QDataStream& operator>>(QDataStream& ds, CompareBlock*& block) {
-//  return block->read_from_stream(ds);
-//}

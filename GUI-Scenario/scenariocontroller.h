@@ -124,6 +124,8 @@ signals:
     void attributesChanged();
     void character_list_changed();
 
+    void nameChanged();
+
 };
 
 #endif // SCENARIOCONTROLLER_H

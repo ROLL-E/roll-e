@@ -37,8 +37,5 @@ public:
 };
 
 
-//QDataStream& operator<<(QDataStream&, CompareBlock*&);
-//QDataStream& operator>>(QDataStream&, CompareBlock*&);
-
 
 #endif

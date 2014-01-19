@@ -24,8 +24,6 @@ void Server::stopServer(){
 
 
 void Server::newConnection() {
-    //prompt gamemaster for permission?
-    qDebug() << "New connection!";
     clients.prepend(new ClientConnection(nextPendingConnection()));
 
     connect(clients.first(), SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
@@ -40,8 +38,6 @@ void Server::closeConnection(ClientConnection* connection){
 }
 
 void Server::client_disconnected(ClientConnection* connection){
-    qDebug() << "A client has disconnected!";
-
     clients.removeOne(connection);
     delete connection;
 }
@@ -88,10 +84,7 @@ void Server::update_messages_and_requests(ClientConnection* client){
 
 void Server::start(){
     if(!listen(QHostAddress::Any,14449)){
-        qDebug() << "Server could not listen...";
         throw(std::runtime_error{"Fatal error: could not initiate server."});
-    } else {
-        qDebug() << "Server is listening.";
     }
 }
 
@@ -105,8 +98,6 @@ void Server::redirect_messages(){
             ClientConnection* reconnection = receiver->get_connection();
             if(reconnection != nullptr)
                 reconnection->send_message(*msg);
-            else
-                qDebug() << msg->sender << " says " << msg->message << " to " << msg->receiver;
         }
     }
 }
@@ -122,7 +113,6 @@ void Server::join_request(){
             if(requested_char->get_connection() == nullptr){
                 requested_char->set_connection(joiner.first);
                 requested_char->get_connection()->send_message(Message{"System",requested_char->get_name(),"Welcome!"});
-                qDebug()  << "Legion has taken control of " << requested_char->get_name();
                 emit client_took_control();
             } else
                 joiner.first->send_message(Message{"System",requested_char->get_name(), " is not available."});

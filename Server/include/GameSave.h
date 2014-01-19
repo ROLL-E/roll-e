@@ -5,10 +5,6 @@
 class Story;
 
 class GameSave {
-private:
-  // Will probably require Skills and Scenarios, as well as blocks,
-  // to be identified by an id
-
 
 public:
   static int load(QString, Story*&); // Loads the loaded file into a Story

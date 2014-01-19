@@ -28,7 +28,6 @@ void Skill::clear_modifiers()
 }
 
 QDataStream& Skill::write_to_stream(QDataStream& ds) const {
-    qDebug() << "Writing skill: " << name;
     ds << name;
     ds << modifiers;
     return ds;

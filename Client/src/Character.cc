@@ -13,26 +13,6 @@ Character::Character(const Character& other)
     inventory(other.inventory) {
 }
 
-// For debugging purposes
-//void Character::get_status(){
-//    qDebug() << name;
-//    for(auto key : attributes.keys()){
-//        qDebug() << key << attributes.value(key);
-//    }
-//    for(Item* item : inventory.get_items()){
-//        qDebug() << item->get_name();
-//    }
-//    for(Item* item : inventory.get_equipped()){
-//        qDebug() << item->get_name();
-//    }
-//    qDebug() << inventory.get_max_weight();
-//    qDebug() << inventory.get_items().size();
-//    qDebug() << inventory.get_weight();
-//    for(Skill* skill : skills){
-//        qDebug() << skill->get_name();
-//    }
-//}
-
 QString Character::get_name() const {
   return name;
 }
@@ -66,7 +46,7 @@ void Character::add_skill(Skill* new_skill) {
 }
 
 void Character::remove_skill(Skill* skill_to_remove) {
-  skills.removeOne(skill_to_remove); // won't this destroy the skill itself, since remove calls the element's destructor?
+  skills.removeOne(skill_to_remove);
 }
 
 void Character::add_item(Item* new_item) {

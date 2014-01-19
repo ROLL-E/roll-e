@@ -28,7 +28,7 @@ public:
 
   void set_name(const QString&);
   void set_modifier(const QString&,qint8);
-  void set_id(int); //shouldn't really be allowed to change
+  void set_id(int);
   void set_attribute(const QString&, qint16);
 
   void remove_modifier(const QString&);

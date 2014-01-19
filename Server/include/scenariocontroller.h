@@ -21,7 +21,6 @@ class ScenarioController : public QObject
     Q_OBJECT
     Q_PROPERTY(bool showEditor READ showEditor WRITE set_showEditor NOTIFY editorChanged)
     Q_PROPERTY(QVariant all_characters READ all_characters NOTIFY character_list_changed)
-    //TODO: add models for attributes
     Q_PROPERTY(QVariant items READ items NOTIFY itemsChanged)
     Q_PROPERTY(QVariant skills READ skills NOTIFY skillsChanged)
     Q_PROPERTY(QVariant attributes READ attributes NOTIFY attributesChanged)
@@ -36,6 +35,7 @@ public:
 
 
     // functions invokable in QML
+    Q_INVOKABLE void set_name(QString name) { current_scenario_->set_name(name); emit nameChanged(); }
     Q_INVOKABLE void set_active_block_number(int number) {qDebug() << "active block is set to number " << number; active_block_number_ = number;}
 
     Q_INVOKABLE void edit_valueblock(QString stat, bool intent, int blocknr);
@@ -126,6 +126,7 @@ signals:
     void attributesChanged();
     void character_list_changed();
 
+    void nameChanged();
 };
 
 #endif // SCENARIOCONTROLLER_H
