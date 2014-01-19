@@ -552,13 +552,6 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="scenario_editButton">
-           <property name="text">
-            <string>Edit Scenario</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QPushButton" name="scenario_removeButton">
            <property name="text">
             <string>Remove Scenario</string>
