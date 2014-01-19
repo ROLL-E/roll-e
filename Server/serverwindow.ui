@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>488</width>
+      <width>575</width>
       <height>627</height>
      </rect>
     </property>
@@ -130,7 +130,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
+        <widget class="QPushButton" name="remove_item_from_gameButton">
          <property name="text">
           <string>Remove item in dropdown from game</string>
          </property>
@@ -285,10 +285,10 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>590</x>
       <y>10</y>
       <width>465</width>
-      <height>466</height>
+      <height>546</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -574,7 +574,7 @@
      <x>0</x>
      <y>0</y>
      <width>995</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

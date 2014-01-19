@@ -355,6 +355,20 @@ void ServerWindow::on_skill_modButton_clicked()
 
 void ServerWindow::on_remove_skillButton_clicked()
 {
+  if (ui->skill_comboBox->currentIndex() != -1) {
+
+    Skill* current_skill = story->get_ruleset()->get_skills().at(ui->skill_comboBox->currentIndex());
+
+    for (Character* character : story->get_characters()) {
+      for (Skill* skill : character->get_skills()) {
+        if (skill == current_skill)
+          character->remove_skill(skill);
+      }
+    }
+
+    story->get_ruleset()->remove_skill(current_skill);
+    refresh_fields();
+  }
 
 }
 
@@ -415,3 +429,20 @@ void ServerWindow::on_scenario_addButton_clicked()
 
 }
 
+
+void ServerWindow::on_remove_item_from_gameButton_clicked()
+{
+  if (ui->item_comboBox->currentIndex() != -1) {
+
+    Item* current_item = story->get_items().values().at(ui->item_comboBox->currentIndex());
+
+    for (Character* character : story->get_characters()) {
+      for (Item* item : story->get_items().values()) {
+        if (item == current_item)
+          character->inventory.remove_item(item->get_id());
+      }
+    }
+   story->remove_item(current_item->get_id());
+   refresh_fields();
+  }
+}
