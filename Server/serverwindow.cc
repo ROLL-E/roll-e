@@ -417,6 +417,8 @@ void ServerWindow::on_scenario_addButton_clicked()
    if (selection != nullptr && selection->currentIndex().isValid()) {
        ScenarioController* controller;
        controller = new ScenarioController(story->get_characters().at(selection->currentIndex().row()), story->get_characters(),story->get_items(),story->get_ruleset()->get_skills(), story->get_ruleset()->get_attributes());
+
+       connect(controller, SIGNAL(nameChanged()),this,  SLOT(refresh_fields()));
        QQmlContext *ctxt = viewer.rootContext();
        ctxt->setContextProperty("controller", controller);
        viewer.setMainQmlFile(QStringLiteral("qml/GUI-Scenario/main.qml"));
