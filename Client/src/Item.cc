@@ -1,7 +1,6 @@
 #include "Item.h"
 #include <stdexcept>
 #include <iostream>
-#include <QDebug>
 
 using namespace std;
 

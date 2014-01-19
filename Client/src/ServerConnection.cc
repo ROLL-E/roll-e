@@ -28,12 +28,10 @@ void ServerConnection::send_request(Request req) const {
 }
 
 void ServerConnection::join(QString address, QString cha){
-    qDebug() << "connecting to host...";
     clientSocket->connectToHost(QHostAddress(address),14449);
     if(!clientSocket->waitForConnected(1000)){
         qDebug() << "connection timed out!"; // error throw?
     } else {
-        qDebug() << "requesting to join as character: " << cha;
         send_request(Request{"Join",cha,0});
     }
 }
@@ -55,12 +53,10 @@ void ServerConnection::readyRead(){
     if (token == QChar('m')) {
         Message msg;
         in_stream >> msg;
-        qDebug() << msg.sender << " says "<< msg.message;
     }
     else if (token == QChar('r')) {
         Request req;
         in_stream >> req;
-        qDebug() << req.type;
     }
     else if (token == QChar('p')) {
         in_stream >> controlledChar;

@@ -1,7 +1,6 @@
 #include "ClientInventory.h"
 #include <algorithm>
 #include "Item.h"
-#include <QDebug>
 
 
 ClientInventory::ClientInventory(quint16 new_max_weight)
