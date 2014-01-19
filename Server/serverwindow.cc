@@ -72,9 +72,9 @@ void ServerWindow::refresh_fields() {
 
   QItemSelectionModel* selection = ui->char_listView->selectionModel();
 
-
-
   if (selection == nullptr || !selection->currentIndex().isValid()) {
+
+    ui->kick_button->setEnabled(false);
     ui->skills_listView->setModel(nullptr);
     ui->item_listView->setModel(nullptr);
 
@@ -90,6 +90,11 @@ void ServerWindow::refresh_fields() {
   }
   else if (selection->currentIndex().isValid()) {
     Character* character{story->get_characters().at(selection->currentIndex().row())};
+
+    if (character->get_connection() == nullptr)
+      ui->kick_button->setEnabled(false);
+    else
+      ui->kick_button->setEnabled(true);
 
     ui->char_nameLabel->setText(character->get_name());
     ui->max_weightLabel->setText(QString::number(character->inventory.get_max_weight()));
@@ -355,7 +360,7 @@ void ServerWindow::on_server_stopButton_clicked()
     ui->server_startButton->setEnabled(true);
 }
 
-void ServerWindow::on_pushButton_4_clicked()
+void ServerWindow::on_kick_button_clicked()
 {
     QItemSelectionModel* selection = ui->char_listView->selectionModel();
     if (selection != nullptr && selection->currentIndex().isValid()) {

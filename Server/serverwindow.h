@@ -63,7 +63,7 @@ private slots:
 
   void on_server_stopButton_clicked();
 
-  void on_pushButton_4_clicked();
+  void on_kick_button_clicked();
 
 private:
   Ui::ServerWindow *ui;
