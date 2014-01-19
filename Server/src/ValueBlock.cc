@@ -65,32 +65,56 @@ void ValueBlock::remove_attribute(const QString& attribute) {
     throw logicblock_error("Can't remove attriubte, it doesn't exist in the list");
 }
 
-QMap<Skill*, QString> ValueBlock::get_applicable_skills() const {
-  return applicable_skills;
-}
+
+
 
 void ValueBlock::add_to_applicable_skills(Skill* new_skill, QString attribute) {
-    applicable_skills[new_skill] = attribute;
+  applicable_skills[new_skill].append(attribute);
 }
 
-void ValueBlock::remove_applicable_skill(Skill* skill) {
-  if (applicable_skills.contains(skill))
+void ValueBlock::remove_applicable_skill(Skill* skill, QString attribute) {
+  if (applicable_skills.contains(skill) && applicable_skills.value(skill).size() != 1) {
+    QMap<Skill*, QList<QString>>::iterator it;
+    it = applicable_skills.find(skill);
+    (*it).removeOne(attribute);
+  }
+  else if (applicable_skills.contains(skill))
     applicable_skills.remove(skill);
   else
     throw logicblock_error("Can't remove skill, it doesn't exist in list");
 }
 
-QMap<quint16, QString> ValueBlock::get_applicable_items() const {
+
+QMap<Skill*, QList<QString>> ValueBlock::get_applicable_skills() const {
+  return applicable_skills;
+}
+
+QMap<quint16, QList<QString>> ValueBlock::get_applicable_items() const {
   return applicable_items;
 }
 
+
 void ValueBlock::add_to_applicable_items(quint16 id, QString attribute) {
-    applicable_items[id] = attribute;
+  if (!applicable_items.contains(id)) {
+    QList<QString> temp{};
+    temp.append(attribute);
+    applicable_items[id] = temp;
+  }
+  else {
+    QMap<quint16, QList<QString>>::iterator it;
+    it = applicable_items.find(id);
+    (*it).append(attribute);
+  }
 }
 
-void ValueBlock::remove_applicable_item(quint16 id) {
-  if (applicable_items.contains(id))
+void ValueBlock::remove_applicable_item(quint16 id, QString attribute) {
+  if (applicable_items.contains(id) && applicable_items.value(id).size() == 1)
     applicable_items.remove(id);
+  else if (applicable_items.contains(id)) {
+    QMap<quint16, QList<QString>>::iterator it;
+    it = applicable_items.find(id);
+    (*it).removeOne(attribute);
+  }
   else
     throw logicblock_error("Can't remove item, it doesn't exist in list");
 }
@@ -134,28 +158,34 @@ int ValueBlock::roll() const {
 }
 
 int ValueBlock::fetch_item_bonus() const {
-    int result{0};
-    QMap<quint16, QString>::const_iterator it;
-    for (it = applicable_items.cbegin(); it != applicable_items.cend(); ++it)
-        if (target->has_item(it.key()))
-            result += current_story->get_item(it.key())->get_attribute(it.value());
-    return result;
+  int result{0};
+  QMap<quint16, QList<QString>>::const_iterator it;
+  for (it = applicable_items.cbegin(); it != applicable_items.cend(); ++it)
+    if (target->has_item(it.key())) {
+      QList<QString>::const_iterator temp_it;
+      for (temp_it = it.value().begin(); temp_it != it.value().end(); ++temp_it)
+        result += current_story->get_item(it.key())->get_attribute(*temp_it);
+    }
+  return result;
 }
 
 int ValueBlock::fetch_attributes() const {
-    int result{0};
-    QList<QString>::const_iterator it;
-    for (it = attributes.cbegin(); it != attributes.cend(); ++it)
-      result += target->get_attribute(*it);
-    return result;
+  int result{0};
+  QList<QString>::const_iterator it;
+  for (it = attributes.cbegin(); it != attributes.cend(); ++it)
+    result += target->get_attribute(*it);
+  return result;
 }
 
 int ValueBlock::fetch_skill_bonus() const {
-    int result {0};
-    QMap<Skill*, QString>::const_iterator it;
-    for (it = applicable_skills.cbegin(); it != applicable_skills.cend(); ++it)
-        result += it.key()->get_modifier(it.value());
-    return result;
+  int result {0};
+  QMap<Skill*, QList<QString>>::const_iterator it;
+  for (it = applicable_skills.cbegin(); it != applicable_skills.cend(); ++it) {
+    QList<QString>::const_iterator temp_it;
+    for (temp_it = it.value().begin(); temp_it != it.value().end(); ++temp_it)
+      result += it.key()->get_modifier(*temp_it);
+  }
+  return result;
 }
 
 LogicBlock* ValueBlock::execute() {
@@ -172,6 +202,8 @@ LogicBlock* ValueBlock::execute() {
   }
   return this->get_next();
 }
+
+
 
 QDataStream& ValueBlock::write_to_stream(QDataStream & ds) {
 
@@ -211,3 +243,5 @@ QDataStream& ValueBlock::read_from_stream(QDataStream & ds) {
 
   return ds;
 }
+
+

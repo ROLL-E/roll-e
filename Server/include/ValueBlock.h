@@ -23,8 +23,8 @@ private:
   int sides{0};
   int number{0};
   QList<QString> attributes;
-  QMap<Skill*, QString> applicable_skills;
-  QMap<quint16, QString> applicable_items;
+  QMap<Skill*, QList<QString>> applicable_skills;
+  QMap<quint16, QList<QString>> applicable_items;
   Character* target;
   QMap<QString,bool> flags;
   Story* current_story{nullptr};
@@ -58,8 +58,8 @@ public:
   int get_sides() const;
   int get_number() const;
   QList<QString> get_attributes() const;
-  QMap<Skill*, QString> get_applicable_skills() const;
-  QMap<quint16, QString> get_applicable_items() const;
+  QMap<Skill*, QList<QString>> get_applicable_skills() const;
+  QMap<quint16, QList<QString>> get_applicable_items() const;
   Character* get_target() const;
   QMap<QString, bool> get_flags() const;
   
@@ -68,8 +68,8 @@ public:
   void add_to_applicable_items(quint16, QString);
   
   void remove_attribute(const QString&);
-  void remove_applicable_skill(Skill*);
-  void remove_applicable_item(quint16);
+  void remove_applicable_skill(Skill*, QString);
+  void remove_applicable_item(quint16, QString);
   void remove_flag(const QString&);
   
   void populate_id_fields(QList<LogicBlock *> &, QList<Character *> &);
