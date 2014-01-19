@@ -76,6 +76,8 @@ public:
     void set_showEditor(const bool showEditor) { showEditor_ = showEditor; emit editorChanged();}
 
 
+    Scenario* get_scenario() {return current_scenario_;}
+
 
 public slots:
     void oklart(QString msg) {qDebug() << msg;}

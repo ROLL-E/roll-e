@@ -8,10 +8,6 @@
 #include <QDir>
 #include <stdexcept>
 
-//QML stuff
-#include <QtQml>
-#include "qtquick2applicationviewer.h"
-#include "scenariocontroller.h"
 
 #include "Story.h"
 #include "startdialog.h"
@@ -171,76 +167,7 @@ int main(int argc, char *argv[])
   w->show();
 
 
-  //QML-scenario editor
 
-  // temp
-  QList<QString> attr_list{"health", "armor", "strength"};
-  Ruleset *rs;
-  rs = new Ruleset(attr_list);
-
-  Story* main_story = new Story(rs);
-
-  QMap<QString, qint16> attr_map{{"health", 10}, {"armor", 2}, {"strength", 5}};
-  main_story->add_character(new Character(attr_map, 50, main_story));
-
-  Character* bob = main_story->get_characters().front();
-  bob->set_name("BOB!");
-
-
-  try {
-    Item* hammer1 = new Item("Hammer of doom");
-    main_story->add_item(hammer1);
-    hammer1->set_attribute("Weight", 20);
-
-    Item* hammer2 = new Item("nicer hammah");
-    main_story->add_item(hammer2);
-    hammer2->set_attribute("Weight", 20);
-    hammer2->set_attribute("bonk", 50);
-    hammer2->set_attribute("smash", 3000);
-
-    bob->add_item(hammer1->get_id());
-    bob->add_item(hammer2->get_id());
-
-
-    qDebug() << "Bob's stuff:";
-    for (auto item_id : bob->inventory.get_items()) {
-      qDebug() << main_story->get_items().value(item_id)->get_name();
-    }
-  }
-  catch (const std::out_of_range& e) {
-    qDebug() << "out_of_range exception: " << e.what();
-  }
-
-
-  Character* herman = new Character(attr_map, 10, main_story);
-  main_story->add_character(herman);
-  herman->set_name("Herr Man");
-
-  rs->add_skill(new Skill("Break those cuffs"));
-  rs->add_skill(new Skill("Eat horse"));
-  rs->get_skills().at(0)->set_modifier("int", 10);
-  rs->get_skills().at(0)->set_modifier("str", 11);
-  rs->get_skills().at(1)->set_modifier("int" , 5);
-  rs->get_skills().at(1)->set_modifier("str", 25);
-  bob->add_skill(rs->get_skills().at(0));
-  bob->add_skill(rs->get_skills().at(1));
-
-
-  herman->add_skill(rs->get_skills().at(1));
-
-  // temp end
-
-
-  QtQuick2ApplicationViewer viewer;
-
-  // create a controller
-  ScenarioController controller{herman, w->get_story()->get_characters(),w->get_story()->get_items(),rs->get_skills(),rs->get_attributes()};
-
-  // export instance to qml
-  QQmlContext *ctxt = viewer.rootContext();
-  ctxt->setContextProperty("controller", &controller);
-  viewer.setMainQmlFile(QStringLiteral("qml/GUI-Scenario/main.qml"));
-  viewer.showExpanded();
 
 
 

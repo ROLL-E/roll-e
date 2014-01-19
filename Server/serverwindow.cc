@@ -20,6 +20,9 @@
 #include "Scenario.h"
 #include "Server.h"
 
+//QML
+#include "scenariocontroller.h"
+
 
 
 ServerWindow::ServerWindow( QWidget *parent) :
@@ -27,6 +30,8 @@ ServerWindow::ServerWindow( QWidget *parent) :
   ui(new Ui::ServerWindow)
 {
   ui->setupUi(this);
+
+
 
 }
 
@@ -371,4 +376,22 @@ void ServerWindow::on_scenario_runButton_clicked()
         scenario->run();
     }
     refresh_fields();
+}
+
+void ServerWindow::on_scenario_addButton_clicked()
+{
+   QItemSelectionModel* selection = ui->char_listView->selectionModel();
+   if (selection != nullptr && selection->currentIndex().isValid()) {
+       ScenarioController* controller;
+       controller = new ScenarioController(story->get_characters().at(selection->currentIndex().row()), story->get_characters(),story->get_items(),story->get_ruleset()->get_skills(), story->get_ruleset()->get_attributes());
+       QQmlContext *ctxt = viewer.rootContext();
+       ctxt->setContextProperty("controller", controller);
+       viewer.setMainQmlFile(QStringLiteral("qml/GUI-Scenario/main.qml"));
+       viewer.showExpanded();
+
+       story->add_scenario(controller->get_scenario());
+       refresh_fields();
+   }
+
+
 }
