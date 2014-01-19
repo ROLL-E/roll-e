@@ -53,7 +53,8 @@ void characterDialog::on_buttonBox_accepted()
   character->set_name(ui->nameLineEdit->text());
   character->inventory.set_max_weight(ui->lineEdit->text().toUInt());
   for (int i{0}; i< character->get_attributes().size(); ++i) {
-    character->set_attribute(ui->attr_tableWidget->item(i,0)->text(), ui->attr_tableWidget->item(i,1)->text().toInt());
+      if (story->get_ruleset()->get_attributes().contains(ui->attr_tableWidget->item(i,0)->text()))
+        character->set_attribute(ui->attr_tableWidget->item(i,0)->text(), ui->attr_tableWidget->item(i,1)->text().toInt());
   }
     if (!story->get_characters().contains(character))
       story->add_character(character);
