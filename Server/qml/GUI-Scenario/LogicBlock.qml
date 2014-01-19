@@ -98,13 +98,6 @@ Item {
                 verticalAlignment: Text.AlignVCenter
             }
 
-            Text {
-                anchors.left: parent.left
-                anchors.right: parent.right
-
-                text:blockNumber
-            }
-
             states: State {
                 when: mouseArea.drag.active
                 ParentChange { target: block; parent: root }

@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QString>
-#include <QDebug>
 #include <QMap>
 #include <QStringList>
 
@@ -31,16 +30,13 @@ public:
     ScenarioController(Scenario*);
     ScenarioController(Character* primary_character, QList<Character*> all_characters, QMap<quint16, Item*> items, QList<Skill*> skills, QList<QString> attributes);
 
-    Q_INVOKABLE void print(QString msg) {qDebug() << msg;}
 
 
     // functions invokable in QML
     Q_INVOKABLE void set_name(QString name) { current_scenario_->set_name(name); emit nameChanged(); }
-    Q_INVOKABLE void set_active_block_number(int number) {qDebug() << "active block is set to number " << number; active_block_number_ = number;}
+    Q_INVOKABLE void set_active_block_number(int number) {active_block_number_ = number;}
 
     Q_INVOKABLE void edit_valueblock(QString stat, bool intent, int blocknr);
-    Q_INVOKABLE void edit_damageblock(QString, bool, int);
-    Q_INVOKABLE void edit_compareblock(QString, bool, int);
 
     Q_INVOKABLE void add_block(int number, QString type);
 
@@ -79,9 +75,6 @@ public:
 
     Scenario* get_scenario() {return current_scenario_;}
 
-
-public slots:
-    void oklart(QString msg) {qDebug() << msg;}
 
 
 

@@ -157,15 +157,6 @@ Rectangle {
                     colorKey: "red"
                 }
 
-    //            WaitBlock {
-    //                id: waitblock
-    //                x: 40
-    //                y: 328
-    //                blockNumberParent: 4
-    //                colorKey: "red"
-    //            }
-
-
             }
         }
 
