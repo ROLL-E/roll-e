@@ -72,6 +72,9 @@ private slots:
 
   void on_scenario_addButton_clicked();
 
+
+  void on_remove_item_from_gameButton_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story{nullptr};
