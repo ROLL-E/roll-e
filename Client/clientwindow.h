@@ -29,7 +29,7 @@ private slots:
 
 private:
   Ui::ClientWindow *ui;
-  ServerConnection* connection;
+  ServerConnection* connection{nullptr};
 };
 
 #endif // CLIENTWINDOW_H
