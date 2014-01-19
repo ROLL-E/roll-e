@@ -49,7 +49,7 @@ public:
     QHostAddress get_address();
 
 signals:
-    void disconnected();
+    void disconnected(ClientConnection*);
     void got_something(ClientConnection*);
 
 public slots:

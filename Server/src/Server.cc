@@ -31,7 +31,7 @@ void Server::newConnection() {
     connect(clients.first(), SIGNAL(got_something(ClientConnection*)), this, SLOT(update_messages_and_requests(ClientConnection*)));
     connect(this,SIGNAL(got_join_request()),this,SLOT(join_request()));
     connect(this, SIGNAL(got_message()),this,SLOT(redirect_messages()));
-    connect(clients.first(), SIGNAL(disconnected()), this, SLOT(client_disconnected(clients.first())));
+    connect(clients.first(), SIGNAL(disconnected(ClientConnection*)), this, SLOT(client_disconnected(ClientConnection*)));
 }
 
 void Server::closeConnection(ClientConnection* connection){
@@ -39,11 +39,11 @@ void Server::closeConnection(ClientConnection* connection){
 
 }
 
-void Server::client_disconnected(QPointer<ClientConnection> connection){
+void Server::client_disconnected(ClientConnection* connection){
     qDebug() << "A client has disconnected!";
 
     clients.removeOne(connection);
-    connection->deleteLater();
+    delete connection;
 }
 
 // Gets the first message from the Servers message_buffer.

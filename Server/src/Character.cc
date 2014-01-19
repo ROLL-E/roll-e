@@ -31,7 +31,7 @@ void Character::set_connection(ClientConnection* connection){
     client = connection;
     if(client != nullptr){
     connect(this,SIGNAL(changed(Character*)),client,SLOT(push_data(Character*)));
-    connect(connection, SIGNAL(disconnected()), this, SLOT(reset_connection()));
+    connect(connection, SIGNAL(disconnected(ClientConnection*)), this, SLOT(reset_connection()));
     emit changed(this);
     }
 }

@@ -10,13 +10,11 @@ ClientConnection::ClientConnection(QTcpSocket* connection, QObject* parent) : QO
 
 void ClientConnection::disconnect(){
     clientSocket->close();
-    emit disconnected();
 }
 
 void ClientConnection::remote_disconnected(){
   clientSocket->close();
-  // This should make sure that both the clientconnection and its thread is terminated.
-  emit disconnected();
+  emit disconnected(this);
 }
 
 void ClientConnection::readyRead(){
