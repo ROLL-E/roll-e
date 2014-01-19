@@ -64,16 +64,6 @@ void characterDialog::on_buttonBox_accepted()
   this->hide();
 }
 
-void characterDialog::on_addSkillButton_clicked()
-{
-  if (ui->skillsComboBox->model()->rowCount() != 0) {
-    if (!character->get_skills().contains(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex())))
-      character->add_skill(story->get_ruleset()->get_skills().at(ui->skillsComboBox->currentIndex()));
-
-    SkillModel* char_skills_model = new SkillModel(character->get_skills());
-    ui->skillListView->setModel(char_skills_model);
-  }
-}
 
 void characterDialog::populate_views()
 {
@@ -81,31 +71,9 @@ void characterDialog::populate_views()
   ui->lineEdit->setText(QString::number(character->inventory.get_max_weight()));
 
 
-  SkillModel* skill_model = new SkillModel(story->get_ruleset()->get_skills());
-  ui->skillsComboBox->setModel(skill_model);
-
-  SkillModel* char_skills_model = new SkillModel(character->get_skills());
-  ui->skillListView->setModel(char_skills_model);
-
   ui->attr_tableWidget->setRowCount(character->get_attributes().size());
   for (int i{0}; i< character->get_attributes().size(); ++i) {
     ui->attr_tableWidget->setItem(i,0,new QTableWidgetItem(character->get_attributes().keys().at(i)));
     ui->attr_tableWidget->setItem(i,1,new QTableWidgetItem(QString::number(character->get_attributes().values().at(i))));
   }
-/*
-  QStringList attrkey_list;
-  QStringList attrvalue_list;
-
-  for (QString key : character->get_attributes().keys())
-    attrkey_list.append(key);
-  for (qint16 val : character->get_attributes().values()){
-    qDebug() << val;
-    attrvalue_list.append(QString::number(val));
-  }
-
-  QStringListModel* attrkey_model = new QStringListModel(attrkey_list);
-  QStringListModel* attrvalue_model = new QStringListModel(attrvalue_list);
-
-  ui->attr_keyView->setModel(attrkey_model);
-  ui->attr_valueView->setModel(attrvalue_model);*/
 }
