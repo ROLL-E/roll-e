@@ -4,6 +4,7 @@
 #include <QList>
 #include <QMap>
 
+
 class Scenario;
 
 class Fight {

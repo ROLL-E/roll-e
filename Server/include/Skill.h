@@ -25,6 +25,7 @@ public:
   void set_name(const QString&);
 
   void remove_modifier(const QString&);
+  void clear_modifiers();
 
   QDataStream& read_from_stream(QDataStream&);
   QDataStream& write_to_stream(QDataStream&) const;

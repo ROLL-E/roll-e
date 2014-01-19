@@ -13,4 +13,15 @@
 *.a
 
 # Qt user-specific project files
+<<<<<<< HEAD
 *.pro.user
+
+# Qt MinGW Debug folder
+build-Server-Desktop_Qt_5_1_1_MinGW_32bit-Debug/
+build-Client-Desktop_Qt_5_1_1_MinGW_32bit-Debug/
+
+#Savefiles
+bigsave.dat
+=======
+*.pro.user
+>>>>>>> new-gui

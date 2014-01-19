@@ -18,9 +18,9 @@ public:
     QMap<quint16, Skill*> skill_id_map;
 
     Ruleset(QList<QString>);
-    Ruleset(const Ruleset&);
+    Ruleset(const Ruleset*);
     QList<Scenario*> get_scenarios() const;
-    QList<Skill*> get_skills() const;
+    QList<Skill*>& get_skills() ;
     QList<QString> get_attributes() const;
 
     void add_scenario(Scenario*);

@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <QDebug>
+#include <QFile>
 #include "Story.h"
 #include "Item.h"
 using namespace std;
@@ -46,6 +47,11 @@ void Inventory::set_max_weight(quint16 new_max) {
   max_weight = new_max;
 }
 
+void Inventory::set_story(Story* new_story)
+{
+  story = new_story;
+}
+
 void Inventory::add_item(quint16 id_to_add) {
   Item* item{story->get_items().value(id_to_add, nullptr)};
   if (item == nullptr)
@@ -63,7 +69,8 @@ void Inventory::add_item(quint16 id_to_add) {
 }
 
 void Inventory::remove_item(quint16 id_to_remove) {
-  items.removeOne(id_to_remove);
+    current_weight -= story->get_items().value(id_to_remove)->get_attribute("Weight");
+    items.removeOne(id_to_remove);
 }
 
 void Inventory::equip(quint16 id_to_equip){
@@ -75,19 +82,46 @@ void Inventory::unequip(quint16 id_to_unequip) {
 }
 
 QDataStream& Inventory::write_to_stream(QDataStream& ds) const {
-  ds << items;
+
+  if (dynamic_cast<QFile*>(ds.device()) != nullptr){
+      qDebug() << "Sending Item Id's";
+      ds << items;
+      ds << equipped;
+  }
+  else {
+    qDebug() << "sending items";
+    Item* temp_item = new Item(0);
+    ds << items.size();
+    qDebug() << "Items.size()" << items.size();
+    for (quint16 id : items) {
+        qDebug() << "sending item: ";
+        qDebug() << story->get_item(id)->get_name();
+      temp_item = new Item(*(story->get_item(id)));
+      ds << temp_item;
+    }
+
+    ds << equipped.size();
+
+    qDebug() << "Equipped.size()" << equipped.size();
+
+    for (quint16 id : equipped) {
+        qDebug() << "in loop on server";
+        temp_item = new Item(*(story->get_item(id)));
+        ds << temp_item;
+    }
+  }
   ds << max_weight;
+  qDebug() << max_weight;
   ds << current_weight;
-  ds << equipped;
 
   return ds;
 }
 
 QDataStream& Inventory::read_from_stream(QDataStream& ds) {
   ds >> items;
+  ds >> equipped;
   ds >> max_weight;
   ds >> current_weight;
-  ds >> equipped;
 
   return ds;
 }

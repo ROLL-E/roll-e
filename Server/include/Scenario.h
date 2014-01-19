@@ -4,8 +4,8 @@
 #include <QMap>
 #include <QString>
 #include <QDataStream>
+#include "LogicBlock.h"
 
-class LogicBlock;
 class Story;
 
 class Scenario {

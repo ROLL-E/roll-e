@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,10 +28,18 @@ SOURCES += main.cc\
     src/Item.cc \
     src/Inventory.cc \
     src/Ruleset.cc \
+    src/ClientConnection.cc \
+    src/Server.cc \
+    src/Fight.cc \
     src/GameSave.cc \
-    src/Fight.cc\
     src/Skill.cc \
-    src/Scenario.cc
+    src/Scenario.cc \
+    characterdialog.cpp \
+    skillmodel.cpp \
+    itemdialog.cpp \
+    startdialog.cc \
+    skilldialog.cc
+
 
 
 HEADERS  += serverwindow.h \
@@ -52,10 +61,21 @@ HEADERS  += serverwindow.h \
     include/Character.h \
     include/ActiveSkill.h \
     include/ActiveItem.h \
-    include/GameSave.h
+    include/Server.h \
+    include/GameSave.h \
+    characterdialog.h \
+    skillmodel.h \
+    itemdialog.h \
+    startdialog.h \
+    skilldialog.h
+
 
 INCLUDEPATH += include
-FORMS    += serverwindow.ui
+FORMS    += serverwindow.ui \
+    characterdialog.ui \
+    itemdialog.ui \
+    startdialog.ui \
+    skilldialog.ui
 
 OTHER_FILES += \
     src/placeholder.txt
