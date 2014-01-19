@@ -87,6 +87,7 @@ void ServerWindow::refresh_fields() {
   if (selection == nullptr || !selection->currentIndex().isValid()) {
 
     ui->kick_button->setEnabled(false);
+    ui->scenario_addButton->setEnabled(false);
     ui->skills_listView->setModel(nullptr);
     ui->item_listView->setModel(nullptr);
 
@@ -108,6 +109,7 @@ void ServerWindow::refresh_fields() {
     else
       ui->kick_button->setEnabled(true);
 
+    ui->scenario_addButton->setEnabled(true);
     ui->char_nameLabel->setText(character->get_name());
     ui->max_weightLabel->setText(QString::number(character->inventory.get_max_weight()));
     ui->curr_weightLabel->setText(QString::number(character->inventory.get_weight()));
