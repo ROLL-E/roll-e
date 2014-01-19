@@ -2,7 +2,6 @@
 #define STORY_H
 #include "ClientConnection.h"
 #include "Ruleset.h"
-#include "Server.h"
 #include "Character.h"
 #include <QThread>
 #include <QObject>

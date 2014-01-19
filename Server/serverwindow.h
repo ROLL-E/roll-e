@@ -20,6 +20,7 @@ public:
   void set_story(Story*);
 public slots:
   void show();
+  void refresh_fields();
 
 private slots:
   void on_add_charButton_clicked();
@@ -63,11 +64,12 @@ private slots:
 
   void on_server_stopButton_clicked();
 
+  void on_scenario_runButton_clicked();
+
 private:
   Ui::ServerWindow *ui;
   Story* story{nullptr};
 
-  void refresh_fields();
   void update_characters();
 
 };

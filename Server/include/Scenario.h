@@ -16,6 +16,7 @@ private:
   LogicBlock* head;
   LogicBlock* next_block;
   Story* parent_story{nullptr};
+  QString name;
 
 
 public:
@@ -39,6 +40,8 @@ public:
   LogicBlock* get_next_block() const;
   void set_story(Story*);
   bool empty() const;
+  QString get_name();
+  void set_name(QString);
 
   QDataStream& write_to_stream(QDataStream&);
   QDataStream& read_from_stream(QDataStream&);

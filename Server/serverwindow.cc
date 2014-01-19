@@ -17,6 +17,8 @@
 #include "Skill.h"
 #include "GameSave.h"
 #include "ClientConnection.h"
+#include "Scenario.h"
+#include "Server.h"
 
 
 
@@ -69,10 +71,13 @@ void ServerWindow::refresh_fields() {
   }
   ui->skill_comboBox->setModel(new QStringListModel(strList));
 
+  strList.clear();
+  for (Scenario* scen : story->get_scenarios()) {
+      strList.append(scen->get_name());
+  }
+  ui->scenario_comboBox->setModel(new QStringListModel(strList));
 
   QItemSelectionModel* selection = ui->char_listView->selectionModel();
-
-
 
   if (selection == nullptr || !selection->currentIndex().isValid()) {
     ui->skills_listView->setModel(nullptr);
@@ -346,6 +351,7 @@ void ServerWindow::on_server_startButton_clicked()
     story->startServer();
     ui->server_stopButton->setEnabled(true);
     ui->server_startButton->setEnabled(false);
+    connect(story->myServer, SIGNAL(client_took_control()), this, SLOT(refresh_fields()));
 }
 
 void ServerWindow::on_server_stopButton_clicked()
@@ -353,4 +359,16 @@ void ServerWindow::on_server_stopButton_clicked()
     story->stopServer();
     ui->server_stopButton->setEnabled(false);
     ui->server_startButton->setEnabled(true);
+}
+
+void ServerWindow::on_scenario_runButton_clicked()
+{
+    int selected = ui->scenario_comboBox->currentIndex();
+    if (selected != -1){
+        Scenario* scenario = story->get_scenarios().at(selected);
+        if (scenario->get_next_block() == nullptr)
+            scenario->set_next_block(scenario->get_head());
+        scenario->run();
+    }
+    refresh_fields();
 }
