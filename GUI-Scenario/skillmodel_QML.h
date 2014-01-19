@@ -1,10 +1,10 @@
-#ifndef SKILLMODEL_H
-#define SKILLMODEL_H
+#ifndef SkillModelQML_H
+#define SkillModelQML_H
 
 #include <QObject>
 
 
-class SkillModel : public QObject
+class SkillModelQML : public QObject
 {
     Q_OBJECT
 
@@ -12,8 +12,8 @@ class SkillModel : public QObject
     Q_PROPERTY(QString modifier READ modifier WRITE set_modifier  NOTIFY modifierChanged)
     Q_PROPERTY(int skill READ skill WRITE set_skill NOTIFY skillChanged)
 public:
-    SkillModel(QObject* parent=0);
-    SkillModel(const QString &name, const QString &modifier, int skill, QObject* parent=0);
+    SkillModelQML(QObject* parent=0);
+    SkillModelQML(const QString &name, const QString &modifier, int skill, QObject* parent=0);
 
     QString name() const;
     void set_name(const QString &name);
@@ -37,4 +37,4 @@ private:
 
 };
 
-#endif // SKILLMODEL_H
+#endif // SkillModelQML_H

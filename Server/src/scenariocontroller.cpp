@@ -304,7 +304,7 @@ void ScenarioController::update_skills()
         for (auto modifier: skill->get_modifiers().keys())
         {
             qDebug() << "adding" << skill->get_name() << modifier;
-            skill_model_.append(new SkillModel{skill->get_name(), modifier, i});
+            skill_model_.append(new SkillModelQML{skill->get_name(), modifier, i});
         }
         i++;
     }

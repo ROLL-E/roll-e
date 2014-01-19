@@ -109,8 +109,6 @@ int main(int argc, char *argv[])
     herman->add_skill(rs->get_skills().at(1));
 
 
-    // create a controller
-    ScenarioController controller{herman, main_story->get_characters(),main_story->get_items(),rs->get_skills(),rs->get_attributes()};
 
     //connect signals from QML
 
@@ -155,14 +153,14 @@ int main(int argc, char *argv[])
 
     QtQuick2ApplicationViewer viewer;
 
+    // create a controller
+    ScenarioController controller{herman, main_story->get_characters(),main_story->get_items(),rs->get_skills(),rs->get_attributes()};
+
     // export instance to qml
     QQmlContext *ctxt = viewer.rootContext();
     ctxt->setContextProperty("controller", &controller);
-
-
     viewer.setMainQmlFile(QStringLiteral("qml/GUI-Scenario/main.qml"));
     viewer.showExpanded();
-
 
 
 

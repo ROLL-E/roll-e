@@ -36,7 +36,7 @@ SOURCES += main.cpp \
     ../Server/src/Server.cc \
     ../Server/src/ClientConnection.cc \
     itemmodel.cpp \
-    skillmodel.cpp
+    skillmodel_QML.cpp
 
 # Installation path
 # target.path =
@@ -76,6 +76,6 @@ HEADERS += \
     ../Server/include/Server.h \
     ../Server/include/ClientConnection.h \
     itemmodel.h \
-    skillmodel.h
+    skillmodel_QML.h
 
 INCLUDEPATH += ../Server/include
