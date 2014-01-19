@@ -18,7 +18,7 @@ Rectangle {
     width:  500
     height: 450
 
-    Row {
+    Item {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -27,33 +27,15 @@ Rectangle {
         anchors.rightMargin: 10
 
         height: 40
-        spacing: 10
 
         Button {
-            buttonWidth: parent.width/3 - 10
+            buttonWidth: parent.width - 10
             buttonHeight: parent.height
 
-            label: "Save"
-        }
-
-        Button {
-            buttonWidth: parent.width/3 - 10
-            buttonHeight: parent.height
-
-            label: "New"
-
-            // placeholder
-            onButtonClicked: logicblockslot1.visible = false
-        }
-
-        Button {
-            buttonWidth: parent.width/3 - 10
-            buttonHeight: parent.height
-
-            label: "Exit"
-
+            label: "DONE"
             onButtonClicked: Qt.quit()
         }
+
     }
 
     Rectangle {
