@@ -38,6 +38,4 @@ public:
   QDataStream& read_from_stream(QDataStream&);
 };
 
-//QDataStream& operator<<(QDataStream&, ModifierBlock*&);
-//QDataStream& operator>>(QDataStream&, ModifierBlock*&);
 #endif

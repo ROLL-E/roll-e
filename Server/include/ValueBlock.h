@@ -80,7 +80,4 @@ public:
 
 };
 
-//QDataStream& operator<<(QDataStream&, ValueBlock*&);
-//QDataStream& operator>>(QDataStream&, ValueBlock*&);
-
 #endif

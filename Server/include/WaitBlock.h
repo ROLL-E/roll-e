@@ -26,7 +26,4 @@ public:
   QDataStream& read_from_stream(QDataStream&);
 };
 
-//QDataStream& operator<<(QDataStream&, WaitBlock*&);
-//QDataStream& operator>>(QDataStream&, WaitBlock*&);
-
 #endif

@@ -59,10 +59,7 @@ void Inventory::add_item(quint16 id_to_add) {
 
   qint16 temp_weight{item->get_attributes().value("Weight",0x7fff)};
   if  (temp_weight != 0x7fff && current_weight + temp_weight > max_weight) {
-      //TODO: add overweight handling
-      qDebug() << "Can't add item " << id_to_add << ", overweight";
       return;
-
   } else
     current_weight += item->get_attributes().value("Weight");
   items.push_back(id_to_add);

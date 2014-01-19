@@ -10,7 +10,6 @@ void Story::startServer(){
     myServer = new Server{this};
     netThread = new QThread;
     myServer->moveToThread(netThread);
-    // connect(worker,SIGNAL(error(QSTRING)),this,SLOT(errorString(QSTRING)));
     connect(netThread, SIGNAL(started()), myServer, SLOT(start()));
     connect(this,SIGNAL(serverStop()),myServer,SLOT(stopServer()));
     connect(myServer, SIGNAL(finished()), netThread, SLOT(quit()));
@@ -62,7 +61,6 @@ Character* Story::get_character(QString name){
     while((*it)->get_name() != name){
         it++;
         if(it == characters.cend()){
-            qDebug() << "Character not found";
             return nullptr;
         }
     }

@@ -41,7 +41,6 @@ void ClientConnection::readyRead(){
 
 
 void ClientConnection::connected(){
-  qDebug() << "Connection!\n";
   // Since the server only acts in response to events there is no need for Nadle's algorithm.
   // We might still need a slight delay on the clientside to prevent missahps though.
   clientSocket->setSocketOption(QAbstractSocket::LowDelayOption,1);
@@ -55,7 +54,6 @@ void ClientConnection::send_message(Message msg) {
 void ClientConnection::push_data(Character* cha){
     //behöver veta hur storys och klientens information kommer se ut för att göra klart den här,
     // eg, blir nog bäst att lämna till efter merge.
-    qDebug() << "Pushing data!";
     QMutex mutex;
     mutex.lock();
 

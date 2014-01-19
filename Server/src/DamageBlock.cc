@@ -80,11 +80,4 @@ QDataStream& DamageBlock::read_from_stream(QDataStream& ds) {
 
   return ds;
 }
-/*
-QDataStream& operator<<(QDataStream& ds, DamageBlock*& block) {
-  return block->write_to_stream(ds);
-}
 
-QDataStream& operator>>(QDataStream& ds, DamageBlock*& block) {
-  return block->read_from_stream(ds);
-}*/

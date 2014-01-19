@@ -21,7 +21,6 @@ class ScenarioController : public QObject
     Q_OBJECT
     Q_PROPERTY(bool showEditor READ showEditor WRITE set_showEditor NOTIFY editorChanged)
     Q_PROPERTY(QVariant all_characters READ all_characters NOTIFY character_list_changed)
-    //TODO: add models for attributes
     Q_PROPERTY(QVariant items READ items NOTIFY itemsChanged)
     Q_PROPERTY(QVariant skills READ skills NOTIFY skillsChanged)
     Q_PROPERTY(QVariant attributes READ attributes NOTIFY attributesChanged)

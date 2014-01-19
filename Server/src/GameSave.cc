@@ -27,7 +27,6 @@ int GameSave::load(QString filename, Story*& story) {
   QString tag;
   in_stream >> tag;
 
-  qDebug() << "Shutting down the server.";
   if (story != nullptr)
     delete story; // emits serverStop
 
@@ -86,7 +85,6 @@ int GameSave::load(QString filename, Story*& story) {
 
     for (Character* character : story->get_characters()) {
       for (quint16 i : character->skill_ids) {
-        qDebug() << i;
         character->add_skill(story->get_ruleset()->get_skills().at(i));
       }
     }
@@ -99,7 +97,6 @@ int GameSave::load(QString filename, Story*& story) {
 
 
   input_file.close();
-  qDebug() << "game successfully loaded";
   return 0;
 }
 
@@ -154,7 +151,6 @@ int GameSave::save(Story* story, QString filename) {
 
   out_stream << QString("End");
   output_file.close();
-  qDebug() << "The game has been saved.";
   return 0;
 }
 
