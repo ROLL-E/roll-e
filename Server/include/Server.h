@@ -34,6 +34,7 @@ signals:
   void got_join_request();
 
 public slots:
+  void closeConnection(ClientConnection*);
   void stopServer();
   void redirect_messages();
   void newConnection();

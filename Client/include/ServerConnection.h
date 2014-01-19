@@ -28,16 +28,14 @@ class ServerConnection : public QObject{
 private:
 
   Character* controlledChar;
-  bool joined;
   ClientWindow* clientwindow;
 
 public:
-  QTcpSocket* clientSocket; //private?
+  QTcpSocket* clientSocket;
   ServerConnection(QObject* parent = 0);
   void send_message(QString,QString) const;
   void send_request(Request) const;
   void join(QString,QString);
-  bool has_joined();
   Character* get_controlledChar();
   void set_clientwindow(ClientWindow*);
 
