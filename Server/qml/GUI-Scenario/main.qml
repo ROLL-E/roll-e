@@ -187,8 +187,18 @@ Rectangle {
         Rectangle{
             id: nameWindoeTextContainer
 
-            color: "blue"
             radius: 5
+
+            gradient: Gradient {
+                GradientStop {
+                    position: 0.00;
+                    color: "white";
+                }
+                GradientStop {
+                    position: 1.00;
+                    color: "gray";
+                }
+            }
 
             anchors.top: parent.top
             anchors.left: parent.left
@@ -225,6 +235,7 @@ Rectangle {
                 id: nameWindowInput
                 font.pointSize: 17
                 anchors.fill: parent
+                anchors.topMargin: 10
             }
 
         }

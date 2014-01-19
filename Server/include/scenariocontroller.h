@@ -51,9 +51,9 @@ public:
 
     // we need to decide if one should be able to add more than one "attribute" per skill/item for each value-block
     Q_INVOKABLE void add_skill_valueblock(int skill, QString modifier, int blocknr);
-    Q_INVOKABLE void remove_skill_valueblock(int skill, int blocknr);
+    Q_INVOKABLE void remove_skill_valueblock(int skill, QString modifier, int blocknr);
     Q_INVOKABLE void add_item_valueblock(int id, QString attribute, int blocknr);
-    Q_INVOKABLE void remove_item_valueblock(QString item, int id, int blocknr);
+    Q_INVOKABLE void remove_item_valueblock(QString item, QString attribute,  int id, int blocknr);
 
 
     // DONE
@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE void add_attribute_valueblock(QString attribute, int blocknr);
     Q_INVOKABLE void remove_attribute_valueblock(QString attribute, int blocknr);
 
+    Q_INVOKABLE void set_valueblock_target(QString character, int blocknr);
     Q_INVOKABLE void set_damegeblock_target(QString character, int blocknr);
     Q_INVOKABLE void set_valueblock_intention(QString intention, int blocknr);
 

@@ -58,11 +58,18 @@ void ScenarioController::add_block(int number, QString type)
 
     // make block of correct type
     if(type == "V"){
-        newLogicBlock = new ValueBlock{};
+        ValueBlock *tempblock;
+        tempblock = new ValueBlock{};
+        tempblock->set_target(primary_character_);
+        newLogicBlock = tempblock;
     }else if (type == "C"){
         newLogicBlock = new CompareBlock{};
     }else if (type == "D"){
-        newLogicBlock = new  DamageBlock{};
+        DamageBlock *tempblock;
+        tempblock = new DamageBlock();
+        tempblock->set_target(primary_character_);
+        newLogicBlock = tempblock;
+
     }else if (type == "W"){
         newLogicBlock = new WaitBlock{};
     }
@@ -199,12 +206,12 @@ void ScenarioController::add_skill_valueblock(int skill, QString modifier, int b
     qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_applicable_skills();
 }
 
-void ScenarioController::remove_skill_valueblock(int skill, int blocknr)
+void ScenarioController::remove_skill_valueblock(int skill,QString attribute,  int blocknr)
 {
     qDebug() << "Skill, remove" << skill << blocknr;
 
     try {
-        //dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_skill(skill_map_[skill]);
+        dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_skill(skill_map_[skill], attribute);
     }catch (logicblock_error e) {
         qDebug() << e.what();
     }
@@ -225,19 +232,29 @@ void ScenarioController::add_item_valueblock(int id, QString attribute, int bloc
     qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_applicable_items();
 }
 
-void ScenarioController::remove_item_valueblock(QString item, int id, int blocknr)
+void ScenarioController::remove_item_valueblock(QString item, QString modifier,  int id, int blocknr)
 {
     qDebug() << "Item, remove" << item << blocknr;
 
     try {
         // does not make sense... int as key? WHY?
-        //dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_item(id);
+        dynamic_cast<ValueBlock*>(block_map_[blocknr])->remove_applicable_item(id, modifier);
     }catch (logicblock_error e) {
         qDebug() << e.what();
     }
 
      qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_applicable_items();
 
+}
+
+void ScenarioController::set_valueblock_target(QString character, int blocknr)
+{
+    qDebug() << "setting valueblock " << blocknr << "s target to character" << character;
+
+    dynamic_cast<ValueBlock*>(block_map_[blocknr])->set_target(character_map_[character]);
+
+    qDebug() << "read form block" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_target()
+             << "with name" << dynamic_cast<ValueBlock*>(block_map_[blocknr])->get_target()->get_name() ;
 }
 
 void ScenarioController::set_damegeblock_target(QString character, int blocknr)

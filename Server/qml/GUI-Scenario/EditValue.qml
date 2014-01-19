@@ -145,7 +145,7 @@ Rectangle {
                 rollContainer.visible = true
                 bonusContainer.visible = true
 
-                valueWindow.width = 800
+                valueWindow.width = 1010
 
                 controller.set_valueblock_intention("a", valueEditor.blocknumber)
 
@@ -592,7 +592,7 @@ Rectangle {
                             if (listDelegateSkill.selected === true) {
                                 controller.add_skill_valueblock(model.modelData.skill ,model.modelData.modifier, valueEditor.blocknumber)
                             } else {
-                                controller.remove_skill_valueblock(model.modelData.skill, valueEditor.blocknumber)
+                                controller.remove_skill_valueblock(model.modelData.skill, model.modelData.modifier,  valueEditor.blocknumber)
                             }
 
                         }
@@ -688,7 +688,7 @@ Rectangle {
                             if (listDelegateInventory.selected === true) {
                                 controller.add_item_valueblock(model.modelData.item_id, model.modelData.attribute, valueEditor.blocknumber)
                             } else {
-                                controller.remove_item_valueblock(model.modelData.name, model.modelData.item_id, valueEditor.blocknumber)
+                                controller.remove_item_valueblock(model.modelData.name, model.modelData.attribute, model.modelData.item_id, valueEditor.blocknumber)
                             }
 
                         }
@@ -699,6 +699,63 @@ Rectangle {
 
 
             }
+        }
+
+
+    }
+
+    Rectangle {
+        anchors.top: editorTitleBox.bottom
+        anchors.left: bonusContainer.right
+        anchors.bottom: intentionContainer.bottom
+        anchors.margins: 10
+        anchors.bottomMargin: 0
+
+        width: 200
+
+        color: "gray"
+
+        radius: 5
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 10
+
+            color: "white"
+            radius: 5
+
+            Component {
+                id: contactDelegate
+                Item {
+                    property string characterName: modelData
+                    width: 180; height: 40
+                    Text {
+                        id: characterText
+                        font.pointSize: 16
+                        anchors.centerIn: parent
+                        text: characterName }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            parent.ListView.view.currentIndex = index
+                        }
+                    }
+
+                }
+            }
+
+            ListView {
+                id: selectCharacterList
+                anchors.fill: parent
+                model: controller.all_characters
+                delegate: contactDelegate
+                highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+                focus: true
+                clip: true
+
+            }
+
         }
 
 
@@ -721,6 +778,8 @@ Rectangle {
             }else if (rollContainer.visible === true) {
                 controller.set_valueblock_roll(diceSidesText.diceSides, diceNumberText.diceNumber, valueEditor.blocknumber)
             }
+
+            controller.set_valueblock_target(selectCharacterList.currentItem.characterName, root.blockNumber)
 
             hideEditor()
 
