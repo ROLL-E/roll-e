@@ -19,6 +19,8 @@
 #include "ClientConnection.h"
 #include "Scenario.h"
 #include "Server.h"
+#include "LogicBlock.h"
+#include  <QMessageBox>
 
 //QML
 #include "scenariocontroller.h"
@@ -406,7 +408,12 @@ void ServerWindow::on_scenario_runButton_clicked()
         Scenario* scenario = story->get_scenarios().at(selected);
         if (scenario->get_next_block() == nullptr)
             scenario->set_next_block(scenario->get_head());
+        try {
         scenario->run();
+        }
+        catch(logicblock_error e) {
+            QMessageBox::information(this, "Error", "Scenario is not valid, perhaps incomplete?", QMessageBox::Ok);
+        }
     }
     refresh_fields();
 }
@@ -447,4 +454,14 @@ void ServerWindow::on_remove_item_from_gameButton_clicked()
    story->remove_item(current_item->get_id());
    refresh_fields();
   }
+}
+
+void ServerWindow::on_scenario_removeButton_clicked()
+{
+    int selected = ui->scenario_comboBox->currentIndex();
+
+    if (selected != -1) {
+        story->remove_scenario(story->get_scenarios().at(selected));
+    }
+    refresh_fields();
 }
